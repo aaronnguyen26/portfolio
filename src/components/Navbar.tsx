@@ -39,7 +39,7 @@ export function Navbar() {
           className="flex items-center gap-2 group font-mono text-sm tracking-tight text-slate-200"
         >
           <span className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold group-hover:bg-blue-600/30 group-hover:border-blue-500/50 transition">
-            MN
+            AN
           </span>
           <span className="font-semibold text-slate-100 group-hover:text-blue-400 transition">
             {portfolioData.personal.name}

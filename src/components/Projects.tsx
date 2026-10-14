@@ -7,7 +7,7 @@ import { GithubIcon } from "@/components/Icons";
 
 export function Projects() {
   const { projects } = portfolioData;
-  const categories = ["All", "Campus Utility", "CS Fundamentals", "API / Tool"] as const;
+  const categories = ["All", "Desktop & Systems", "Full Stack", "CS Fundamentals"] as const;
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   const filteredProjects =
