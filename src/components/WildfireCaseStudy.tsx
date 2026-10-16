@@ -112,6 +112,7 @@ function WildfireCaseStudyInner() {
       const next = Math.max(0, prev - 1);
       if (typeof window !== "undefined") {
         window.history.replaceState(null, "", `?phase=${next + 1}`);
+        window.scrollTo({ top: 0, behavior: "instant" });
       }
       return next;
     });
@@ -122,6 +123,7 @@ function WildfireCaseStudyInner() {
       const next = Math.min(stages.length - 1, prev + 1);
       if (typeof window !== "undefined") {
         window.history.replaceState(null, "", `?phase=${next + 1}`);
+        window.scrollTo({ top: 0, behavior: "instant" });
       }
       return next;
     });
@@ -131,52 +133,11 @@ function WildfireCaseStudyInner() {
     setActiveStage(idx);
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", `?phase=${idx + 1}`);
+      window.scrollTo({ top: 0, behavior: "instant" });
     }
   }, []);
 
-  // Scroll-down animation: moving from left to right between phases 1 to 5
-  useEffect(() => {
-    let lastWheelTime = 0;
-    let accumulatedDelta = 0;
-
-    const handleWheel = (e: WheelEvent) => {
-      // Check if active panel has internal vertical scroll
-      const activePanel = document.getElementById(`panel-${activeStage}`);
-      if (activePanel && activePanel.scrollHeight > activePanel.clientHeight) {
-        const atTop = activePanel.scrollTop <= 4;
-        const atBottom =
-          activePanel.scrollTop + activePanel.clientHeight >=
-          activePanel.scrollHeight - 4;
-
-        if (e.deltaY > 0 && !atBottom) return;
-        if (e.deltaY < 0 && !atTop) return;
-      }
-
-      accumulatedDelta += e.deltaY;
-      const now = Date.now();
-
-      if (Math.abs(accumulatedDelta) >= 28 && now - lastWheelTime > 520) {
-        if (accumulatedDelta > 0) {
-          nextStage();
-        } else {
-          prevStage();
-        }
-        lastWheelTime = now;
-        accumulatedDelta = 0;
-      }
-
-      const timer = setTimeout(() => {
-        accumulatedDelta = 0;
-      }, 200);
-
-      return () => clearTimeout(timer);
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [activeStage, nextStage, prevStage]);
-
-  // Keyboard navigation
+  // Keyboard navigation (Arrow keys)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === "PageDown") {
@@ -187,39 +148,6 @@ function WildfireCaseStudyInner() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [nextStage, prevStage]);
-
-  // Touch swipe gestures
-  useEffect(() => {
-    let startX = 0;
-    let startY = 0;
-
-    const onTouchStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-    };
-
-    const onTouchEnd = (e: TouchEvent) => {
-      const endX = e.changedTouches[0].clientX;
-      const endY = e.changedTouches[0].clientY;
-      const diffX = startX - endX;
-      const diffY = startY - endY;
-
-      if (Math.abs(diffX) > 40) {
-        if (diffX > 0) nextStage();
-        else prevStage();
-      } else if (Math.abs(diffY) > 50) {
-        if (diffY > 0) nextStage();
-        else prevStage();
-      }
-    };
-
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
-    return () => {
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchend", onTouchEnd);
-    };
   }, [nextStage, prevStage]);
 
   return (
@@ -329,20 +257,17 @@ function WildfireCaseStudyInner() {
         </div>
       </nav>
 
-      {/* 3. Full-Screen Horizontal Sideway Viewport */}
-      <main className="cs-horizontal-viewport">
-        <div
-          className="cs-horizontal-track"
-          style={{ transform: `translateX(-${activeStage * 100}vw)` }}
+      {/* 3. Main Case Study Viewport */}
+      <main className="cs-main-viewport">
+        {/* =================================================================
+            PANEL 01: OVERVIEW
+           ================================================================= */}
+        <section
+          id="panel-0"
+          className="cs-panel"
+          style={{ display: activeStage === 0 ? "block" : "none" }}
+          aria-label="Phase 01: Overview"
         >
-          {/* =================================================================
-              PANEL 01: OVERVIEW
-             ================================================================= */}
-          <section
-            id="panel-0"
-            className="cs-panel"
-            aria-label="Phase 01: Overview"
-          >
             <div className="cs-panel-inner">
               <div className="cs-grid-split">
                 {/* Left Column: Narrative & Meta */}
@@ -424,6 +349,7 @@ function WildfireCaseStudyInner() {
           <section
             id="panel-1"
             className="cs-panel"
+            style={{ display: activeStage === 1 ? "block" : "none" }}
             aria-label="Phase 02: Problem & User"
           >
             <div className="cs-panel-inner">
@@ -476,6 +402,7 @@ function WildfireCaseStudyInner() {
           <section
             id="panel-2"
             className="cs-panel"
+            style={{ display: activeStage === 2 ? "block" : "none" }}
             aria-label="Phase 03: Decisions & Tradeoffs"
           >
             <div className="cs-panel-inner">
@@ -528,6 +455,7 @@ function WildfireCaseStudyInner() {
           <section
             id="panel-3"
             className="cs-panel"
+            style={{ display: activeStage === 3 ? "block" : "none" }}
             aria-label="Phase 04: How It Works"
           >
             <div className="cs-panel-inner" style={{ maxWidth: 1100 }}>
@@ -983,6 +911,7 @@ function WildfireCaseStudyInner() {
           <section
             id="panel-4"
             className="cs-panel"
+            style={{ display: activeStage === 4 ? "block" : "none" }}
             aria-label="Phase 05: Results"
           >
             <div className="cs-panel-inner">
@@ -1040,7 +969,6 @@ function WildfireCaseStudyInner() {
               </div>
             </div>
           </section>
-        </div>
       </main>
     </div>
   );
