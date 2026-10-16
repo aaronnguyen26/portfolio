@@ -1,50 +1,46 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Geist_Mono, Caveat } from "next/font/google";
 import "./globals.css";
-import { portfolioData } from "@/data/portfolio";
+import Nav from "@/components/Nav";
+import { TurnProvider, Sheet } from "@/components/PageTurn";
+import { site } from "@/data/site";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const serif = Playfair_Display({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+
+const mono = Geist_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const hand = Caveat({
+  variable: "--font-hand",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: `${portfolioData.personal.name} | ${portfolioData.personal.headline}`,
-  description: portfolioData.personal.subheadline,
-  keywords: [
-    "Software Engineer",
-    "Computer Science",
-    "Freshman Portfolio",
-    portfolioData.personal.university,
-    "Web Developer",
-    "React",
-    "TypeScript",
-  ],
-  authors: [{ name: portfolioData.personal.name }],
+  title: `${site.name} — field journal`,
+  description: site.tagline,
   openGraph: {
-    title: `${portfolioData.personal.name} - Portfolio`,
-    description: portfolioData.personal.subheadline,
+    title: site.name,
+    description: site.tagline,
     type: "website",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} scroll-smooth antialiased`}
-    >
-      <body className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-blue-600/30 selection:text-blue-200">
-        {children}
+    <html lang="en" data-scroll-behavior="smooth" className={`${serif.variable} ${mono.variable} ${hand.variable}`}>
+      <body>
+        <TurnProvider>
+          <Nav />
+          <Sheet>{children}</Sheet>
+        </TurnProvider>
       </body>
     </html>
   );

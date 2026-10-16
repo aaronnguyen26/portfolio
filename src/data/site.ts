@@ -1,0 +1,212 @@
+// All content below is PLACEHOLDER text. Replace with real information.
+export const site = {
+  name: "Aaron Nguyen",
+  tagline: "a student, a notebook, and exploring the questions behind the data.",
+  school: "USC",
+  major: "Economics & Data Science",
+  year: "Class of 2028",
+  location: "Southern California",
+  email: "hello@example.com",
+  links: [
+    { label: "GitHub", href: "https://github.com/" },
+    { label: "LinkedIn", href: "https://linkedin.com/" },
+    { label: "Instagram", href: "https://instagram.com/" },
+    { label: "Resume", href: "/resume.pdf" },
+  ],
+};
+
+export const nav = [
+  { href: "/", label: "Home", n: "00" },
+  { href: "/about", label: "About", n: "01" },
+  { href: "/projects", label: "Projects", n: "02" },
+  { href: "/writing", label: "Writing", n: "03" },
+  { href: "/contact", label: "Contact", n: "04" },
+];
+
+export const glance = [
+  { k: "studying", v: "Computer Science" },
+  { k: "year", v: "Freshman, Class of 2030" },
+  { k: "looking for", v: "Summer 2027 internships" },
+  { k: "based in", v: "Los Angeles, CA" },
+];
+
+export const projects = [
+  {
+    n: "01",
+    category: "Audio Software",
+    title: "PulseJam: Real-Time Audio Canvas",
+    year: "2024",
+    blurb: "In-browser collaborative audio playground with low-latency DSP synthesis and WebSockets synchronization.",
+    role: "Systems & Frontend Architect",
+    outcome: "<15ms end-to-end audio sync",
+    tags: ["TypeScript", "WebAudio API", "WebSockets"],
+    note: "building synchronous multi-track rooms",
+    art: "code",
+    badge: "Audio DSP · WebGL",
+    featured: false,
+    href: "https://github.com/aaronnguyen26",
+  },
+  {
+    n: "02",
+    category: "Predictive Modeling",
+    title: "EPL 2025: Match Outcome Predictor",
+    year: "2024",
+    blurb: "Quantifying pitch tactical formations and momentum trajectories using rolling Poisson & XGBoost regression.",
+    role: "Quantitative Analyst",
+    outcome: "68.4% directional accuracy on test fixtures",
+    tags: ["Python", "Pandas", "Scikit-Learn", "XGBoost"],
+    note: "tracking pressing intensity & xG momentum",
+    art: "skyline",
+    badge: "Econometrics & ML",
+    featured: false,
+    href: "https://github.com/aaronnguyen26",
+  },
+  {
+    n: "03",
+    slug: "firecnn",
+    category: "Computer Vision",
+    title: "Wildfire Image Detection",
+    year: "Summer 2024",
+    blurb: "A lightweight deep learning computer vision pipeline that classifies early-stage wildfire ignitions from multi-spectral imagery in under 15ms.",
+    role: "Solo ML Engineer & Researcher",
+    outcome: "33.9 MB edge model · sub-15ms inference",
+    tags: ["PyTorch", "Torchvision", "CNN", "MPS GPU", "Scikit-Learn"],
+    note: "designed custom 3-stage CNN to beat the 3-hr human satellite scanning bottleneck",
+    image: "/palisades_fire_real.jpg",
+    badge: "Palisades Fire, LA",
+    featured: true,
+    hasJourney: true,
+    href: "https://github.com/aaronnguyen26/wildfire",
+  },
+  {
+    n: "04",
+    slug: "resumehack",
+    category: "NLP & Systems",
+    title: "ResumeHack: Intelligent ATS Alignment Engine",
+    year: "2024",
+    blurb: "Semantic document parsing pipeline matching applicant qualifications against enterprise job descriptions with vector similarity.",
+    role: "Full-Stack Developer",
+    outcome: "Parsed 40+ resume formats with 96% field extraction",
+    tags: ["TypeScript", "Python", "FastAPI", "Vector DB"],
+    note: "reverse-engineering ATS screening heuristics",
+    art: "floorplan",
+    badge: "NLP · Document Parser",
+    featured: false,
+    hasJourney: false,
+    href: "https://github.com/aaronnguyen26",
+  },
+  {
+    n: "05",
+    slug: "homebite",
+    category: "iOS & Marketplace",
+    title: "HomeBite: Campus Micro-Kitchen Marketplace",
+    year: "2024",
+    blurb: "Peer-to-peer campus food marketplace connecting student home cooks with local peers with real-time order tracking.",
+    role: "Mobile & Backend Lead",
+    outcome: "Native SwiftUI client with SQLite & CloudKit sync",
+    tags: ["SwiftUI", "iOS", "Python", "PostgreSQL"],
+    note: "solving dorm meal-prep economics",
+    art: "coffee",
+    badge: "Native iOS · SwiftUI",
+    featured: false,
+    hasJourney: false,
+    href: "https://github.com/aaronnguyen26",
+  },
+  {
+    n: "06",
+    slug: "imitate",
+    category: "Embodied AI",
+    title: "Imitate: Action-Cloning Robotics Sandbox",
+    year: "2024",
+    blurb: "Desktop telemetry recorder capturing demonstration trajectories to train behavioral cloning policy checkpoints.",
+    role: "Robotics Researcher",
+    outcome: "Sub-millimeter tracking accuracy at 60 Hz",
+    tags: ["Python", "PyTorch", "NumPy", "Computer Vision"],
+    note: "teaching robot arms from human motor demonstrations",
+    art: "building",
+    badge: "Behavioral Cloning · 60Hz",
+    featured: false,
+    hasJourney: false,
+    href: "https://github.com/aaronnguyen26",
+  },
+];
+
+export const timeline = [
+  {
+    year: "2014",
+    place: "Saigon, Vietnam",
+    title: "The First Chess Board",
+    text: "Began competing in youth chess tournaments across Saigon. Discovered a lifelong fascination with game theory, positional discipline, and thinking multiple steps ahead.",
+  },
+  {
+    year: "2018",
+    place: "Saigon, Vietnam",
+    title: "Pitches, Courts & Analytics",
+    text: "Played competitive basketball and football leagues while obsessively collecting match kits. Started tracking performance data and tactical formations, realizing systems design applies equally to sports.",
+  },
+  {
+    year: "2022",
+    place: "Self-Directed",
+    title: "From Pieces to Code",
+    text: "Wrote first Python scripts to automate statistical data parsing. Discovered that data science and econometrics offered the mathematical language to model human choices at scale.",
+  },
+  {
+    year: "2024",
+    place: "Los Angeles, California",
+    title: "Crossing to California & USC",
+    text: "Enrolled at the University of Southern California to pursue a double discipline in Economics and Data Science. Immersed in empirical microeconomics, linear algebra, and computing.",
+  },
+  {
+    year: "2026+",
+    place: "Present & Next",
+    title: "Building Systems & Prototypes",
+    text: "Developing quantitative tools to simulate market contagion, building predictive machine learning pipelines, and preparing for summer research and industry exploration.",
+  },
+];
+
+export const toolkits = [
+  {
+    category: "Quantitative & Modeling",
+    n: "01",
+    tools: ["Python", "R", "Econometrics", "Linear Algebra", "Game Theory", "Optimization"],
+  },
+  {
+    category: "Data & Computing",
+    n: "02",
+    tools: ["SQL", "Pandas", "NumPy", "Scikit-Learn", "Time Series", "Git & GitHub"],
+  },
+  {
+    category: "Prototyping & Interface",
+    n: "03",
+    tools: ["TypeScript", "Next.js", "React", "Tailwind CSS", "Figma", "LaTeX"],
+  },
+];
+
+export const essays = [
+  {
+    date: "Oct 2026",
+    title: "What I learned in my first month away from home",
+    excerpt: "Placeholder excerpt. Laundry is harder than linear algebra, and nobody warns you about it.",
+    mins: 5,
+  },
+  {
+    date: "Sep 2026",
+    title: "Why I keep a paper notebook in a digital world",
+    excerpt: "Placeholder excerpt. Some ideas only survive when they are written by hand.",
+    mins: 4,
+  },
+  {
+    date: "Aug 2026",
+    title: "Notes from my first hackathon",
+    excerpt: "Placeholder excerpt. We built a robot that mostly worked, which felt like winning.",
+    mins: 6,
+  },
+  {
+    date: "Jun 2026",
+    title: "Things I would tell my high school self",
+    excerpt: "Placeholder excerpt. Start the project before you feel ready.",
+    mins: 3,
+  },
+];
+
+export const skills = ["Python", "TypeScript", "React", "Next.js", "C++", "Git", "Figma"];
