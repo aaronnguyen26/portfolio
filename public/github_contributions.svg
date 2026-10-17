@@ -390,6 +390,7 @@
   <rect x="856.75" y="172.5" width="13" height="13" rx="2.5" fill="#ebdcc2" stroke="#dfcaa4" stroke-width="0.8"><title>2026-09-26: level 0</title></rect>
   <rect x="873.5" y="172.5" width="13" height="13" rx="2.5" fill="#97b788" stroke="#85a476" stroke-width="0.8"><title>2026-10-03: level 1</title></rect>
   <rect x="890.25" y="172.5" width="13" height="13" rx="2.5" fill="#286332" stroke="#1e4f26" stroke-width="0.8"><title>2026-10-10: level 3</title></rect>
+  <rect x="907" y="172.5" width="13" height="13" rx="2.5" fill="#ebdcc2" stroke="#dfcaa4" stroke-width="0.8"><title>2026-10-17: level 0</title></rect>
 
   <!-- Bottom Legend: ONLY Less -> More (Right-aligned with edge of grid) -->
   <g transform="translate(780, 207.25)">

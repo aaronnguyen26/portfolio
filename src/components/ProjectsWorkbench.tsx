@@ -1,14 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Code, Skyline, Group, Coffee, FloorPlan, BuildingSketch } from "@/components/JournalArt";
 import { projects } from "@/data/site";
 import GitHubContributionGraph from "@/components/GitHubContributionGraph";
+import ProjectJourneyFan from "@/components/ProjectJourneyFan";
 
 const tilts = ["rot-l", "rot-r", "rot-l2"];
 
 export default function ProjectsWorkbench() {
+  const [selectedJourneyProject, setSelectedJourneyProject] = useState<
+    (typeof projects)[0] | null
+  >(null);
+  const [cardOriginRect, setCardOriginRect] = useState<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  } | null>(null);
+
+  const handleJourneyClick = (
+    e: React.MouseEvent,
+    p: (typeof projects)[0]
+  ) => {
+    e.preventDefault();
+    const article = (e.currentTarget as HTMLElement).closest("article");
+    if (article) {
+      const rect = article.getBoundingClientRect();
+      setCardOriginRect({
+        top: rect.top,
+        left: rect.left,
+        width: rect.width,
+        height: rect.height,
+      });
+    } else {
+      setCardOriginRect(null);
+    }
+    setSelectedJourneyProject(p);
+  };
 
   const renderArt = (art?: string) => {
     switch (art) {
@@ -91,13 +121,14 @@ export default function ProjectsWorkbench() {
             <p className="hand-note">↳ {p.note}</p>
 
             {p.hasJourney ? (
-              <Link
-                href={`/projects/${p.slug || "firecnn"}`}
+              <button
+                type="button"
+                onClick={(e) => handleJourneyClick(e, p)}
                 className={`btn-view-journey ${p.featured ? "primary" : "secondary"}`}
               >
                 <span>View Project &amp; Journey</span>
                 <span className="arrow">&rarr;</span>
-              </Link>
+              </button>
             ) : (
               <a
                 href={p.href}
@@ -115,6 +146,17 @@ export default function ProjectsWorkbench() {
 
       {/* GitHub Contribution Graph at the end of the page */}
       <GitHubContributionGraph />
+
+      {/* Project Journey Fan Overlay (Zoom & Fan Out Animation) */}
+      <ProjectJourneyFan
+        isOpen={!!selectedJourneyProject}
+        onClose={() => {
+          setSelectedJourneyProject(null);
+          setCardOriginRect(null);
+        }}
+        project={selectedJourneyProject}
+        originRect={cardOriginRect}
+      />
     </>
   );
 }
