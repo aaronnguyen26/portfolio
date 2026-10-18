@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 import { projects } from "@/data/site";
 
 interface ProjectJourneyTacticsProps {
@@ -203,7 +204,6 @@ export default function ProjectJourneyTactics({
   if (!mounted || !isOpen || !project) return null;
 
   const current = tacticalPhases[activeIdx];
-  // Satellite tokens: the other 4 phases orbiting around the central tactical disc
   const satellites = tacticalPhases.filter((_, idx) => idx !== activeIdx);
 
   return createPortal(
@@ -216,27 +216,27 @@ export default function ProjectJourneyTactics({
       aria-modal="true"
       aria-label="Tactical Passing Arena"
     >
-      {/* Top Bar HUD */}
+      {/* Top Header Bar */}
       <header className="tactical-arena-header">
         <div className="tah-left">
-          <span className="tah-live-dot" />
-          <span className="tah-title">TACTICAL MATCHDAY ARENA</span>
-          <span className="tah-sep">&middot;</span>
-          <span className="tah-sub">QUANTITATIVE PREMIER LEAGUE SYSTEM</span>
+          <span className="tah-eyebrow">PROJECT JOURNEY · PREMIER LEAGUE</span>
+          <h2 className="tah-title">
+            EPL 2025: <em>Match Outcome Predictor</em>
+          </h2>
+          <span className="tah-phase-badge">
+            PHASE {current.num} / 05 &middot; {current.codename}
+          </span>
         </div>
         <div className="tah-right">
-          <span className="tah-phase-counter">
-            PHASE 0{activeIdx + 1} / 05 &middot; {current.codename}
-          </span>
           <button
             type="button"
             onClick={handleClose}
-            className="tah-exit-btn"
-            title="Exit Arena [ESC]"
-            aria-label="Exit Arena"
+            className="tah-btn-close"
+            title="Exit to Workbench [ESC]"
+            aria-label="Exit to Workbench"
           >
-            <span>Exit Arena</span>
-            <kbd>ESC</kbd>
+            <span>Close</span>
+            <kbd className="tah-esc">ESC</kbd>
           </button>
         </div>
       </header>
@@ -245,12 +245,25 @@ export default function ProjectJourneyTactics({
       <div className="tactical-arena-stage">
         {/* =====================================================================
             LEFT COLUMN: THE PROJECT DOSSIER CARD
-            Matches the portfolio's project card structure (No. 02, role, outcome)
+            Matches the portfolio's warm ivory paper card & polaroid aesthetic
             ===================================================================== */}
         <aside className="tactical-sidebar-card">
-          <div className="tsc-stamp">
-            <span className="tsc-stamp-dot" />
-            <span className="tsc-stamp-text">CONFIDENTIAL ARCHIVE</span>
+          <div className="tactical-tape" />
+
+          {/* Photo Thumbnail */}
+          <div className="tactical-card-shot">
+            <Image
+              src="/epl_match_hero.jpg"
+              alt="EPL Match Hero"
+              fill
+              sizes="320px"
+              priority
+              className="tactical-shot-img"
+            />
+            <div className="tactical-shot-badge">
+              <span className="tsb-dot" />
+              <span>Premier League · UK</span>
+            </div>
           </div>
 
           <div className="tsc-meta">
@@ -260,7 +273,7 @@ export default function ProjectJourneyTactics({
             <span className="tsc-year">{project.year}</span>
           </div>
 
-          <h2 className="tsc-title">{project.title}</h2>
+          <h3 className="tsc-title">{project.title}</h3>
           <p className="tsc-blurb">{project.blurb}</p>
 
           <dl className="tsc-specs">
@@ -280,9 +293,9 @@ export default function ProjectJourneyTactics({
 
           <p className="tsc-handnote">↳ {project.note}</p>
 
-          {/* Quick Tactical Phase Navigator */}
+          {/* Phase Selector Tabs */}
           <div className="tsc-phase-nav-block">
-            <span className="tsc-pnb-title">TACTICAL PHASE SELECTOR</span>
+            <span className="tsc-pnb-title">TACTICAL PHASES</span>
             <div className="tsc-phase-list">
               {tacticalPhases.map((p, idx) => {
                 const isActive = activeIdx === idx;
@@ -304,48 +317,47 @@ export default function ProjectJourneyTactics({
         </aside>
 
         {/* =====================================================================
-            RIGHT COLUMN: THE NON-RECTANGULAR TACTICAL DISK & SATELLITE ARENA
-            Completely borderless open surface with a large central circular disc,
-            concentric brass rings, chalk passing arcs, and orbiting satellite tokens.
-            ZERO RECTANGLES. ZERO MINUTES. ZERO GREEN.
+            RIGHT COLUMN: WARM LEATHER DESK MAT HOLDING THE CIRCULAR FORMATION
+            Zero rectangles on the right side.
+            Central warm vellum circular loupe with 4 orbiting circular satellite tokens.
             ===================================================================== */}
         <main className="tactical-orbit-arena">
-          {/* Subtle Tactical Chalk Pitch Center Circle & Passing Arcs */}
-          <svg className="tactical-chalk-canvas" viewBox="0 0 760 680" fill="none">
-            {/* Outer tactical orbital ring */}
+          {/* Subtle Warm Chalk Pitch Canvas */}
+          <svg className="tactical-chalk-canvas" viewBox="0 0 760 540" fill="none">
+            {/* Outer orbital passing ring */}
             <circle
               cx="380"
-              cy="340"
-              r="305"
-              stroke="rgba(197, 155, 39, 0.16)"
+              cy="270"
+              r="230"
+              stroke="rgba(255, 204, 0, 0.22)"
               strokeWidth="1.5"
               strokeDasharray="6 8"
             />
-            {/* Center pitch spot */}
-            <circle cx="380" cy="340" r="4" fill="#c59b27" />
-            <circle cx="380" cy="340" r="32" stroke="rgba(197, 155, 39, 0.18)" strokeWidth="1" />
+            {/* Center spot */}
+            <circle cx="380" cy="270" r="4" fill="#c59b27" />
+            <circle cx="380" cy="270" r="28" stroke="rgba(255, 204, 0, 0.2)" strokeWidth="1" />
             {/* Curved Passing Trajectory vectors connecting satellites to center */}
             <path
-              d="M 120 180 Q 230 220 380 340"
-              stroke="rgba(197, 155, 39, 0.22)"
+              d="M 120 120 Q 230 180 380 270"
+              stroke="rgba(255, 204, 0, 0.25)"
               strokeWidth="1.5"
               strokeDasharray="4 6"
             />
             <path
-              d="M 640 180 Q 530 220 380 340"
-              stroke="rgba(197, 155, 39, 0.22)"
+              d="M 640 120 Q 530 180 380 270"
+              stroke="rgba(255, 204, 0, 0.25)"
               strokeWidth="1.5"
               strokeDasharray="4 6"
             />
             <path
-              d="M 160 520 Q 250 460 380 340"
-              stroke="rgba(197, 155, 39, 0.22)"
+              d="M 140 420 Q 240 360 380 270"
+              stroke="rgba(255, 204, 0, 0.25)"
               strokeWidth="1.5"
               strokeDasharray="4 6"
             />
             <path
-              d="M 600 520 Q 510 460 380 340"
-              stroke="rgba(197, 155, 39, 0.22)"
+              d="M 620 420 Q 520 360 380 270"
+              stroke="rgba(255, 204, 0, 0.25)"
               strokeWidth="1.5"
               strokeDasharray="4 6"
             />
@@ -355,7 +367,6 @@ export default function ProjectJourneyTactics({
           <div className="tactical-satellites-layer">
             {satellites.map((sat, sIdx) => {
               const origIdx = tacticalPhases.findIndex((p) => p.num === sat.num);
-              // Positions on the perimeter: top-left, top-right, bottom-left, bottom-right
               const posClasses = ["pos-tl", "pos-tr", "pos-bl", "pos-br"];
               return (
                 <button
@@ -376,18 +387,18 @@ export default function ProjectJourneyTactics({
           </div>
 
           {/* ===================================================================
-              CENTER PIECE: THE 530px CIRCULAR TACTICAL INSPECTION DISC
-              A pure geometric circle with double brass rim, zero right angles.
-              Holds the motivation memorandum, quantitative metrics, and trade-offs.
+              CENTER PIECE: THE CIRCULAR TACTICAL INSPECTION DISC
+              A pure geometric circle made of warm ivory vellum (#fffdfa).
+              Double aged brass rim with cardinal accents. ZERO RECTANGLES.
               =================================================================== */}
           <div className="tactical-disc-center">
-            {/* Outer Machined Brass Bevel Ring */}
             <div className="tdc-machined-ring">
-              {/* Slate Disc Face */}
-              <div className="tdc-slate-face">
+              <div className="tdc-vellum-face">
                 {/* 1. Disc Header Badge */}
                 <div className="tdc-header-block">
-                  <span className="tdc-phase-pill">PHASE {current.num} &middot; {current.codename}</span>
+                  <span className="tdc-phase-pill">
+                    PHASE {current.num} &middot; {current.codename}
+                  </span>
                   <h3 className="tdc-title">{current.title}</h3>
                   <p className="tdc-subtitle">{current.subtitle}</p>
                 </div>
@@ -401,7 +412,7 @@ export default function ProjectJourneyTactics({
                   <p className="tmr-text">{current.motivationBody}</p>
                 </div>
 
-                {/* 3. Circular Micro-Metrics Trio */}
+                {/* 3. Circular Micro-Metrics Trio in Warm Vellum */}
                 <div className="tdc-metrics-trio">
                   {current.metrics.map((m, mIdx) => (
                     <div key={mIdx} className="tdc-metric-disc">
@@ -414,13 +425,13 @@ export default function ProjectJourneyTactics({
 
                 {/* 4. Architectural Trade-Off Leader */}
                 <div className="tdc-tradeoff-line">
-                  <div className="ttl-arrow">●──────&gt;</div>
-                  <div className="ttl-text">
+                  <span className="ttl-arrow">●──────&gt;</span>
+                  <span className="ttl-text">
                     <strong>{current.tradeOff.heading}:</strong> {current.tradeOff.detail}
-                  </div>
+                  </span>
                 </div>
 
-                {/* 5. Handwritten Fountain Pen Sideline Memo */}
+                {/* 5. Handwritten Fountain Pen Sideline Memo (Blue-black ink #243b6b) */}
                 <div className="tdc-handnote-row">
                   <p className="tdc-handnote">{current.scoutNote}</p>
                 </div>
@@ -440,7 +451,7 @@ export default function ProjectJourneyTactics({
             </button>
 
             <span className="tbn-indicator">
-              TACTICAL NODE {current.num} OF 05 &middot; KEY [1-5]
+              PHASE {current.num} OF 05 &middot; KEY [1-5]
             </span>
 
             <button
