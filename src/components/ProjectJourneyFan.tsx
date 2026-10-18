@@ -12,53 +12,110 @@ interface ProjectJourneyFanProps {
   originRect: { top: number; left: number; width: number; height: number } | null;
 }
 
+interface PhaseTopic {
+  label: string;
+  detail: string;
+}
+
 interface PhaseDetail {
   num: string;
   tag: string;
+  badgeLabel: string;
   title: string;
-  highlight: string;
+  ctaText: string;
   summary: string;
+  topics: PhaseTopic[];
+  // Expanded project-specific case study details:
   fullTitle: string;
   subtitle: string;
   metrics: { label: string; val: string; sub?: string }[];
+  incidentStats?: { val: string; label: string; sub?: string }[];
   narrativeLead: string;
   narrativeBody: string[];
+  takeaways?: { title: string; desc: string }[];
   visualType: "photo" | "timeline" | "tradeoffs" | "tensor" | "plots";
+  photoUrl?: string;
+  photoCaption?: { left: string; right: string };
   handNote: string;
 }
 
 const phases: PhaseDetail[] = [
   {
     num: "01",
-    tag: "TARGET STUDY & SPECS",
-    title: "Overview",
-    highlight: "81.84% Val Acc · 33.9 MB",
+    tag: "PROBLEM SCOPE & ORIGIN",
+    badgeLabel: "CONTEXT & SPECS",
+    title: "Context & Constraints",
+    ctaText: "Explore Phase 01",
     summary:
-      "Pacific Palisades coastal wildfire dataset. Lightweight 3-stage CNN edge architecture detecting ignitions from 128×128 multi-spectral crops.",
-    fullTitle: "Pacific Palisades Early Ignition Reconnaissance",
-    subtitle: "Detecting wildland brush ignitions from 128×128 multi-spectral crops in under 15ms.",
-    metrics: [
-      { label: "VALIDATION ACC", val: "81.84%", sub: "Top-1 Binary" },
-      { label: "MODEL SIZE", val: "33.9 MB", sub: "Weight Footprint" },
-      { label: "INFERENCE TIME", val: "14.8 ms", sub: "Apple MPS / Jetson" },
-      { label: "INPUT TILE", val: "128×128×3", sub: "Normalized RGB" },
+      "Scoping problem bounds, operational requirements, and success metrics before design:",
+    topics: [
+      {
+        label: "Problem Scope",
+        detail: "Real-world friction driving the project.",
+      },
+      {
+        label: "Hard Limits",
+        detail: "Hardware memory and latency budgets.",
+      },
+      {
+        label: "Success Bar",
+        detail: "Verifiable targets to declare victory.",
+      },
+    ],
+    fullTitle: "Pacific Palisades & The Motivation for FireCNN",
+    subtitle: "Witnessing coastal canyon wildfires in Los Angeles exposed the critical bottleneck of detection delay.",
+    metrics: [], // Deleted the top row of validation accuracy / model size as requested!
+    incidentStats: [
+      { val: "1,200+ ACRES", label: "Burned & Threatened", sub: "Coastal Chaparral" },
+      { val: "10,000+", label: "Under Evacuation", sub: "Palisades & Topanga" },
+      { val: "3–6 HOURS", label: "Detection Delay", sub: "Orbital Satellite Passes" },
+      { val: "45 MINUTES", label: "Containment Window", sub: "Ground to Tree Canopies" },
     ],
     narrativeLead:
-      "Early detection of wildland brush ignitions is the single highest leverage point in stopping destructive California megafires.",
+      "Watching the Pacific Palisades wildfire ignite over the Santa Monica Mountains from Los Angeles was my catalyst: fires spread exponentially in minutes, but detection systems still move in hours.",
     narrativeBody: [
-      "In August 2024, extreme coastal wind gusts ignited dry chaparral brush along the Pacific Palisades ridges in Los Angeles. Wildland firefighting operations in steep mountain canyons are fatally bottlenecked by detection lag: by the time orbital satellites or human 911 calls report smoke, embers have already crossed ridge lines.",
-      "FireCNN was architected as an offline, edge-native classifier. Rather than relying on continuous high-bandwidth video streams back to central servers, autonomous scout drones evaluate 128×128 multi-spectral crops locally and transmit only verified ignition coordinates with zero satellite delay.",
+      "When dry chaparral brush caught fire along coastal ridges, 20–35 mph canyon gusts pushed flames through steep terrain faster than ground crews could reach. By the time orbital satellites processed their next pass or human 911 calls arrived, embers were already jumping ridge lines.",
+    ],
+    takeaways: [
+      {
+        title: "The Detection Bottleneck",
+        desc: "Downlink lag and orbital intervals miss the 45-minute containment window, allowing surface brush fires to crown into unstoppable tree canopies.",
+      },
+      {
+        title: "The Edge Mandate",
+        desc: "Eliminate reliance on cloud uplinks by running sub-15ms ignition classification directly aboard autonomous scout drones (<5W power, <35MB model footprint).",
+      },
     ],
     visualType: "photo",
-    handNote: "↳ 128×128 crops keep model under 35MB to fit quadcopter SRAM cache.",
+    photoUrl: "/palisades_recon_smoke.jpg",
+    photoCaption: {
+      left: "PACIFIC PALISADES WILDFIRE • SANTA MONICA MOUNTAIN OVERLOOK",
+      right: "BILLOWING SMOKE PLUME OVER CANYON RIDGELINES",
+    },
+    handNote: "↳ Core goal: Alert commanders within 60 seconds of ignition, before brush fires breach tree canopies.",
   },
   {
     num: "02",
-    tag: "THE 45-MIN CLIFF",
-    title: "Problem & User",
-    highlight: "3h → 15ms (700,000× faster)",
+    tag: "ROOT CAUSE ANALYSIS",
+    badgeLabel: "CORE BOTTLENECK",
+    title: "The Root Failure Point",
+    ctaText: "Explore Phase 02",
     summary:
-      "Manual satellite review takes 3 to 6 hours. Retardant drops within 45 minutes achieve >85% containment, but collapse to <25% post-canopy.",
+      "Diagnosing why existing tools fail and isolating the critical failure threshold:",
+    topics: [
+      {
+        label: "Workflow Lag",
+        detail: "Where conventional tools break down.",
+      },
+      {
+        label: "Critical Cliff",
+        detail: "Threshold where delays become fatal.",
+      },
+      {
+        label: "Custom Need",
+        detail: "Why off-the-shelf software fell short.",
+      },
+    ],
     fullTitle: "The 45-Minute Canopy Escalation Cliff",
     subtitle: "Why satellite downlink delays kill containment, and how 15ms edge inference saves it.",
     metrics: [
@@ -77,11 +134,26 @@ const phases: PhaseDetail[] = [
   },
   {
     num: "03",
-    tag: "PINNED FIELD DECISIONS",
-    title: "Decisions & Tradeoffs",
-    highlight: "FireCNN vs ViT · Dropout · Scope Cut",
+    tag: "STRATEGIC TRADE-OFFS",
+    badgeLabel: "DECISIONS & CUTS",
+    title: "Architecture Decisions",
+    ctaText: "Explore Phase 03",
     summary:
-      "Why custom CNN won over pre-trained ViTs, fixing the 16.1% memorization gap with Dropout(p=0.5), and deliberately cutting polygon segmentation.",
+      "Weighing architectural forks and deliberate cuts made to protect performance:",
+    topics: [
+      {
+        label: "Design Forks",
+        detail: "Evaluating competing architectures.",
+      },
+      {
+        label: "Scope Cuts",
+        detail: "Cutting features to preserve speed.",
+      },
+      {
+        label: "Trade-Offs",
+        detail: "Balancing compute, memory, and accuracy.",
+      },
+    ],
     fullTitle: "Edge Architecture: Compute, Regularization & Scope Cuts",
     subtitle: "Why custom CNN won over ViT, fixing the 16.1% memorization gap with Dropout.",
     metrics: [
@@ -101,11 +173,26 @@ const phases: PhaseDetail[] = [
   },
   {
     num: "04",
-    tag: "3D TENSOR ARCHITECTURE",
-    title: "How It Works",
-    highlight: "Interactive Tensor Lab & Layers",
+    tag: "TECHNICAL ARCHITECTURE",
+    badgeLabel: "FORWARD PIPELINE",
+    title: "System Data Pipeline",
+    ctaText: "Explore Phase 04",
     summary:
-      "Full walkthrough of the neural network pipeline: from 128×128 RGB input sensor tile, through Conv1, Conv2, Conv3, to dense logits in 15ms.",
+      "Technical walkthrough of data flowing through sequential processing stages:",
+    topics: [
+      {
+        label: "Data Pipeline",
+        detail: "Raw input ingestion to output decisions.",
+      },
+      {
+        label: "Module Roles",
+        detail: "Responsibilities of each subsystem.",
+      },
+      {
+        label: "Execution Flow",
+        detail: "Low-latency runtime optimizations.",
+      },
+    ],
     fullTitle: "Neural Network Pipeline & Tensor Flow Walkthrough",
     subtitle: "From raw 128×128 sensor tile through Conv1, Conv2, Conv3 to dense logits.",
     metrics: [
@@ -125,11 +212,26 @@ const phases: PhaseDetail[] = [
   },
   {
     num: "05",
-    tag: "ABLATION & TELEMETRY",
-    title: "Results & Divergence",
-    highlight: "Val Loss & Acc Curves",
+    tag: "EMPIRICAL EVALUATION",
+    badgeLabel: "RESULTS & TELEMETRY",
+    title: "Results & Retrospective",
+    ctaText: "Explore Phase 05",
     summary:
-      "Validation loss divergence graphs with vs without dropout, narrowing generalization spread to 5.07%, and real-time 60+ FPS edge metrics.",
+      "Empirical benchmarks, edge stress testing, and core architectural takeaways:",
+    topics: [
+      {
+        label: "Benchmarks",
+        detail: "Measured throughput and accuracy.",
+      },
+      {
+        label: "Edge Cases",
+        detail: "Validating stability against noisy inputs.",
+      },
+      {
+        label: "Takeaways",
+        detail: "Lessons learned for future systems.",
+      },
+    ],
     fullTitle: "Validation Divergence, Ablations & Edge Telemetry",
     subtitle: "Comparing loss curves with vs without dropout, narrowing spread to 5.07%.",
     metrics: [
@@ -171,7 +273,7 @@ export default function ProjectJourneyFan({
   const [isClosing, setIsClosing] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [cardTransitionState, setCardTransitionState] = useState<
-    "idle" | "folding" | "fanning"
+    "idle" | "folding" | "restoring" | "fanning"
   >("idle");
   const isTransitioningRef = useRef(false);
 
@@ -207,19 +309,25 @@ export default function ProjectJourneyFan({
     [expandedIndex]
   );
 
-  // Slower realistic collapse back to the 5-card fanned deck
+  // Realistic phase card fold-in followed by fan-out restoration of all 5 cards
   const handleCloseCard = useCallback(() => {
     if (isTransitioningRef.current || expandedIndex === null) return;
     isTransitioningRef.current = true;
     setTransitionDirection("next");
     setCardTransitionState("folding");
 
+    // Phase 1: Expanded card folds into the right deck cluster (400ms)
     setTimeout(() => {
       setExpandedIndex(null);
       setOutgoingIndex(null);
-      setCardTransitionState("idle");
-      isTransitioningRef.current = false;
-    }, 780);
+      setCardTransitionState("restoring");
+
+      // Phase 2: All 5 cards shift/fan from the deck back into their fanned position (760ms)
+      setTimeout(() => {
+        setCardTransitionState("idle");
+        isTransitioningRef.current = false;
+      }, 760);
+    }, 400);
   }, [expandedIndex]);
 
   // Expand phase card with smooth fanning-in animation
@@ -377,7 +485,9 @@ export default function ProjectJourneyFan({
     if (!ph) return null;
 
     let animClass = "";
-    if (opts.isOutgoing || opts.isFolding) {
+    if (opts.isFolding) {
+      animClass = "is-folding-to-deck";
+    } else if (opts.isOutgoing) {
       animClass = `is-folding-out dir-${opts.dir}`;
     } else if (opts.isIncoming) {
       animClass = `is-fanning-in dir-${opts.dir}`;
@@ -425,16 +535,18 @@ export default function ProjectJourneyFan({
 
         {/* Scrollable Content Container */}
         <div ref={isInteractive ? scrollRef : undefined} className="expanded-scroll-area">
-          {/* 4-Tile Metric Strip */}
-          <div className="expanded-metric-grid">
-            {ph.metrics.map((m) => (
-              <div key={m.label} className="expanded-metric-box">
-                <span className="emb-label">{m.label}</span>
-                <span className="emb-val">{m.val}</span>
-                {m.sub && <span className="emb-sub">{m.sub}</span>}
-              </div>
-            ))}
-          </div>
+          {/* Metric Strip (Omitted for Phase 01 where metrics is empty) */}
+          {ph.metrics && ph.metrics.length > 0 && (
+            <div className="expanded-metric-grid">
+              {ph.metrics.map((m) => (
+                <div key={m.label} className="expanded-metric-box">
+                  <span className="emb-label">{m.label}</span>
+                  <span className="emb-val">{m.val}</span>
+                  {m.sub && <span className="emb-sub">{m.sub}</span>}
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Narrative Paragraphs */}
           <div className="expanded-narrative-section">
@@ -444,19 +556,50 @@ export default function ProjectJourneyFan({
                 {paragraph}
               </p>
             ))}
+
+            {/* Incident / Context Statistics Strip */}
+            {ph.incidentStats && ph.incidentStats.length > 0 && (
+              <div className="expanded-incident-grid">
+                {ph.incidentStats.map((st) => (
+                  <div key={st.label} className="expanded-incident-box">
+                    <span className="eib-val">{st.val}</span>
+                    <span className="eib-label">{st.label}</span>
+                    {st.sub && <span className="eib-sub">{st.sub}</span>}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Bullet / Takeaway points if present */}
+            {ph.takeaways && ph.takeaways.length > 0 && (
+              <div className="expanded-takeaways-list">
+                {ph.takeaways.map((item, tIdx) => (
+                  <div key={tIdx} className="expanded-takeaway-item">
+                    <span className="takeaway-bullet">›</span>
+                    <div>
+                      <strong className="takeaway-title">{item.title}: </strong>
+                      <span className="takeaway-desc">{item.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Phase-Specific Visual Sections */}
           {ph.visualType === "photo" && (
             <div className="expanded-media-card">
               <img
-                src="/palisades_fire_real.jpg"
+                src={ph.photoUrl || "/palisades_recon_smoke.jpg"}
                 alt="Pacific Palisades Wildfire Reconnaissance"
                 className="expanded-media-img"
               />
               <div className="expanded-media-caption">
-                <span><strong>TARGET CORRIDOR:</strong> PACIFIC PALISADES COASTAL RIDGELINE</span>
-                <span>128×128x3 NORMALIZED RGB TILE OVERLAY</span>
+                <span>
+                  <strong>{ph.photoCaption?.left?.split(" • ")[0] || "TARGET CORRIDOR"}:</strong>{" "}
+                  {ph.photoCaption?.left?.split(" • ")[1] || ph.photoCaption?.left || "PACIFIC PALISADES COASTAL RIDGELINE"}
+                </span>
+                <span>{ph.photoCaption?.right || "AERIAL RECONNAISSANCE OVERLOOK"}</span>
               </div>
             </div>
           )}
@@ -684,7 +827,7 @@ export default function ProjectJourneyFan({
 
           <button
             type="button"
-            onClick={() => setExpandedIndex(0)}
+            onClick={() => handleExpandPhase(0)}
             className="fan-btn-primary"
           >
             <span>Open Complete Journey (Phase 1)</span>
@@ -697,10 +840,10 @@ export default function ProjectJourneyFan({
           {/* Top-Right Exit '✕' on the brown background */}
           <button
             type="button"
-            onClick={handleClose}
+            onClick={expandedIndex !== null ? handleCloseCard : handleClose}
             className="desk-mat-close-x"
-            title="Exit to Workbench [ESC]"
-            aria-label="Exit to Workbench"
+            title={expandedIndex !== null ? "Fold Phase / Return to Deck [ESC]" : "Exit to Workbench [ESC]"}
+            aria-label={expandedIndex !== null ? "Fold Phase / Return to Deck" : "Exit to Workbench"}
           >
             ✕
           </button>
@@ -720,7 +863,9 @@ export default function ProjectJourneyFan({
                       handleExpandPhase(idx);
                     }
                   }}
-                  className={`fan-phase-card card-${idx + 1}`}
+                  className={`fan-phase-card card-${idx + 1} ${
+                    cardTransitionState === "restoring" ? "is-shifting-in" : ""
+                  }`}
                   style={
                     {
                       "--fan-index": idx,
@@ -739,13 +884,26 @@ export default function ProjectJourneyFan({
 
                   <h4 className="fan-phase-title">{ph.title}</h4>
 
-                  <div className="fan-phase-metric">{ph.highlight}</div>
-
+                  {/* Direct writing explaining what is covered */}
                   <p className="fan-phase-summary">{ph.summary}</p>
+
+                  {/* Clean bullet points directly underneath */}
+                  {ph.topics && ph.topics.length > 0 && (
+                    <ul className="fan-phase-bullets">
+                      {ph.topics.map((t, tIdx) => (
+                        <li key={tIdx} className="fan-phase-bullet-item">
+                          <span className="fan-bullet-dot">•</span>
+                          <span className="fan-bullet-text">
+                            <strong>{t.label}:</strong> {t.detail}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                   <div className="fan-phase-footer">
                     <span className="fan-phase-cta">
-                      Open Phase {ph.num} &rarr;
+                      {ph.ctaText} &rarr;
                     </span>
                   </div>
                 </div>
@@ -800,7 +958,10 @@ export default function ProjectJourneyFan({
 
                       <h4 className="fan-phase-title">{c.title}</h4>
 
-                      <div className="fan-phase-metric">{c.highlight}</div>
+                      {/* Clean archival spec badge (No generic green pill) */}
+                      <div className="condensed-phase-spec">
+                        {c.badgeLabel}
+                      </div>
 
                       <div className="condensed-tap-hint">
                         <span>Click to view &rarr;</span>
