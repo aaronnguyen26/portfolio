@@ -6,6 +6,7 @@ import { Code, Skyline, Group, Coffee, FloorPlan, BuildingSketch } from "@/compo
 import { projects } from "@/data/site";
 import GitHubContributionGraph from "@/components/GitHubContributionGraph";
 import ProjectJourneyFan from "@/components/ProjectJourneyFan";
+import ProjectJourneyTactics from "@/components/ProjectJourneyTactics";
 
 const tilts = ["rot-l", "rot-r", "rot-l2"];
 
@@ -147,9 +148,20 @@ export default function ProjectsWorkbench() {
       {/* GitHub Contribution Graph at the end of the page */}
       <GitHubContributionGraph />
 
-      {/* Project Journey Fan Overlay (Zoom & Fan Out Animation) */}
+      {/* Project Journey Fan Overlay (Wildfire Project 03) */}
       <ProjectJourneyFan
-        isOpen={!!selectedJourneyProject}
+        isOpen={!!selectedJourneyProject && selectedJourneyProject.n === "03"}
+        onClose={() => {
+          setSelectedJourneyProject(null);
+          setCardOriginRect(null);
+        }}
+        project={selectedJourneyProject}
+        originRect={cardOriginRect}
+      />
+
+      {/* Project Journey Tactics Overlay (EPL Project 02 - Football Pitch Tactical Board) */}
+      <ProjectJourneyTactics
+        isOpen={!!selectedJourneyProject && selectedJourneyProject.n === "02"}
         onClose={() => {
           setSelectedJourneyProject(null);
           setCardOriginRect(null);

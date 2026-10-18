@@ -1,0 +1,316 @@
+{
+  "teams": [
+    "Arsenal",
+    "Aston Villa",
+    "Bournemouth",
+    "Brentford",
+    "Brighton",
+    "Burnley",
+    "Cardiff",
+    "Chelsea",
+    "Crystal Palace",
+    "Everton",
+    "Fulham",
+    "Huddersfield",
+    "Ipswich",
+    "Leeds",
+    "Leicester",
+    "Liverpool",
+    "Luton",
+    "Man City",
+    "Man United",
+    "Newcastle",
+    "Norwich",
+    "Nott'm Forest",
+    "Sheffield United",
+    "Southampton",
+    "Stoke",
+    "Swansea",
+    "Tottenham",
+    "Watford",
+    "West Brom",
+    "West Ham",
+    "Wolves"
+  ],
+  "stats": {
+    "Arsenal": {
+      "elo": 1734,
+      "rollGF": 2.0,
+      "rollGA": 1.2,
+      "rollPts": 1.6,
+      "xGFor": 1.58,
+      "xGAgainst": 0.91,
+      "possession": 56.9
+    },
+    "Aston Villa": {
+      "elo": 1656,
+      "rollGF": 1.8,
+      "rollGA": 0.6,
+      "rollPts": 2.4,
+      "xGFor": 1.48,
+      "xGAgainst": 1.32,
+      "possession": 50.5
+    },
+    "Bournemouth": {
+      "elo": 1546,
+      "rollGF": 0.8,
+      "rollGA": 1.2,
+      "rollPts": 1.0,
+      "xGFor": 1.68,
+      "xGAgainst": 1.28,
+      "possession": 48.5
+    },
+    "Brentford": {
+      "elo": 1563,
+      "rollGF": 2.6,
+      "rollGA": 1.6,
+      "rollPts": 2.4,
+      "xGFor": 1.55,
+      "xGAgainst": 1.46,
+      "possession": 47.9
+    },
+    "Brighton": {
+      "elo": 1591,
+      "rollGF": 2.2,
+      "rollGA": 1.8,
+      "rollPts": 2.0,
+      "xGFor": 1.54,
+      "xGAgainst": 1.44,
+      "possession": 52.3
+    },
+    "Burnley": {
+      "elo": 1409,
+      "rollGF": 1.6,
+      "rollGA": 1.8,
+      "rollPts": 1.0,
+      "xGFor": 1.07,
+      "xGAgainst": 1.85,
+      "possession": 47.4
+    },
+    "Cardiff": {
+      "elo": 1407,
+      "rollGF": 0.8,
+      "rollGA": 1.6,
+      "rollPts": 0.6,
+      "xGFor": 1.11,
+      "xGAgainst": 1.62,
+      "possession": 35.4
+    },
+    "Chelsea": {
+      "elo": 1640,
+      "rollGF": 1.4,
+      "rollGA": 0.8,
+      "rollPts": 2.4,
+      "xGFor": 1.78,
+      "xGAgainst": 1.24,
+      "possession": 57.1
+    },
+    "Crystal Palace": {
+      "elo": 1580,
+      "rollGF": 1.8,
+      "rollGA": 1.0,
+      "rollPts": 1.8,
+      "xGFor": 1.59,
+      "xGAgainst": 1.29,
+      "possession": 42.8
+    },
+    "Everton": {
+      "elo": 1543,
+      "rollGF": 1.4,
+      "rollGA": 1.2,
+      "rollPts": 1.4,
+      "xGFor": 1.1,
+      "xGAgainst": 1.22,
+      "possession": 40.9
+    },
+    "Fulham": {
+      "elo": 1550,
+      "rollGF": 1.4,
+      "rollGA": 1.8,
+      "rollPts": 1.2,
+      "xGFor": 1.29,
+      "xGAgainst": 1.24,
+      "possession": 52.3
+    },
+    "Huddersfield": {
+      "elo": 1313,
+      "rollGF": 0.6,
+      "rollGA": 3.2,
+      "rollPts": 0.2,
+      "xGFor": 0.76,
+      "xGAgainst": 1.6,
+      "possession": 47.2
+    },
+    "Ipswich": {
+      "elo": 1412,
+      "rollGF": 0.4,
+      "rollGA": 2.4,
+      "rollPts": 0.2,
+      "xGFor": 0.9,
+      "xGAgainst": 1.91,
+      "possession": 40.6
+    },
+    "Leeds": {
+      "elo": 1436,
+      "rollGF": 1.2,
+      "rollGA": 2.4,
+      "rollPts": 0.4,
+      "xGFor": 1.24,
+      "xGAgainst": 1.77,
+      "possession": 47.0
+    },
+    "Leicester": {
+      "elo": 1407,
+      "rollGF": 1.2,
+      "rollGA": 1.2,
+      "rollPts": 1.4,
+      "xGFor": 0.86,
+      "xGAgainst": 1.89,
+      "possession": 45.4
+    },
+    "Liverpool": {
+      "elo": 1757,
+      "rollGF": 2.2,
+      "rollGA": 1.8,
+      "rollPts": 1.4,
+      "xGFor": 2.16,
+      "xGAgainst": 1.02,
+      "possession": 57.7
+    },
+    "Luton": {
+      "elo": 1423,
+      "rollGF": 1.0,
+      "rollGA": 3.2,
+      "rollPts": 0.2,
+      "xGFor": 1.12,
+      "xGAgainst": 2.05,
+      "possession": 42.4
+    },
+    "Man City": {
+      "elo": 1741,
+      "rollGF": 1.6,
+      "rollGA": 0.4,
+      "rollPts": 2.6,
+      "xGFor": 1.79,
+      "xGAgainst": 1.26,
+      "possession": 61.3
+    },
+    "Man United": {
+      "elo": 1520,
+      "rollGF": 0.8,
+      "rollGA": 1.8,
+      "rollPts": 0.2,
+      "xGFor": 0.0,
+      "xGAgainst": 0.0,
+      "possession": 0.0
+    },
+    "Newcastle": {
+      "elo": 1643,
+      "rollGF": 1.4,
+      "rollGA": 1.2,
+      "rollPts": 1.4,
+      "xGFor": 1.68,
+      "xGAgainst": 1.2,
+      "possession": 51.3
+    },
+    "Norwich": {
+      "elo": 1340,
+      "rollGF": 0.2,
+      "rollGA": 2.6,
+      "rollPts": 0.2,
+      "xGFor": 0.85,
+      "xGAgainst": 1.99,
+      "possession": 42.9
+    },
+    "Nott'm Forest": {
+      "elo": 1575,
+      "rollGF": 1.4,
+      "rollGA": 1.4,
+      "rollPts": 1.6,
+      "xGFor": 1.2,
+      "xGAgainst": 1.29,
+      "possession": 41.2
+    },
+    "Sheffield United": {
+      "elo": 1336,
+      "rollGF": 1.0,
+      "rollGA": 3.4,
+      "rollPts": 0.0,
+      "xGFor": 1.01,
+      "xGAgainst": 2.02,
+      "possession": 35.8
+    },
+    "Southampton": {
+      "elo": 1315,
+      "rollGF": 0.4,
+      "rollGA": 1.4,
+      "rollPts": 0.4,
+      "xGFor": 0.86,
+      "xGAgainst": 2.23,
+      "possession": 48.5
+    },
+    "Stoke": {
+      "elo": 1413,
+      "rollGF": 0.8,
+      "rollGA": 1.2,
+      "rollPts": 0.6,
+      "xGFor": 0.96,
+      "xGAgainst": 1.64,
+      "possession": 41.4
+    },
+    "Swansea": {
+      "elo": 1429,
+      "rollGF": 0.2,
+      "rollGA": 1.8,
+      "rollPts": 0.2,
+      "xGFor": 0.83,
+      "xGAgainst": 1.54,
+      "possession": 45.3
+    },
+    "Tottenham": {
+      "elo": 1500,
+      "rollGF": 0.6,
+      "rollGA": 2.4,
+      "rollPts": 0.2,
+      "xGFor": 1.55,
+      "xGAgainst": 1.67,
+      "possession": 54.7
+    },
+    "Watford": {
+      "elo": 1357,
+      "rollGF": 0.6,
+      "rollGA": 2.6,
+      "rollPts": 0.2,
+      "xGFor": 1.05,
+      "xGAgainst": 1.7,
+      "possession": 40.7
+    },
+    "West Brom": {
+      "elo": 1393,
+      "rollGF": 1.2,
+      "rollGA": 2.2,
+      "rollPts": 0.4,
+      "xGFor": 0.94,
+      "xGAgainst": 1.79,
+      "possession": 37.9
+    },
+    "West Ham": {
+      "elo": 1496,
+      "rollGF": 1.4,
+      "rollGA": 1.4,
+      "rollPts": 1.0,
+      "xGFor": 1.24,
+      "xGAgainst": 1.57,
+      "possession": 48.4
+    },
+    "Wolves": {
+      "elo": 1498,
+      "rollGF": 1.2,
+      "rollGA": 1.4,
+      "rollPts": 1.2,
+      "xGFor": 1.15,
+      "xGAgainst": 1.53,
+      "possession": 48.1
+    }
+  }
+}
