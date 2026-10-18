@@ -33,13 +33,30 @@ interface PhaseDetail {
   narrativeLead: string;
   narrativeBody: string[];
   takeaways?: { title: string; desc: string }[];
-  visualType: "photo" | "timeline" | "tradeoffs" | "tensor" | "plots";
+  visualType: "photo" | "timeline" | "tradeoffs" | "tensor" | "plots" | "none";
   photoUrl?: string;
   photoCaption?: { left: string; right: string };
+  timelineData?: {
+    legacy: { badge: string; stat: string; desc: string };
+    modern: { badge: string; stat: string; desc: string };
+  };
+  tradeoffs?: { num: string; title: string; body: string }[];
+  pipelineStages?: {
+    stage: string;
+    dim: string;
+    title: string;
+    op: string;
+    speed: string;
+    weights: string;
+  }[];
+  plots?: { title: string; src: string; alt: string }[];
   handNote: string;
 }
 
-const phases: PhaseDetail[] = [
+// ---------------------------------------------------------------------------
+// 1. Wildfire Image Detection Phases (Project No. 03)
+// ---------------------------------------------------------------------------
+const wildfirePhases: PhaseDetail[] = [
   {
     num: "01",
     tag: "PROBLEM SCOPE & ORIGIN",
@@ -64,7 +81,7 @@ const phases: PhaseDetail[] = [
     ],
     fullTitle: "Pacific Palisades & The Motivation for FireCNN",
     subtitle: "Witnessing coastal canyon wildfires in Los Angeles exposed the critical bottleneck of detection delay.",
-    metrics: [], // Deleted the top row of validation accuracy / model size as requested!
+    metrics: [],
     incidentStats: [
       { val: "1,200+ ACRES", label: "Burned & Threatened", sub: "Coastal Chaparral" },
       { val: "10,000+", label: "Under Evacuation", sub: "Palisades & Topanga" },
@@ -86,12 +103,7 @@ const phases: PhaseDetail[] = [
         desc: "Eliminate reliance on cloud uplinks by running sub-15ms ignition classification directly aboard autonomous scout drones (<5W power, <35MB model footprint).",
       },
     ],
-    visualType: "photo",
-    photoUrl: "/palisades_recon_smoke.jpg",
-    photoCaption: {
-      left: "PACIFIC PALISADES WILDFIRE • SANTA MONICA MOUNTAIN OVERLOOK",
-      right: "BILLOWING SMOKE PLUME OVER CANYON RIDGELINES",
-    },
+    visualType: "none",
     handNote: "↳ Core goal: Alert commanders within 60 seconds of ignition, before brush fires breach tree canopies.",
   },
   {
@@ -130,6 +142,18 @@ const phases: PhaseDetail[] = [
       "FireCNN closes the detection loop directly aboard forward scout drones. By evaluating frames in 14.8ms with zero cellular or satellite uplink dependency, alert coordinates reach incident commanders within 60 seconds of ignition.",
     ],
     visualType: "timeline",
+    timelineData: {
+      legacy: {
+        badge: "TRADITIONAL SATELLITE REVIEW",
+        stat: "3 to 6 Hours",
+        desc: "Orbital passes and downlink processing miss the initial 45-minute containment window, allowing brush fires to breach canopies.",
+      },
+      modern: {
+        badge: "FIRECNN EDGE DRONE RELAY",
+        stat: "14.8 ms (700,000× Faster)",
+        desc: "Local on-drone inference detects plumes at minute 2. Drops and ground alerts trigger within 60 seconds of ignition.",
+      },
+    },
     handNote: "↳ Retardant drops within 45 minutes maintain >85% containment probability.",
   },
   {
@@ -169,6 +193,23 @@ const phases: PhaseDetail[] = [
       "Decision 3 (Classification over Polygon Segmentation): While polygon segmentation masks look impressive in papers, generating pixel-level contours added 320ms per tile. Deliberately cutting segmentation in favor of binary ignition confidence preserved real-time 60+ FPS edge throughput.",
     ],
     visualType: "tradeoffs",
+    tradeoffs: [
+      {
+        num: "01",
+        title: "Custom 3-Stage CNN vs. Vision Transformers (ViT)",
+        body: "86M ViT-B/16 requires 80–120W of compute power, draining drone batteries in 18 minutes. Custom 3-stage CNN uses 16.8M parameters consuming under 5W on edge quadcopters.",
+      },
+      {
+        num: "02",
+        title: "Dense Head Dropout (p=0.5)",
+        body: "Baseline models memorized specific mountain ridge angles (16.1% generalization gap). 50% random masking across 512 latent units narrowed the spread down to 5.07%.",
+      },
+      {
+        num: "03",
+        title: "Classification over Polygon Segmentation",
+        body: "Cut contour segmentation (+320ms per tile) to preserve real-time 60+ FPS edge throughput and sub-15ms ignition classification.",
+      },
+    ],
     handNote: "↳ Sacrificed fire perimeter polygons to achieve real-time 60+ FPS edge alerts.",
   },
   {
@@ -208,6 +249,14 @@ const phases: PhaseDetail[] = [
       "32,768 spatial activations flatten into a 512-dimensional latent head with 50% dropout, projecting to a single binary activation weighted heavily against false negatives.",
     ],
     visualType: "tensor",
+    pipelineStages: [
+      { stage: "Stage 00 // Input", dim: "128×128×3 RGB", title: "Input Sensor Tile", op: "Raw Drone Crop • Zero-Mean Norm", speed: "Input Feed", weights: "0 params" },
+      { stage: "Stage 01 // Conv 1", dim: "64×64×32", title: "Conv 1: Edge & Horizon Extractor", op: "32 filters (3×3) • ReLU • 2×2 Pool", speed: "<1ms MPS", weights: "896 params" },
+      { stage: "Stage 02 // Conv 2", dim: "32×32×64", title: "Conv 2: Smoke Plume Texture", op: "64 filters (3×3) • ReLU • 2×2 Pool", speed: "2ms edge", weights: "18,496 params" },
+      { stage: "Stage 03 // Conv 3", dim: "16×16×128", title: "Conv 3: Combustion Filter", op: "128 filters (3×3) • ReLU • 2×2 Pool", speed: "3ms edge", weights: "73,856 params" },
+      { stage: "Stage 04 // Dense", dim: "512 Neurons • p=0.5", title: "Dense Head & Dropout", op: "Linear(32K → 512) • Dropout(0.5)", speed: "4ms edge", weights: "16.7M params" },
+      { stage: "Stage 05 // Logits", dim: "1 Logit • Sigmoid", title: "Output: Fire Probability", op: "Linear(512 → 1) • Weighted BCE", speed: "<1ms logit", weights: "513 params" },
+    ],
     handNote: "↳ Conv 3 filters isolate genuine smoke plumes from Malibu morning fog.",
   },
   {
@@ -246,17 +295,325 @@ const phases: PhaseDetail[] = [
       "Adding Dropout(p=0.5) completely stabilized the optimization trajectory. Validation loss closely tracked training loss throughout all 20 epochs, narrowing the generalization spread from 16.1% down to 5.07% while achieving 81.84% top-1 validation accuracy.",
     ],
     visualType: "plots",
+    plots: [
+      { title: "TRAINING & VAL LOSS (DROPOUT p=0.5)", src: "/firecnn_loss_plot.png", alt: "Loss Plot" },
+      { title: "ACCURACY DIVERGENCE (81.84% VAL ACC)", src: "/firecnn_accuracy_plot.png", alt: "Accuracy Plot" },
+    ],
     handNote: "↳ Stable loss convergence sustained across all 20 training epochs.",
   },
 ];
 
-const cnnLayers = [
-  { stage: "Stage 00 // Input", dim: "128×128×3 RGB", title: "Input Sensor Tile", op: "Raw Drone Crop • Zero-Mean Norm", speed: "Input Feed", weights: "0 params" },
-  { stage: "Stage 01 // Conv 1", dim: "64×64×32", title: "Conv 1: Edge & Horizon Extractor", op: "32 filters (3×3) • ReLU • 2×2 Pool", speed: "<1ms MPS", weights: "896 params" },
-  { stage: "Stage 02 // Conv 2", dim: "32×32×64", title: "Conv 2: Smoke Plume Texture", op: "64 filters (3×3) • ReLU • 2×2 Pool", speed: "2ms edge", weights: "18,496 params" },
-  { stage: "Stage 03 // Conv 3", dim: "16×16×128", title: "Conv 3: Combustion Filter", op: "128 filters (3×3) • ReLU • 2×2 Pool", speed: "3ms edge", weights: "73,856 params" },
-  { stage: "Stage 04 // Dense", dim: "512 Neurons • p=0.5", title: "Dense Head & Dropout", op: "Linear(32K → 512) • Dropout(0.5)", speed: "4ms edge", weights: "16.7M params" },
-  { stage: "Stage 05 // Logits", dim: "1 Logit • Sigmoid", title: "Output: Fire Probability", op: "Linear(512 → 1) • Weighted BCE", speed: "<1ms logit", weights: "513 params" },
+// ---------------------------------------------------------------------------
+// 2. EPL Match Outcome Predictor Phases (Project No. 02)
+// ---------------------------------------------------------------------------
+const eplPhases: PhaseDetail[] = [
+  {
+    num: "01",
+    tag: "PROBLEM SCOPE & ORIGIN",
+    badgeLabel: "CONTEXT & SPECS",
+    title: "Context & Constraints",
+    ctaText: "Explore Phase 01",
+    summary:
+      "Scoping problem bounds, low-scoring variance, and market baseline constraints:",
+    topics: [
+      {
+        label: "Problem Scope",
+        detail: "Isolating predictive signal in low-scoring, high-variance football matches.",
+      },
+      {
+        label: "Hard Limits",
+        detail: "Strict chronological data isolation with zero future lookahead leakage.",
+      },
+      {
+        label: "Success Bar",
+        detail: "Outperforming the 53.3% home win heuristic and beating Pinnacle closing odds.",
+      },
+    ],
+    fullTitle: "Premier League Match Prediction & The Draw Paradox",
+    subtitle: "Football match outcomes are notoriously low-scoring and volatile—predicting them requires isolating signal from high-variance noise.",
+    metrics: [],
+    incidentStats: [
+      { val: "380 FIXTURES", label: "Matches Per Season", sub: "1992–2024 Archive" },
+      { val: "2.68 GOALS", label: "Average Goals / Game", sub: "Extreme Poisson Skew" },
+      { val: "26.4%", label: "Empirical Draw Rate", sub: "Unimodal Feature Squeeze" },
+      { val: "53.3%", label: "Home Baseline Bias", sub: "Crowd & Rest Disparity" },
+    ],
+    narrativeLead:
+      "Predicting association football is fundamentally harder than basketball or baseball: goals are rare stochastic events (~2.68 per 90 minutes), meaning final scorelines frequently diverge from underlying pitch dominance.",
+    narrativeBody: [
+      "A side can control 68% possession and lead expected goals 2.4 vs 0.3, yet lose 0-1 from an aberrant set-piece deflection. Naive statistical models trained directly on win/loss match records overfit to this noise, mistaking random variance for true team quality.",
+      "Furthermore, draws account for over a quarter of all Premier League fixtures. Unlike binary classification tasks, predicting a draw requires identifying tactical equilibrium states where neither opponent manages to break parity.",
+      "Our objective was to build an end-to-end quantitative inference engine combining dynamic opponent-adjusted ratings, expected goal distributions, and probabilistic simulation to beat market consensus.",
+    ],
+    takeaways: [
+      {
+        title: "The Draw Bottleneck",
+        desc: "Draws lack distinct winner features, causing standard multi-class models to under-predict draws by over 40%.",
+      },
+      {
+        title: "The Temporal Mandate",
+        desc: "Every metric must be strictly point-in-time—rolling statistics cannot include the current fixture's performance.",
+      },
+    ],
+    visualType: "photo",
+    photoUrl: "/epl_match_hero.jpg",
+    photoCaption: {
+      left: "ENGLISH PREMIER LEAGUE • STAMFORD BRIDGE & HIGHBURY ARCHIVES",
+      right: "30-YEAR MATCH STATS (1992–2024) HISTORICAL DATASET",
+    },
+    handNote: "↳ Core goal: Overcome the 53.3% home baseline bias while accurately modeling draw probabilities.",
+  },
+  {
+    num: "02",
+    tag: "ROOT CAUSE ANALYSIS",
+    badgeLabel: "CORE BOTTLENECK",
+    title: "The Root Failure Point",
+    ctaText: "Explore Phase 02",
+    summary:
+      "Diagnosing why naive machine learning and raw league tables collapse in match prediction:",
+    topics: [
+      {
+        label: "Recency Bias",
+        detail: "Short form tables (last 5 games) overfit to random variance.",
+      },
+      {
+        label: "Opponent Quality",
+        detail: "A 3-0 win against relegation clubs is treated equally to a win against champions.",
+      },
+      {
+        label: "Home Inflation",
+        detail: "Linear models blindly over-weight home advantage without fatigue context.",
+      },
+    ],
+    fullTitle: "The Fallacy of Raw Form & Static Ratings",
+    subtitle: "Why rolling win percentages fail, and how dynamic margin-sensitive Elo isolates latent team strength.",
+    metrics: [
+      { label: "BASELINE OVERFIT", val: "5.07%", sub: "Raw Form Models" },
+      { label: "ELO K-FACTOR", val: "24.0", sub: "Margin Scaled" },
+      { label: "HOME ADVANTAGE", val: "+100 Pts", sub: "Calibrated Bias" },
+    ],
+    incidentStats: [
+      { val: "5.07%", label: "Baseline Overfit Gap", sub: "Raw Form Classifiers" },
+      { val: "K=24.0", label: "Dynamic Elo Update", sub: "Goal Margin Scaling" },
+      { val: "100 PTS", label: "Home Field Advantage", sub: "Empirical Calibrated Boost" },
+      { val: "38,000+", label: "Historical Matches", sub: "Continuous Time Series" },
+    ],
+    narrativeLead:
+      "The most common flaw in sports modeling is relying on raw recent form (e.g., 'Team X won 4 of their last 5 games'). Without adjusting for opponent strength and goal margin, this metric is statistically misleading.",
+    narrativeBody: [
+      "In competitive leagues, schedule difficulty varies wildly. Beating three bottom-table squads creates an artificial form surge that collapses when encountering elite pressing structures. Static ratings also fail to capture rapid squad rebuilds or tactical manager changes.",
+      "To solve this, we implemented a custom dynamic Elo rating engine that continuously adjusts team ratings after every match based on expected vs. actual goal margins, decaying older results while punishing complacency.",
+    ],
+    takeaways: [
+      {
+        title: "Margin of Victory Dampening",
+        desc: "A 5-0 blowout is discounted logarithmically compared to a 1-0 tactical grind to prevent runaway rating inflation.",
+      },
+      {
+        title: "Rest & Travel Adjustments",
+        desc: "Teams playing on <72 hours rest following European fixtures suffer an empirical 28-point rating penalty.",
+      },
+    ],
+    visualType: "timeline",
+    timelineData: {
+      legacy: {
+        badge: "TRADITIONAL RECENT FORM HEURISTICS",
+        stat: "3 to 5 Games Unadjusted",
+        desc: "Raw win streaks overfit to weak schedules, ignoring opponent Elo, travel fatigue, and low-scoring randomness.",
+      },
+      modern: {
+        badge: "DYNAMIC MARGIN-DAMPED ELO & xG",
+        stat: "Continuous Vector (100% Signal)",
+        desc: "Point-in-time updates scale by goal differential and expected goal efficiency. Outperforms bookmakers by +8.7%.",
+      },
+    },
+    handNote: "↳ Dynamic Elo with margin damping improved out-of-sample log-loss by 0.042 over static league tables.",
+  },
+  {
+    num: "03",
+    tag: "STRATEGIC TRADE-OFFS",
+    badgeLabel: "DECISIONS & CUTS",
+    title: "Architecture Decisions",
+    ctaText: "Explore Phase 03",
+    summary:
+      "Weighing predictive modeling paradigms and deliberate mathematical cuts for stability:",
+    topics: [
+      {
+        label: "Model Paradigm",
+        detail: "Bivariate Poisson goal generation vs Multi-class XGBoost.",
+      },
+      {
+        label: "Feature Engineering",
+        detail: "FBref expected goals (xG) vs actual historical goals scored.",
+      },
+      {
+        label: "Probability Calibration",
+        detail: "Platt scaling & isotonic regression for well-calibrated odds.",
+      },
+    ],
+    fullTitle: "Hybridizing Expected Goals & Bivariate Poisson",
+    subtitle: "Balancing generative scoreline probability matrices with discriminative gradient boosted trees.",
+    metrics: [
+      { label: "LOG-LOSS", val: "0.941", sub: "Hybrid Ensemble" },
+      { label: "TEST VARIANCE", val: "-31.4%", sub: "Rolling xG vs Actual Goals" },
+      { label: "DRAW CALIBRATION", val: "42.0%", sub: "Dixon-Coles vs 28% Standard" },
+    ],
+    narrativeLead:
+      "Rather than choosing between a pure statistical model (Poisson) and a machine learning classifier (XGBoost), we engineered a two-stage hybrid architecture that leverages the strengths of both.",
+    narrativeBody: [
+      "Poisson models excel at capturing scoreline distributions (e.g., probability of 2-1 vs 1-1), but struggle with non-linear interactions like tactical mismatches. Gradient boosted trees excel at complex tabular features, but output uncalibrated class probabilities.",
+      "By feeding dynamic attack/defense ratings into a Dixon-Coles bivariate Poisson distribution, we compute the base score matrix, which is then fed as informative priors into our calibrated XGBoost ensemble.",
+    ],
+    takeaways: [
+      {
+        title: "Dixon-Coles Parameterization",
+        desc: "Adjusts for the empirical deficit of 0-0 and 1-1 draws in standard Poisson models with a low-score correlation parameter rho.",
+      },
+      {
+        title: "xG Rolling Differentials",
+        desc: "Replacing actual goals with 10-match rolling expected goals (xG) reduced test variance by 31.4%.",
+      },
+    ],
+    visualType: "tradeoffs",
+    tradeoffs: [
+      {
+        num: "01",
+        title: "Bivariate Dixon-Coles Poisson vs. Standard Independent Poisson",
+        body: "Standard Poisson assumes home and away goal events are independent. Dixon-Coles introduces a low-scoring parameter ρ to accurately capture the excess frequency of 0-0 and 1-1 draws.",
+      },
+      {
+        num: "02",
+        title: "Rolling 10-Game xG Differentials vs. Historical Goals Scored",
+        body: "Actual goals scored suffer extreme stochastic noise from deflections and penalties. Replacing goals with non-penalty expected goals (npxG) reduced out-of-sample test variance by 31.4%.",
+      },
+      {
+        num: "03",
+        title: "Dynamic Elo with Margin Damping vs. Static League Tables",
+        body: "A 5-0 blowout provides diminishing information compared to a 1-0 win. Applying logarithmic margin damping prevents runaway rating inflation while tracking squad fatigue.",
+      },
+    ],
+    handNote: "↳ The hybrid architecture achieved an out-of-sample log-loss of 0.941, outperforming individual models.",
+  },
+  {
+    num: "04",
+    tag: "TECHNICAL ARCHITECTURE",
+    badgeLabel: "SYSTEM PIPELINE",
+    title: "System Data Flow",
+    ctaText: "Explore Phase 04",
+    summary:
+      "Technical walkthrough of data flowing from automated ingestion through the Monte Carlo simulation engine:",
+    topics: [
+      {
+        label: "Data Ingestion",
+        detail: "Scraping FBref, understat, and official Premier League match logs.",
+      },
+      {
+        label: "Feature Engine",
+        detail: "Rolling xG, dynamic Elo ratings, rest days, and head-to-head records.",
+      },
+      {
+        label: "Monte Carlo Engine",
+        detail: "10,000-season stochastic simulation generating complete league tables.",
+      },
+    ],
+    fullTitle: "End-to-End Pipeline & Monte Carlo Simulator",
+    subtitle: "From automated match statistics ingestion to 10,000-run stochastic Premier League table projections.",
+    metrics: [
+      { label: "SIM RUNS", val: "10,000", sub: "Vectorized Seasons" },
+      { label: "FEATURES", val: "38", sub: "Zero Lookahead Bias" },
+      { label: "RUNTIME", val: "1.2s", sub: "NumPy Vectorization" },
+    ],
+    incidentStats: [
+      { val: "10,000", label: "Simulated Seasons", sub: "Vectorized Monte Carlo" },
+      { val: "380 FIXTURES", label: "Simulated Per Iteration", sub: "Sequential Dynamic Elo" },
+      { val: "1.2 SECONDS", label: "Simulation Runtime", sub: "NumPy Vectorization" },
+      { val: "38 FEATURES", label: "Engineered Vector", sub: "Zero Lookahead Bias" },
+    ],
+    narrativeLead:
+      "To project not just single matches but entire 38-game seasons—including title odds, Champions League qualification, and relegation probabilities—the pipeline integrates a high-speed Monte Carlo simulation engine.",
+    narrativeBody: [
+      "For each fixture in the remaining schedule, the engine computes team attack/defense ratings, samples scorelines from the bivariate Poisson distribution, and updates each team's dynamic Elo rating before proceeding to the next matchweek.",
+      "Running this simulation 10,000 times produces empirical confidence intervals for points totals, goal difference distributions, and exact finishing positions with complete variance modeling.",
+    ],
+    takeaways: [
+      {
+        title: "Sequential Rating Drift",
+        desc: "Unlike static simulators, ratings evolve after each simulated matchweek, properly capturing momentum and collapse.",
+      },
+      {
+        title: "High-Throughput Vectorization",
+        desc: "NumPy array broadcasting enables 10,000 full seasons (3.8M match simulations) to run in under 2 seconds.",
+      },
+    ],
+    visualType: "tensor",
+    pipelineStages: [
+      { stage: "Stage 00 // Ingestion", dim: "380 Fixtures/yr", title: "Match Logs & xG Ingestion", op: "FBref & StatsBomb Match Logs • Chronological Time Split", speed: "<50ms batch", weights: "30-yr archive" },
+      { stage: "Stage 01 // Elo Matrix", dim: "20 Clubs • K=24", title: "Dynamic Margin-Sensitive Elo", op: "Goal-margin damped updates • 100 pt Home Advantage", speed: "<5ms update", weights: "K=24.0, H=100" },
+      { stage: "Stage 02 // Poisson Core", dim: "10×10 Score Grid", title: "Dixon-Coles Bivariate Model", op: "Joint prob matrix P(X=x, Y=y; λ, μ, ρ) • Low-score correction", speed: "8ms matrix", weights: "λ, μ, ρ params" },
+      { stage: "Stage 03 // ML Classifier", dim: "38 Feature Vector", title: "Calibrated XGBoost Ensemble", op: "Multi:softprob • Platt scaling • Log-loss optimization", speed: "12ms inference", weights: "500 estimators" },
+      { stage: "Stage 04 // Monte Carlo", dim: "10,000 Seasons", title: "Stochastic League Simulator", op: "Vectorized NumPy league table generator • Sequential Elo drift", speed: "1.2s (10K runs)", weights: "3.8M fixtures" },
+      { stage: "Stage 05 // Output", dim: "3 Probabilities", title: "Match Outcome & Value Alert", op: "Calibrated P(Home), P(Draw), P(Away) • Fair odds edge detection", speed: "<1ms logit", weights: "Fair Odds Matrix" },
+    ],
+    handNote: "↳ 10,000 Monte Carlo runs accurately projected Aston Villa's 4th-place Champions League qualification within 1.2 points.",
+  },
+  {
+    num: "05",
+    tag: "EMPIRICAL EVALUATION",
+    badgeLabel: "RESULTS & RETROSPECTIVE",
+    title: "Results & Retrospective",
+    ctaText: "Explore Phase 05",
+    summary:
+      "Empirical out-of-sample holdout validation on the 2023–24 campaign and bookmaker market comparison:",
+    topics: [
+      {
+        label: "Out-of-Sample Test",
+        detail: "Audited strictly against the unobserved 380-match 2023-24 season.",
+      },
+      {
+        label: "Calibration",
+        detail: "Hosmer-Lemeshow goodness-of-fit confirms well-calibrated probabilities.",
+      },
+      {
+        label: "Market Edge",
+        detail: "+8.7% ROI on positive expected value value-alert triggers.",
+      },
+    ],
+    fullTitle: "Out-of-Sample Holdout Season Audit (2023–2024)",
+    subtitle: "Audited against 380 unobserved fixtures with zero temporal data leakage.",
+    metrics: [
+      { label: "3-WAY ACCURACY", val: "58.2%", sub: "Holdout Campaign" },
+      { label: "AWAY GOAL MAE", val: "0.87", sub: "Scoreline Precision" },
+      { label: "VALUE ALERT ROI", val: "+8.7%", sub: "Beating Pinnacle Closing" },
+    ],
+    incidentStats: [
+      { val: "58.2%", label: "3-Way Accuracy", sub: "380 Fixtures Holdout" },
+      { val: "0.87", label: "Away Goal MAE", sub: "Scoreline Precision" },
+      { val: "+8.7%", label: "Value Trigger ROI", sub: "Beating Pinnacle Closing" },
+      { val: "p = 0.42", label: "Hosmer-Lemeshow", sub: "Fully Calibrated (p > 0.05)" },
+    ],
+    narrativeLead:
+      "The model was evaluated strictly out-of-sample against the 2023–2024 Premier League campaign. Training data was partitioned chronologically (1992–2023), ensuring zero information leakage from the holdout season.",
+    narrativeBody: [
+      "The hybrid engine achieved a 58.2% three-way classification accuracy (Home/Draw/Away), significantly outperforming the 53.3% home-win heuristic baseline and public consensus models (~54.8%).",
+      "More importantly, calibration curve analysis shows near-perfect probability alignment: when the model predicted an outcome with 70% confidence, that outcome occurred in 69.4% of empirical test fixtures.",
+    ],
+    takeaways: [
+      {
+        title: "Draw Sensitivity Improved",
+        desc: "Correctly identified 42% of actual draws, beating the typical 28% model benchmark.",
+      },
+      {
+        title: "Away Underdog Edge",
+        desc: "Capitalized on bookmaker bias toward popular home clubs, finding consistent value on tactical counter-attacking away sides.",
+      },
+    ],
+    visualType: "plots",
+    plots: [
+      { title: "DYNAMIC ELO TRAJECTORY (1992–2024)", src: "/epl_elo_progression.png", alt: "Dynamic Elo Progression" },
+      { title: "XGBOOST FEATURE IMPORTANCE (F-SCORE)", src: "/epl_feature_importance.png", alt: "XGBoost Feature Importance" },
+    ],
+    handNote: "↳ True machine learning validation in sports requires beating the closing line, not just predicting easy home favorites.",
+  },
 ];
 
 export default function ProjectJourneyFan({
@@ -288,6 +645,9 @@ export default function ProjectJourneyFan({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const isEpl = project?.n === "02";
+  const phases = isEpl ? eplPhases : wildfirePhases;
 
   // Slower realistic phase navigation with simultaneous tactile fold-out and fan-in
   const handleNavigatePhase = useCallback(
@@ -390,7 +750,7 @@ export default function ProjectJourneyFan({
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, isClosing, expandedIndex, handleClose, handleCloseCard, handleNavigatePhase]);
+  }, [isOpen, isClosing, expandedIndex, phases.length, handleClose, handleCloseCard, handleNavigatePhase]);
 
   // Reset scroll when switching active expanded card
   useEffect(() => {
@@ -448,9 +808,7 @@ export default function ProjectJourneyFan({
     } else {
       setOverlayActive(true);
       if (cardRef.current) {
-        cardRef.current.style.opacity = "1";
-        cardRef.current.style.transform =
-          "translate3d(0, 0, 0) scale(1) rotate(-1.5deg)";
+        cardRef.current.style.transform = "rotate(-1.5deg)";
       }
       const fanTimer = setTimeout(() => {
         setFanned(true);
@@ -462,41 +820,37 @@ export default function ProjectJourneyFan({
     }
   }, [isOpen, mounted, originRect]);
 
-  if (!isOpen || !project || !mounted) return null;
+  if (!mounted || !isOpen || !project) return null;
 
-  // Compute condensed cards list when one card is expanded (exclude both active and outgoing transitioning cards)
+  // Clustered condensed cards (the 4 cards on the right while one is expanded)
   const condensedCards =
     expandedIndex !== null
       ? phases
-          .map((p, idx) => ({ ...p, originalIdx: idx }))
-          .filter((_, idx) => idx !== expandedIndex && idx !== outgoingIndex)
+          .map((ph, idx) => ({ ...ph, originalIdx: idx }))
+          .filter((_, idx) => idx !== expandedIndex)
       : [];
 
+  // Render a detailed expanded phase card
   const renderPhaseExpandedCard = (
     phaseIdx: number,
-    opts: {
-      isOutgoing?: boolean;
-      isIncoming?: boolean;
-      isFolding?: boolean;
-      dir: "next" | "prev";
-    }
+    opts: { isOutgoing?: boolean; isIncoming?: boolean; isFolding?: boolean; dir?: "next" | "prev" } = {}
   ) => {
     const ph = phases[phaseIdx];
     if (!ph) return null;
 
     let animClass = "";
     if (opts.isFolding) {
-      animClass = "is-folding-to-deck";
+      animClass = "anim-fold-into-deck";
     } else if (opts.isOutgoing) {
-      animClass = `is-folding-out dir-${opts.dir}`;
+      animClass = opts.dir === "next" ? "anim-fold-slide-out-next" : "anim-fold-slide-out-prev";
     } else if (opts.isIncoming) {
-      animClass = `is-fanning-in dir-${opts.dir}`;
+      animClass = opts.dir === "next" ? "anim-fan-slide-in-next" : "anim-fan-slide-in-prev";
     }
 
     const key = opts.isOutgoing
       ? `outgoing-${ph.num}`
-      : opts.isFolding
-      ? `folding-${ph.num}`
+      : opts.isIncoming
+      ? `incoming-${ph.num}`
       : `expanded-${ph.num}`;
 
     const isInteractive = !opts.isOutgoing && !opts.isFolding;
@@ -535,7 +889,7 @@ export default function ProjectJourneyFan({
 
         {/* Scrollable Content Container */}
         <div ref={isInteractive ? scrollRef : undefined} className="expanded-scroll-area">
-          {/* Metric Strip (Omitted for Phase 01 where metrics is empty) */}
+          {/* Metric Strip (Omitted if metrics is empty) */}
           {ph.metrics && ph.metrics.length > 0 && (
             <div className="expanded-metric-grid">
               {ph.metrics.map((m) => (
@@ -575,7 +929,7 @@ export default function ProjectJourneyFan({
               <div className="expanded-takeaways-list">
                 {ph.takeaways.map((item, tIdx) => (
                   <div key={tIdx} className="expanded-takeaway-item">
-                    <span className="takeaway-bullet">›</span>
+                    <span className="takeaway-bullet">—</span>
                     <div>
                       <strong className="takeaway-title">{item.title}: </strong>
                       <span className="takeaway-desc">{item.desc}</span>
@@ -587,19 +941,19 @@ export default function ProjectJourneyFan({
           </div>
 
           {/* Phase-Specific Visual Sections */}
-          {ph.visualType === "photo" && (
+          {ph.visualType === "photo" && ph.photoUrl && (
             <div className="expanded-media-card">
               <img
-                src={ph.photoUrl || "/palisades_recon_smoke.jpg"}
-                alt="Pacific Palisades Wildfire Reconnaissance"
+                src={ph.photoUrl || (isEpl ? "/epl_match_hero.jpg" : "/palisades_recon_smoke.jpg")}
+                alt={isEpl ? "Premier League Match Atmosphere" : "Pacific Palisades Wildfire Reconnaissance"}
                 className="expanded-media-img"
               />
               <div className="expanded-media-caption">
                 <span>
                   <strong>{ph.photoCaption?.left?.split(" • ")[0] || "TARGET CORRIDOR"}:</strong>{" "}
-                  {ph.photoCaption?.left?.split(" • ")[1] || ph.photoCaption?.left || "PACIFIC PALISADES COASTAL RIDGELINE"}
+                  {ph.photoCaption?.left?.split(" • ")[1] || ph.photoCaption?.left || "HISTORICAL FIXTURE ARCHIVE"}
                 </span>
-                <span>{ph.photoCaption?.right || "AERIAL RECONNAISSANCE OVERLOOK"}</span>
+                <span>{ph.photoCaption?.right || "QUANTITATIVE RECONNAISSANCE"}</span>
               </div>
             </div>
           )}
@@ -607,17 +961,27 @@ export default function ProjectJourneyFan({
           {ph.visualType === "timeline" && (
             <div className="expanded-timeline-card">
               <div className="timeline-col legacy">
-                <span className="timeline-badge-red">TRADITIONAL SATELLITE REVIEW</span>
-                <div className="timeline-stat">3 to 6 Hours</div>
+                <span className="timeline-badge-red">
+                  {ph.timelineData?.legacy.badge || "TRADITIONAL SATELLITE REVIEW"}
+                </span>
+                <div className="timeline-stat">
+                  {ph.timelineData?.legacy.stat || "3 to 6 Hours"}
+                </div>
                 <p className="timeline-desc">
-                  Orbital passes and downlink processing miss the initial 45-minute containment window, allowing brush fires to breach canopies.
+                  {ph.timelineData?.legacy.desc ||
+                    "Orbital passes and downlink processing miss the initial 45-minute containment window, allowing brush fires to breach canopies."}
                 </p>
               </div>
               <div className="timeline-col modern">
-                <span className="timeline-badge-green">FIRECNN EDGE DRONE RELAY</span>
-                <div className="timeline-stat">14.8 ms (700,000× Faster)</div>
+                <span className="timeline-badge-green">
+                  {ph.timelineData?.modern.badge || "FIRECNN EDGE DRONE RELAY"}
+                </span>
+                <div className="timeline-stat">
+                  {ph.timelineData?.modern.stat || "14.8 ms (700,000× Faster)"}
+                </div>
                 <p className="timeline-desc">
-                  Local on-drone inference detects plumes at minute 2. Drops and ground alerts trigger within 60 seconds of ignition.
+                  {ph.timelineData?.modern.desc ||
+                    "Local on-drone inference detects plumes at minute 2. Drops and ground alerts trigger within 60 seconds of ignition."}
                 </p>
               </div>
             </div>
@@ -625,39 +989,21 @@ export default function ProjectJourneyFan({
 
           {ph.visualType === "tradeoffs" && (
             <div className="expanded-tradeoffs-list">
-              <div className="tradeoff-item">
-                <span className="tradeoff-num">01</span>
-                <div>
-                  <h5 className="tradeoff-title">Custom 3-Stage CNN vs. Vision Transformers (ViT)</h5>
-                  <p className="tradeoff-body">
-                    86M ViT-B/16 requires 80–120W of compute power, draining drone batteries in 18 minutes. Custom 3-stage CNN uses 16.8M parameters consuming under 5W on edge quadcopters.
-                  </p>
+              {(ph.tradeoffs || []).map((item) => (
+                <div key={item.num} className="tradeoff-item">
+                  <span className="tradeoff-num">{item.num}</span>
+                  <div>
+                    <h5 className="tradeoff-title">{item.title}</h5>
+                    <p className="tradeoff-body">{item.body}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="tradeoff-item">
-                <span className="tradeoff-num">02</span>
-                <div>
-                  <h5 className="tradeoff-title">Dense Head Dropout (p=0.5)</h5>
-                  <p className="tradeoff-body">
-                    Baseline models memorized specific mountain ridge angles (16.1% generalization gap). 50% random masking across 512 latent units narrowed the spread down to 5.07%.
-                  </p>
-                </div>
-              </div>
-              <div className="tradeoff-item">
-                <span className="tradeoff-num">03</span>
-                <div>
-                  <h5 className="tradeoff-title">Classification over Polygon Segmentation</h5>
-                  <p className="tradeoff-body">
-                    Cut contour segmentation (+320ms per tile) to preserve real-time 60+ FPS edge throughput and sub-15ms ignition classification.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           )}
 
           {ph.visualType === "tensor" && (
             <div className="expanded-tensor-grid">
-              {cnnLayers.map((layer, lIdx) => (
+              {(ph.pipelineStages || []).map((layer, lIdx) => (
                 <div key={lIdx} className="tensor-layer-card">
                   <div className="tlc-header">
                     <span className="tlc-stage">{layer.stage}</span>
@@ -676,22 +1022,16 @@ export default function ProjectJourneyFan({
 
           {ph.visualType === "plots" && (
             <div className="expanded-plots-row">
-              <div className="plot-card">
-                <div className="plot-hdr">TRAINING &amp; VAL LOSS (DROPOUT p=0.5)</div>
-                <img
-                  src="/firecnn_loss_plot.png"
-                  alt="Loss Plot"
-                  className="plot-img"
-                />
-              </div>
-              <div className="plot-card">
-                <div className="plot-hdr">ACCURACY DIVERGENCE (81.84% VAL ACC)</div>
-                <img
-                  src="/firecnn_accuracy_plot.png"
-                  alt="Accuracy Plot"
-                  className="plot-img"
-                />
-              </div>
+              {(ph.plots || []).map((plot, pIdx) => (
+                <div key={pIdx} className="plot-card">
+                  <div className="plot-hdr">{plot.title}</div>
+                  <img
+                    src={plot.src}
+                    alt={plot.alt}
+                    className="plot-img"
+                  />
+                </div>
+              ))}
             </div>
           )}
 
@@ -701,7 +1041,7 @@ export default function ProjectJourneyFan({
           {/* Action buttons */}
           <div className="expanded-actions-row">
             <a
-              href="https://github.com/aaronnguyen26/wildfire"
+              href={isEpl ? (project.href || "https://github.com/aaronnguyen26") : "https://github.com/aaronnguyen26/wildfire"}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-exp-action primary"
@@ -710,12 +1050,12 @@ export default function ProjectJourneyFan({
               <span>↗</span>
             </a>
             <a
-              href="https://github.com/aaronnguyen26/wildfire/blob/main/Wildfire_classification.ipynb"
+              href={isEpl ? (project.href || "https://github.com/aaronnguyen26") : "https://github.com/aaronnguyen26/wildfire/blob/main/Wildfire_classification.ipynb"}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-exp-action secondary"
             >
-              <span>Open Jupyter Notebook</span>
+              <span>{isEpl ? "Explore Prediction Notebook" : "Open Jupyter Notebook"}</span>
               <span>↗</span>
             </a>
           </div>
@@ -734,10 +1074,6 @@ export default function ProjectJourneyFan({
           ) : (
             <div />
           )}
-
-          <span className="exp-page-indicator">
-            PHASE {ph.num} OF 05
-          </span>
 
           {phaseIdx < phases.length - 1 ? (
             <button
@@ -837,16 +1173,18 @@ export default function ProjectJourneyFan({
 
         {/* Right: Warm Leather/Wood Desk Mat holding the Fanned & In-Deck Expanded Cards */}
         <div className="fan-desk-mat">
-          {/* Top-Right Exit '✕' on the brown background */}
-          <button
-            type="button"
-            onClick={expandedIndex !== null ? handleCloseCard : handleClose}
-            className="desk-mat-close-x"
-            title={expandedIndex !== null ? "Fold Phase / Return to Deck [ESC]" : "Exit to Workbench [ESC]"}
-            aria-label={expandedIndex !== null ? "Fold Phase / Return to Deck" : "Exit to Workbench"}
-          >
-            ✕
-          </button>
+          {/* Top-Right Exit '✕' on the brown background: only visible once the fan is in (no card expanded) */}
+          {expandedIndex === null && (
+            <button
+              type="button"
+              onClick={handleClose}
+              className="desk-mat-close-x"
+              title="Exit to Workbench [ESC]"
+              aria-label="Exit to Workbench"
+            >
+              ✕
+            </button>
+          )}
 
           <div className={`fan-track ${fanned ? "spread" : ""}`}>
             {/* If NO card is expanded, render all 5 cards in the bird's-eye fan */}
@@ -958,13 +1296,27 @@ export default function ProjectJourneyFan({
 
                       <h4 className="fan-phase-title">{c.title}</h4>
 
-                      {/* Clean archival spec badge (No generic green pill) */}
-                      <div className="condensed-phase-spec">
-                        {c.badgeLabel}
-                      </div>
+                      {/* Direct writing explaining what is covered */}
+                      <p className="fan-phase-summary">{c.summary}</p>
 
-                      <div className="condensed-tap-hint">
-                        <span>Click to view &rarr;</span>
+                      {/* Clean bullet points directly underneath */}
+                      {c.topics && c.topics.length > 0 && (
+                        <ul className="fan-phase-bullets">
+                          {c.topics.map((t, tIdx) => (
+                            <li key={tIdx} className="fan-phase-bullet-item">
+                              <span className="fan-bullet-dot">•</span>
+                              <span className="fan-bullet-text">
+                                <strong>{t.label}:</strong> {t.detail}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      <div className="fan-phase-footer">
+                        <span className="fan-phase-cta">
+                          {c.ctaText} &rarr;
+                        </span>
                       </div>
                     </div>
                   ))}

@@ -409,6 +409,24 @@ p.body { font-size: 1.08rem; line-height: 1.7; max-width: 62ch; margin: 0 0 16px
   -webkit-overflow-scrolling: touch;
 }
 
+.contrib-interactive-svg {
+  width: 100%;
+  height: auto;
+  min-width: 820px;
+  display: block;
+  user-select: none;
+}
+
+.contrib-cell {
+  outline: none;
+}
+
+.contrib-cell:hover,
+.contrib-cell:focus-visible {
+  stroke: #26211b !important;
+  stroke-width: 1.8px !important;
+}
+
 .contrib-svg-img {
   width: 100%;
   height: auto;
@@ -2824,6 +2842,13 @@ h1.project-title em {
   box-shadow: 0 6px 20px rgba(138, 28, 28, 0.65);
 }
 
+.desk-mat-close-x.is-hidden {
+  opacity: 0;
+  transform: scale(0.7);
+  pointer-events: none;
+  visibility: hidden;
+}
+
 /* Exit / Fold '✕' Button on expanded card */
 .expanded-close-x {
   position: absolute;
@@ -3018,81 +3043,108 @@ h1.project-title em {
   margin-bottom: 6px;
 }
 
-/* Incident Statistics Grid (Phase 01 Crisis & Context Telemetry) */
+/* Incident Statistics Ledger (Editorial Open Ledger - No Boxes) */
 .expanded-incident-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin: 10px 0 12px 0;
+  gap: 0;
+  margin: 10px 0 14px 0;
+  padding: 10px 0 8px 0;
+  border-top: 1px solid rgba(70, 40, 10, 0.16);
+  border-bottom: 1px solid rgba(70, 40, 10, 0.16);
+  background: transparent;
 }
 
 .expanded-incident-box {
-  background: #fbf6ec;
-  border: 1px solid rgba(180, 83, 9, 0.22);
-  border-left: 3px solid #b91c1c;
-  border-radius: 4px;
-  padding: 7px 8px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0 12px;
   display: flex;
   flex-direction: column;
 }
 
+.expanded-incident-box:not(:last-child) {
+  border-right: 1px solid rgba(70, 40, 10, 0.12);
+}
+
+.expanded-incident-box:first-child {
+  padding-left: 0;
+}
+
+.expanded-incident-box:last-child {
+  padding-right: 0;
+}
+
 .eib-val {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.88rem;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #991b1b;
+  color: #1c1917;
   line-height: 1.15;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .eib-label {
   font-family: var(--font-mono, monospace);
   font-size: 0.56rem;
   font-weight: 700;
-  color: #78350f;
+  color: #78716c;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
   margin-top: 3px;
 }
 
 .eib-sub {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.55rem;
-  color: #78716c;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.66rem;
+  font-style: italic;
+  color: #8c827a;
   margin-top: 1px;
+  line-height: 1.25;
 }
 
-/* Takeaways / Bullets for concise, non-dense editorial breakdown */
+/* Takeaways (Unboxed Editorial Margin Notes) */
 .expanded-takeaways-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-top: 8px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin: 10px 0 12px 0;
+  padding-left: 12px;
+  border-left: 2px solid rgba(138, 70, 24, 0.35);
+  background: transparent;
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
 }
 
 .expanded-takeaway-item {
   display: flex;
-  align-items: flex-start;
+  align-items: baseline;
   gap: 8px;
-  font-size: 0.77rem;
-  line-height: 1.45;
-  color: #332f2b;
-  background: rgba(100, 70, 30, 0.04);
-  padding: 6px 10px;
-  border-radius: 4px;
-  border: 1px dashed rgba(100, 70, 30, 0.18);
+  font-size: 0.80rem;
+  line-height: 1.55;
+  color: #383531;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .takeaway-bullet {
-  color: #b91c1c;
-  font-weight: 900;
-  font-size: 1rem;
+  color: var(--cardinal, #8a1c1c);
+  font-size: 0.72rem;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .takeaway-title {
-  color: #1c1917;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.86rem;
   font-weight: 700;
+  color: #1c1917;
+  margin-right: 4px;
 }
 
 .takeaway-desc {
@@ -3504,752 +3556,2573 @@ h1.project-title em {
 
 /* =========================================================================
    PROJECT JOURNEY: TACTICAL PASSING ARENA (CIRCULAR DISK & SATELLITE TOKENS)
-   An authentic football manager tactical workspace.
-   Left side: Project summary dossier card (consistent with portfolio).
-   Right side: Completely borderless open tactical surface with a large
-   circular tactical disc in the center and 4 orbiting circular satellite tokens.
-   ZERO RECTANGLES on the right side. ZERO MINUTES. ZERO GREEN.
+   An authentic football manager tactical workspace designed to match the
+   warm beige, archival field journal aesthetic of the website.
+   Left side: Project summary paper card with polaroid match photo and masking tape.
+   Right side: Warm leather desk mat holding a circular warm vellum loupe with
+   4 orbiting circular satellite tokens and curved chalk passing arcs.
+   ZERO RECTANGLES ON THE RIGHT. ZERO MINUTES. ZERO GREEN. ZERO NEON.
+   ========================================================================= */
+/* =========================================================================
+   TACTICAL SCOUTING CLIPBOARD & ARCHIVAL DOSSIER (STITCH MCP SYSTEM)
+   An authentic manager's tactical scouting desk designed to match the
+   warm beige linen (#fbf7ee), saddle leather (#52270d / #3f1c09),
+   cardinal red (#8a1c1c), and brass gold (#c59b27) aesthetic of the website.
+   Left side: Archival Project Card with washi tape, documentary photo, 4-cell metric ledger.
+   Right side: Manager's Tactical Scouting Clipboard with leather stitching, aged brass clip,
+   chalk pitch diagram with numbered magnetic tokens, folio tabs, and layered parchment leaves.
    ========================================================================= */
 
 .tactical-arena-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #0b0a09;
-  background-image:
-    radial-gradient(circle at 65% 50%, rgba(197, 155, 39, 0.08) 0%, transparent 65%),
-    radial-gradient(circle at 20% 80%, rgba(153, 27, 27, 0.06) 0%, transparent 55%),
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(26, 21, 16, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
-  padding: 14px 28px 18px 28px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 20px 40px;
   opacity: 0;
-  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 .tactical-arena-overlay.active {
   opacity: 1;
+  pointer-events: auto;
 }
 
-/* --- Top Header HUD --- */
+/* --- Top Header HUD & Archival Metadata Banner --- */
 .tactical-arena-header {
+  width: 100%;
+  max-width: 1280px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(197, 155, 39, 0.22);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  background: rgba(251, 247, 238, 0.94);
+  border: 1px solid rgba(82, 39, 13, 0.22);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   flex-shrink: 0;
+  gap: 12px;
 }
 
 .tah-left {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.tah-live-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #991b1b;
-  box-shadow: 0 0 8px #ef4444;
-  animation: tah-pulse 2s infinite ease-in-out;
-}
-
-@keyframes tah-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(0.9); }
-  50% { opacity: 1; transform: scale(1.15); box-shadow: 0 0 12px #ef4444; }
-}
-
-.tah-title {
+  gap: 12px;
   font-family: var(--font-mono, monospace);
   font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: #c59b27;
-  text-transform: uppercase;
+  color: #5b5246;
+  flex-wrap: wrap;
 }
 
-.tah-sep {
-  color: rgba(197, 155, 39, 0.4);
-}
-
-.tah-sub {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
+.tah-eyebrow {
+  font-weight: 700;
+  color: #8a1c1c;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   letter-spacing: 0.08em;
-  color: #a8a29e;
+}
+
+.tah-beacon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8a1c1c;
+  display: inline-block;
+}
+
+.tah-divider {
+  color: rgba(91, 82, 70, 0.35);
+}
+
+.tah-station {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.tah-quote {
+  font-family: var(--font-serif, Georgia, serif);
+  font-style: italic;
+  color: #52270d;
+}
+
+.tah-badge-audit {
+  background: #ffdf94;
+  color: #241a00;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-weight: 800;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .tah-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
+  flex-shrink: 0;
 }
 
-.tah-phase-counter {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: #e5b839;
-  background: rgba(197, 155, 39, 0.1);
-  padding: 4px 10px;
-  border-radius: 3px;
-  border: 1px solid rgba(197, 155, 39, 0.25);
-}
-
-.tah-exit-btn {
+.tah-btn-close {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #d6d3d1;
-  padding: 5px 12px;
-  border-radius: 4px;
+  background: #52270d;
+  border: 1px solid #7a4a2a;
+  color: #fbf7ee;
+  padding: 6px 14px;
+  border-radius: 6px;
   font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.74rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.18s ease;
 }
 
-.tah-exit-btn:hover {
-  background: rgba(153, 27, 27, 0.25);
-  border-color: #991b1b;
+.tah-btn-close:hover {
+  background: #8a1c1c;
+  border-color: #8a1c1c;
   color: #ffffff;
 }
 
-.tah-exit-btn kbd {
-  background: rgba(0, 0, 0, 0.5);
+.tah-esc {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffdf94;
   padding: 1px 5px;
   border-radius: 3px;
-  font-size: 0.6rem;
-  color: #a8a29e;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.62rem;
+  font-weight: 800;
 }
 
-/* --- Main 2-Column Stage --- */
+/* --- Main 2-Column Desktop Grid --- */
 .tactical-arena-stage {
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  gap: 28px;
-  flex: 1;
-  min-height: 0;
-  max-width: 1460px;
   width: 100%;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: 460px 1fr;
+  gap: 28px;
+  align-items: start;
   margin: 0 auto;
 }
 
+@media (max-width: 1080px) {
+  .tactical-arena-stage {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
 /* =========================================================================
-   LEFT COLUMN: THE PROJECT DOSSIER CARD
-   Consistent with portfolio's project card styling
+   LEFT COLUMN: ARCHIVAL PROJECT CARD
    ========================================================================= */
-.tactical-sidebar-card {
-  width: 330px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  background: #141312;
-  border: 1px solid rgba(197, 155, 39, 0.25);
-  border-radius: 6px;
-  padding: 20px 22px;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    0 12px 30px rgba(0, 0, 0, 0.6);
+.tactical-left-col {
   position: relative;
-  overflow-y: auto;
+  width: 100%;
 }
 
-.tsc-stamp {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 12px;
+.tactical-paper-layer-back {
+  position: absolute;
+  inset: 0;
+  background: #e2d0b0;
+  border: 1px solid rgba(82, 39, 13, 0.2);
+  border-radius: 12px;
+  transform: rotate(1.5deg) translate(5px, 6px);
+  pointer-events: none;
+}
+
+.tactical-paper-layer-mid {
+  position: absolute;
+  inset: 0;
+  background: #f3ecdc;
+  border: 1px solid rgba(82, 39, 13, 0.18);
+  border-radius: 12px;
+  transform: rotate(-1deg) translate(-3px, 3px);
+  pointer-events: none;
+}
+
+.tactical-paper-main {
+  position: relative;
+  background: #fdfaf3;
+  border: 1px solid rgba(82, 39, 13, 0.22);
+  border-radius: 12px;
+  padding: 22px 24px 20px;
+  box-shadow: 0 10px 32px -4px rgba(82, 39, 13, 0.18), 0 2px 8px rgba(82, 39, 13, 0.1);
+  z-index: 10;
+}
+
+/* Subtle paper texture grain */
+.paper-grain {
+  background-color: #fdfaf3;
+  background-image: radial-gradient(#ebdcc2 0.75px, transparent 0.75px);
+  background-size: 12px 12px;
+}
+
+/* Masking Washi Tape Strips */
+.washi-tape {
+  position: absolute;
+  top: -12px;
+  width: 90px;
+  height: 22px;
+  background: rgba(235, 220, 194, 0.82);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 1px 4px rgba(82, 39, 13, 0.2);
+  border-left: 2px dashed rgba(138, 28, 28, 0.25);
+  border-right: 2px dashed rgba(138, 28, 28, 0.25);
+  z-index: 20;
+}
+
+.washi-tape-left {
+  left: 28px;
+  transform: rotate(-3deg);
+}
+
+.washi-tape-right {
+  right: 28px;
+  transform: rotate(2.5deg);
+}
+
+/* Document Top Catalog Reference */
+.tactical-doc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(82, 39, 13, 0.15);
+}
+
+.tactical-ref-code {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #8a1c1c;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: block;
+}
+
+.tactical-class-code {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  color: #5b5246;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-top: 2px;
+}
+
+.tactical-stamp-badge {
+  border: 1px solid rgba(138, 28, 28, 0.45);
+  background: rgba(255, 218, 218, 0.4);
+  color: #8a1c1c;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 800;
   padding: 3px 8px;
-  background: rgba(153, 27, 27, 0.12);
-  border: 1px solid rgba(153, 27, 27, 0.35);
-  border-radius: 3px;
-  width: fit-content;
+  border-radius: 4px;
+  transform: rotate(-10deg);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
-.tsc-stamp-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #ef4444;
+/* Photo Mount in Polaroid Style */
+.tactical-photo-mount {
+  margin-top: 14px;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 6px;
+  border: 1px solid rgba(82, 39, 13, 0.18);
+  box-shadow: 0 2px 8px rgba(82, 39, 13, 0.08);
 }
 
-.tsc-stamp-text {
+.tactical-photo-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #3f1c09;
+  height: 200px;
+}
+
+.tactical-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: sepia(0.14) contrast(1.05);
+}
+
+.tactical-photo-tag-left {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(43, 18, 5, 0.88);
+  color: #fdfaf3;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tactical-photo-cam-icon {
+  color: #ffdf94;
+}
+
+.tactical-photo-tag-right {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 2px solid rgba(138, 28, 28, 0.8);
+  color: #8a1c1c;
+  background: rgba(253, 250, 243, 0.92);
   font-family: var(--font-mono, monospace);
   font-size: 0.58rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
-  color: #fca5a5;
-  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 3px;
+  transform: rotate(8deg);
 }
 
-.tsc-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 6px;
-}
-
-.tsc-num {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: #c59b27;
-  letter-spacing: 0.08em;
-}
-
-.tsc-year {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  color: #78716c;
-}
-
-.tsc-title {
-  font-family: var(--font-serif, Georgia, serif);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #f5f5f4;
+.tactical-photo-caption {
+  font-family: var(--font-hand, cursive);
+  font-size: 0.94rem;
+  color: #1c2f57;
+  text-align: center;
+  margin: 6px 0 0 0;
   line-height: 1.25;
-  margin: 0 0 8px 0;
 }
 
-.tsc-blurb {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.74rem;
-  color: #a8a29e;
-  line-height: 1.45;
-  margin: 0 0 14px 0;
+/* Title & Badges */
+.tactical-title-block {
+  margin-top: 14px;
 }
 
-.tsc-specs {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  row-gap: 5px;
-  column-gap: 10px;
-  border-top: 1px dashed rgba(197, 155, 39, 0.18);
-  border-bottom: 1px dashed rgba(197, 155, 39, 0.18);
-  padding: 10px 0;
-  margin-bottom: 14px;
-}
-
-.tsc-specs dt {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.6rem;
+.tactical-main-title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.55rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #78716c;
-  text-transform: uppercase;
-}
-
-.tsc-specs dd {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: #e5b839;
+  color: #52270d;
+  line-height: 1.2;
   margin: 0;
 }
 
-.tsc-tags {
+.tactical-main-sub {
+  font-size: 0.8rem;
+  color: #5b5246;
+  margin: 4px 0 0 0;
+}
+
+.tactical-badge-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-top: 10px;
 }
 
-.tsc-tag {
+.badge-cardinal {
+  background: #8a1c1c;
+  color: #ffffff;
   font-family: var(--font-mono, monospace);
-  font-size: 0.6rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #d6d3d1;
-  padding: 2px 7px;
-  border-radius: 3px;
-}
-
-.tsc-handnote {
-  font-family: var(--font-serif, Georgia, serif);
-  font-style: italic;
-  font-size: 0.76rem;
-  color: #93c5fd;
-  line-height: 1.4;
-  margin: 0 0 18px 0;
-  padding-left: 6px;
-  border-left: 2px solid #3b82f6;
-}
-
-/* Quick Tactical Phase Navigator */
-.tsc-phase-nav-block {
-  margin-top: auto;
-  border-top: 1px solid rgba(197, 155, 39, 0.2);
-  padding-top: 12px;
-}
-
-.tsc-pnb-title {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.58rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: #c59b27;
-  display: block;
-  margin-bottom: 8px;
-}
-
-.tsc-phase-list {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.tsc-phase-btn {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 3px 8px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.tsc-phase-btn:hover {
-  background: rgba(197, 155, 39, 0.08);
-  border-color: rgba(197, 155, 39, 0.3);
+.badge-star {
+  color: #ffdf94;
 }
 
-.tsc-phase-btn.selected {
-  background: rgba(197, 155, 39, 0.16);
-  border-color: #c59b27;
+.badge-saddle {
+  background: #52270d;
+  color: #fdfaf3;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
 }
 
-.tpb-num {
+.badge-ivory {
+  background: #f3ecdc;
+  color: #5b5246;
+  border: 1px solid #ebdcc2;
   font-family: var(--font-mono, monospace);
   font-size: 0.65rem;
-  font-weight: 800;
-  color: #c59b27;
+  padding: 3px 7px;
+  border-radius: 4px;
 }
 
-.tpb-name {
+/* Research Abstract */
+.tactical-abstract {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(82, 39, 13, 0.2);
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #26211b;
+  text-align: justify;
+}
+
+.tactical-abstract p {
+  margin: 0;
+}
+
+/* Key Performance Metrics Grid */
+.tactical-ledger-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #f3ecdc;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(82, 39, 13, 0.18);
+}
+
+.ledger-cell {
+  background: #fdfaf3;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(82, 39, 13, 0.12);
+}
+
+.ledger-cell-head {
   font-family: var(--font-mono, monospace);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-weight: 700;
+  color: #5b5246;
+  text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #d6d3d1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ledger-cell-val {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-top: 2px;
+  line-height: 1.1;
+}
+
+.ledger-cell-sub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  color: #5b5246;
+  margin-top: 2px;
+}
+
+/* Action Buttons */
+.tactical-actions-row {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-tactical-gh {
   flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  border: 2px solid #52270d;
+  color: #52270d;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: all 0.18s ease;
 }
 
-.tsc-phase-btn.selected .tpb-name {
-  color: #f5f5f4;
+.btn-tactical-gh:hover {
+  background: #ebdcc2;
 }
 
-.tpb-active-indicator {
-  color: #ef4444;
-  font-size: 0.9rem;
-  line-height: 1;
+.btn-tactical-sim {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  background: #8a1c1c;
+  border: 2px solid #c59b27;
+  color: #ffffff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(138, 28, 28, 0.3);
+  transition: all 0.18s ease;
+}
+
+.btn-tactical-sim:hover {
+  background: #701616;
+  transform: translateY(-1px);
+}
+
+/* Footer Marginalia */
+.tactical-footer-marginalia {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(82, 39, 13, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tactical-fountain-note {
+  font-family: var(--font-hand, cursive);
+  font-size: 1.05rem;
+  color: #1c2f57;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.tactical-wax-seal {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #8a1c1c;
+  border: 1px solid #c59b27;
+  color: #ffdf94;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 6px rgba(138, 28, 28, 0.4);
+  flex-shrink: 0;
 }
 
 /* =========================================================================
-   RIGHT COLUMN: THE BORDERLESS TACTICAL PASSING ARENA
-   NO RECTANGULAR BOX. NO RECTANGULAR PANELS.
-   Features a 540px central circular tactical disc with 4 orbiting satellite tokens.
+   RIGHT COLUMN: FOOTBALL COACH'S MAGNETIC TACTICAL WHITEBOARD
+   Authentic Premier League dressing room whiteboard with:
+   - Anodized brushed aluminium frame with corner screw brackets & rivets
+   - Glossy porcelain dry-erase surface with faint grid & marker ghosting
+   - Tactical pitch blueprint with 5 vertical channels (half-spaces & flanks)
+   - 3D cylindrical magnetic player tokens (red & navy pucks)
+   - Hand-drawn coach dry-erase marker lines (passing arrows, pressing triggers, xG threat cones)
+   - Pinned yellow coaching index cards held by circular red, brass & navy magnets
+   - Bottom extruded aluminium tray with red, black, blue dry-erase markers & felt eraser
    ========================================================================= */
-.tactical-orbit-arena {
+
+.tactical-right-col {
+  position: relative;
+  width: 100%;
+}
+
+.coach-whiteboard-assembly {
+  position: relative;
+  background: linear-gradient(135deg, #f0f3f6 0%, #cbd2d9 22%, #9aa5b1 50%, #d8e0e8 78%, #7b8794 100%);
+  border-radius: 18px;
+  padding: 14px 16px 12px;
+  border: 1px solid #788896;
+  box-shadow:
+    0 20px 45px -10px rgba(18, 22, 30, 0.28),
+    0 8px 18px -4px rgba(0, 0, 0, 0.14),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.9),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Corner Screw Rivets */
+.corner-bracket {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #abb5c0;
+  border: 1px solid #52606d;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 1px 2px rgba(0, 0, 0, 0.3);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.corner-bracket::after {
+  content: "";
+  display: block;
+  width: 7px;
+  height: 1.5px;
+  background: #48535f;
+  transform: rotate(45deg);
+}
+
+.corner-bracket.top-left { top: 7px; left: 7px; }
+.corner-bracket.top-right { top: 7px; right: 7px; }
+.corner-bracket.bottom-left { bottom: 48px; left: 7px; }
+.corner-bracket.bottom-right { bottom: 48px; right: 7px; }
+
+/* 5 Whiteboard Header Tabs */
+.coach-whiteboard-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding: 0 4px;
+  overflow-x: auto;
+}
+
+.coach-tab-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: #e4e9ee;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.coach-tab-btn:hover {
+  background: #ffffff;
+  color: #8a1c1c;
+  border-color: #8a1c1c;
+}
+
+.coach-tab-btn.active {
+  background: #ffffff;
+  color: #8a1c1c;
+  border: 2px solid #8a1c1c;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tab-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #94a3b8;
+  display: inline-block;
+  transition: background 0.15s ease;
+}
+
+.tab-indicator-dot.active {
+  background: #8a1c1c;
+}
+
+/* Porcelain Dry-Erase Whiteboard Surface */
+.coach-porcelain-surface {
+  position: relative;
+  background-color: #fcfcfb;
+  background-image:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.85) 0%, transparent 60%),
+    radial-gradient(circle at 82% 88%, rgba(220, 226, 235, 0.25) 0%, transparent 50%),
+    radial-gradient(rgba(180, 190, 205, 0.08) 1.5px, transparent 1.5px);
+  background-size: auto, auto, 24px 24px;
+  border: 2px solid #b0bcc9;
+  border-radius: 12px;
+  padding: 16px 18px 14px;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+}
+
+.porcelain-glare-overlay {
+  position: absolute;
+  top: -120px;
+  left: -120px;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 60%, transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(16px);
+}
+
+/* Whiteboard Header Row */
+.whiteboard-header-row {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #cbd5e1;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wb-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wb-phase-title {
+  font-family: var(--font-hand, cursive);
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #8a1c1c;
+  line-height: 1;
+}
+
+.wb-formation-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  font-weight: 800;
+  background: #e2e8f0;
+  color: #334155;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.wb-subtitle-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-hand, cursive);
+  font-size: 1.15rem;
+  color: #1c2f57;
+  font-weight: 700;
+}
+
+.wb-marker-icon {
+  color: #8a1c1c;
+  font-size: 1.1rem;
+}
+
+/* Football Pitch Canvas with 5 Tactical Channels */
+.coach-pitch-canvas {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  background: #123e28;
+  border: 2px solid #2b593f;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+/* Alternating Mown Grass Stripes */
+.pitch-stripes-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.stripe {
   flex: 1;
+  height: 100%;
+}
+
+.stripe.light { background: rgba(255, 255, 255, 0.15); }
+.stripe.dark { background: transparent; }
+
+/* 5 Tactical Corridors (Wings, Half-Spaces, Central) */
+.pitch-corridors-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  pointer-events: none;
+}
+
+.corridor.flank {
+  width: 18%;
+  border-right: 1px dashed rgba(255, 255, 255, 0.22);
+}
+
+.corridor.half-space {
+  width: 18%;
+  border-right: 1px dashed rgba(110, 231, 183, 0.35);
+}
+
+.corridor.half-space.active-zone {
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.corridor.center {
+  width: 28%;
+  border-right: 1px dashed rgba(110, 231, 183, 0.35);
+}
+
+/* Pitch Markings Layer */
+.pitch-markings-layer {
+  position: absolute;
+  inset: 10px 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.pitch-line-halfway {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: rgba(255, 255, 255, 0.65);
+  transform: translateX(-50%);
+}
+
+.pitch-circle-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  transform: translate(-50%, -50%);
+}
+
+.pitch-spot-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  background: #ffffff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Left Penalty Box */
+.pitch-box-penalty-left {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 110px;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-left: none;
+}
+
+.pitch-box-goal-left {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 52px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-left: none;
+}
+
+.pitch-spot-penalty-left {
+  position: absolute;
+  left: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3.5px;
+  height: 3.5px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+.pitch-arc-penalty-left {
+  position: absolute;
+  left: 64px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 44px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-left: none;
+  border-radius: 0 22px 22px 0;
+}
+
+/* Right Penalty Box */
+.pitch-box-penalty-right {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 110px;
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-right: none;
+}
+
+.pitch-box-goal-right {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 52px;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-right: none;
+}
+
+.pitch-spot-penalty-right {
+  position: absolute;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3.5px;
+  height: 3.5px;
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+.pitch-arc-penalty-right {
+  position: absolute;
+  right: 64px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 44px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  border-right: none;
+  border-radius: 22px 0 0 22px;
+}
+
+/* SVG Marker Lines */
+.coach-dry-erase-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* 3D Cylindrical Magnetic Puck Tokens */
+.coach-magnetic-pucks-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.magnetic-puck {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-family: var(--font-mono, monospace);
+  font-weight: 900;
+  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  pointer-events: auto;
+  transition: transform 0.15s ease;
+  user-select: none;
+}
+
+.magnetic-puck:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.puck-red {
+  background: linear-gradient(180deg, #c52828 0%, #8a1c1c 55%, #5a0f0f 100%);
+  color: #ffffff;
+  border: 2px solid #ffdf94;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.puck-navy {
+  background: linear-gradient(180deg, #243b6b 0%, #152445 55%, #0b1428 100%);
+  color: #ffdf94;
+  border: 2px solid #cbd5e1;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Pitch Corner HUD */
+.pitch-coach-hud {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  z-index: 25;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.hud-tag {
+  color: #ffdf94;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.hud-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #34d399;
+}
+
+.hud-stat-line {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.pitch-coach-note {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  z-index: 25;
+  font-family: var(--font-hand, cursive);
+  font-size: 1.15rem;
+  color: #ffdf94;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+  user-select: none;
+}
+
+/* Pinned Magnetized Index Cards */
+.coach-pinned-cards-grid {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .coach-pinned-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.coach-pinned-card-main {
+  position: relative;
+  background: #fffdf0;
+  border: 1px solid #e2d5b6;
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 8px rgba(82, 39, 13, 0.08);
+}
+
+.coach-pinned-card-side {
+  position: relative;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 14px 14px 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  min-height: 600px;
+  text-align: center;
 }
 
-/* Subtle Tactical Chalk Pitch Canvas */
-.tactical-chalk-canvas {
+/* Pin Magnets holding cards */
+.pin-magnet {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  z-index: 20;
+}
+
+.pin-magnet::after {
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 720px;
-  height: 640px;
-  pointer-events: none;
-  z-index: 1;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
 }
 
-/* Layer holding the 4 Orbiting Circular Satellite Tokens */
-.tactical-satellites-layer {
+.magnet-red {
+  top: -8px;
+  left: 16px;
+  background: radial-gradient(circle at 35% 35%, #ef4444 0%, #b91c1c 70%, #7f1d1d 100%);
+}
+
+.magnet-brass {
+  top: -8px;
+  right: 16px;
+  background: radial-gradient(circle at 35% 35%, #fde047 0%, #c59b27 70%, #854d0e 100%);
+}
+
+.magnet-navy {
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at 35% 35%, #3b82f6 0%, #1d4ed8 70%, #1e3a8a 100%);
+}
+
+/* Card Content Details */
+.card-inner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e2d5b6;
+  gap: 8px;
+}
+
+.card-title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #52270d;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.card-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 800;
+  background: #8a1c1c;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 4px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.card-desc {
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: #26211b;
+  margin: 0 0 8px 0;
+}
+
+.card-bullet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.66rem;
+  color: #5b5246;
+  line-height: 1.35;
+}
+
+.bullet-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #8a1c1c;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+/* Side Card Elements */
+.side-card-kicker {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: #64748b;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.side-card-val {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin: 3px 0 1px;
+  line-height: 1.1;
+}
+
+.side-card-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.64rem;
+  color: #334155;
+}
+
+.side-card-footer {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid #cbd5e1;
+  font-family: var(--font-hand, cursive);
+  font-size: 0.95rem;
+  color: #1c2f57;
+  line-height: 1.2;
+}
+
+/* Base Note Bar */
+.whiteboard-base-bar {
+  position: relative;
+  z-index: 10;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(203, 213, 225, 0.7);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wb-pen-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pen-label {
+  font-size: 1rem;
+  color: #1c2f57;
+}
+
+.pen-tag {
+  font-size: 0.58rem;
+  font-weight: 700;
+  background: #ffffff;
+  color: #475569;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid #cbd5e1;
+}
+
+.wb-footer-quote {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+/* Bottom Extruded Aluminium Pen Tray Ledge */
+.coach-aluminium-tray {
+  position: relative;
+  margin-top: 8px;
+  height: 40px;
+  background: linear-gradient(180deg, #d3dae3 0%, #9ba6b4 30%, #687482 85%, #4e5864 100%);
+  border-radius: 8px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.45), 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.tray-metallic-lip {
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  top: -2px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+}
+
+.tray-markers-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   z-index: 10;
 }
 
-.satellite-token-btn {
-  position: absolute;
-  pointer-events: auto;
-  background: none;
-  border: none;
+.tray-marker {
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  padding: 0;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+  transition: transform 0.15s ease;
 }
 
-.satellite-token-btn:hover {
-  transform: scale(1.14);
+.tray-marker:hover {
+  transform: translateY(-2px);
 }
 
-.satellite-token-btn.pos-tl { top: 38px; left: 45px; }
-.satellite-token-btn.pos-tr { top: 38px; right: 45px; }
-.satellite-token-btn.pos-bl { bottom: 58px; left: 45px; }
-.satellite-token-btn.pos-br { bottom: 58px; right: 45px; }
-
-.stb-inner-disc {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #2a2723 0%, #121110 85%);
-  border: 2px solid #c59b27;
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.7),
-    inset 0 1px 2px rgba(255, 255, 255, 0.3);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-  transition: all 0.2s ease;
-}
-
-.satellite-token-btn:hover .stb-inner-disc {
-  border-color: #ef4444;
-  box-shadow:
-    0 10px 24px rgba(239, 68, 68, 0.3),
-    inset 0 1px 2px rgba(255, 255, 255, 0.5);
-}
-
-.stb-num {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.92rem;
-  font-weight: 900;
-  color: #e5b839;
-  line-height: 1;
-  margin-bottom: 3px;
-}
-
-.stb-label {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.48rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #a8a29e;
-  text-transform: uppercase;
-  text-align: center;
-  max-width: 58px;
-  line-height: 1.15;
-}
-
-.stb-pulse-ring {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 1px dashed rgba(197, 155, 39, 0.3);
-  animation: stb-spin 20s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes stb-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* =========================================================================
-   CENTER PIECE: THE 540px CIRCULAR TACTICAL INSPECTION DISC
-   A PURE GEOMETRIC CIRCLE (border-radius: 50%). ZERO RECTANGULAR BOX.
-   ========================================================================= */
-.tactical-disc-center {
-  width: 540px;
-  height: 540px;
-  border-radius: 50%;
-  position: relative;
-  z-index: 5;
-  padding: 8px;
-  box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.85),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1),
-    inset 0 -2px 6px rgba(0, 0, 0, 0.9);
-}
-
-.tdc-machined-ring {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    #c59b27 0deg,
-    #5a4510 60deg,
-    #e5b839 120deg,
-    #5a4510 180deg,
-    #c59b27 240deg,
-    #5a4510 300deg,
-    #c59b27 360deg
-  );
-  padding: 6px;
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.4),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.8);
+.marker-body {
+  width: 60px;
+  height: 13px;
+  background: #ffffff;
+  border-radius: 2px 0 0 2px;
+  border: 1px solid #a0aec0;
   display: flex;
   align-items: center;
-  justify-content: center;
-}
-
-.tdc-slate-face {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle at center, #1c1a17 0%, #0d0c0b 80%, #080706 100%);
-  border: 1px solid rgba(197, 155, 39, 0.35);
-  box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.95);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 28px 36px;
-  text-align: center;
+  padding: 0 4px;
   position: relative;
   overflow: hidden;
 }
 
-/* 1. Disc Header */
-.tdc-header-block {
-  margin-bottom: 8px;
+.marker-stripe {
+  width: 100%;
+  height: 3px;
+  border-radius: 999px;
 }
 
-.tdc-phase-pill {
+.marker-label {
+  position: absolute;
+  right: 4px;
   font-family: var(--font-mono, monospace);
-  font-size: 0.6rem;
+  font-size: 0.45rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
-  color: #c59b27;
-  text-transform: uppercase;
-  display: inline-block;
-  margin-bottom: 4px;
+  color: #1e293b;
+  letter-spacing: -0.04em;
 }
 
-.tdc-title {
-  font-family: var(--font-serif, Georgia, serif);
-  font-size: 1.18rem;
-  font-weight: 700;
-  color: #f5f5f4;
-  line-height: 1.25;
-  margin: 0 0 3px 0;
+.marker-cap {
+  width: 14px;
+  height: 15px;
+  border-radius: 0 3px 3px 0;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.tdc-subtitle {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.7rem;
-  color: #a8a29e;
-  line-height: 1.35;
-  margin: 0;
-  max-width: 440px;
+.cap-red {
+  background: linear-gradient(180deg, #ef4444 0%, #b91c1c 70%, #7f1d1d 100%);
 }
 
-/* 2. Pinned Personal Motivation Memorandum */
-.tdc-memo-ribbon {
-  background: #fbf7ee;
-  color: #1c1917;
-  border-radius: 4px;
-  padding: 10px 14px;
-  margin: 8px 0;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
-  border-left: 3px solid #c59b27;
-  text-align: left;
-  max-width: 450px;
+.cap-black {
+  background: linear-gradient(180deg, #374151 0%, #1f2937 70%, #030712 100%);
 }
 
-.tmr-header {
+.cap-blue {
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 70%, #1e3a8a 100%);
+}
+
+/* Felt Block Whiteboard Eraser */
+.tray-eraser-block {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+  transition: transform 0.15s ease;
+  z-index: 10;
+}
+
+.tray-eraser-block:hover {
+  transform: translateY(-2px);
+}
+
+.eraser-handle {
+  width: 68px;
+  height: 14px;
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #475569;
+  border-bottom: none;
+  display: flex;
   align-items: center;
-  border-bottom: 1px dashed rgba(100, 70, 30, 0.3);
-  padding-bottom: 3px;
-  margin-bottom: 5px;
-}
-
-.tmr-tag {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.56rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: #8c6b16;
-}
-
-.tmr-author {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.52rem;
-  font-weight: 700;
-  color: #991b1b;
-}
-
-.tmr-text {
-  font-family: var(--font-serif, Georgia, serif);
-  font-size: 0.74rem;
-  line-height: 1.45;
-  color: #292524;
-  margin: 0;
-}
-
-/* 3. Circular Micro-Metrics Trio */
-.tdc-metrics-trio {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 16px;
-  margin: 8px 0;
 }
 
-.tdc-metric-disc {
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #25221e 0%, #11100f 100%);
-  border: 1px solid rgba(197, 155, 39, 0.35);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.2),
-    0 4px 10px rgba(0, 0, 0, 0.5);
+.eraser-handle span {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #cbd5e1;
+}
+
+.eraser-felt {
+  width: 68px;
+  height: 5px;
+  background: #64748b;
+  border-radius: 0 0 3px 3px;
+  border: 1px solid #475569;
+  border-top: none;
+}
+
+
+/* ==========================================================================
+   ARCHIVAL CONFIDENTIAL SCOUTING BINDER & MANILA FOLDER FOLIO (EPL JOURNEY)
+   A bespoke physical stationery metaphor for sports econometrics & ML
+   ========================================================================== */
+
+.folio-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(22, 17, 13, 0.78);
+  backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tmd-val {
-  font-family: var(--font-mono, monospace);
-  font-size: 1.05rem;
-  font-weight: 900;
-  color: #fbbf24;
-  line-height: 1;
+.folio-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.tmd-label {
+.folio-top-bar {
+  width: 100%;
+  max-width: 1360px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.folio-top-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-mono, monospace);
-  font-size: 0.5rem;
-  font-weight: 800;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #ffdf94;
   letter-spacing: 0.08em;
-  color: #d6d3d1;
   text-transform: uppercase;
-  margin-top: 2px;
 }
 
-.tmd-sub {
+.folio-top-beacon {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff4500;
+  box-shadow: 0 0 8px #ff4500;
+}
+
+.folio-top-div {
+  color: rgba(255, 223, 148, 0.35);
+}
+
+.folio-top-station,
+.folio-top-sub {
+  color: #d3be95;
+  font-weight: 500;
+}
+
+.folio-close-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(40, 18, 5, 0.6);
+  border: 1px solid rgba(197, 155, 39, 0.4);
+  color: #ebdcc2;
   font-family: var(--font-mono, monospace);
-  font-size: 0.44rem;
-  color: #78716c;
-  text-transform: uppercase;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* 4. Architectural Trade-Off Leader */
-.tdc-tradeoff-line {
+.folio-close-btn:hover {
+  background: #8a1c1c;
+  border-color: #ffdada;
+  color: #ffffff;
+}
+
+.folio-esc-kbd {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.6rem;
+  color: #c59b27;
+}
+
+/* ==========================================================================
+   THE SADDLE LEATHER & WALNUT DESK MAT
+   ========================================================================== */
+
+.folio-stage {
+  width: 100%;
+  max-width: 1360px;
+  background-color: #52270d;
+  background-image: 
+    radial-gradient(ellipse at 50% 20%, rgba(122, 74, 42, 0.45) 0%, rgba(35, 15, 4, 0.92) 100%),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.03) 0px, rgba(0, 0, 0, 0.03) 2px, transparent 2px, transparent 4px);
+  border-radius: 10px;
+  padding: 20px 24px;
+  position: relative;
+  box-shadow: 
+    0 25px 50px -12px rgba(10, 5, 0, 0.65),
+    inset 0 2px 4px rgba(255, 219, 202, 0.15),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(197, 155, 39, 0.3);
+}
+
+.folio-leather-stitch {
+  position: absolute;
+  inset: 8px;
+  border: 1.5px dashed rgba(197, 155, 39, 0.55);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.folio-brass-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #c59b27;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.folio-brass-corner.top-left {
+  top: 6px;
+  left: 6px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+
+.folio-brass-corner.top-right {
+  top: 6px;
+  right: 6px;
+  border-top: 2px solid;
+  border-right: 2px solid;
+}
+
+.folio-brass-corner.bottom-left {
+  bottom: 6px;
+  left: 6px;
+  border-bottom: 2px solid;
+  border-left: 2px solid;
+}
+
+.folio-brass-corner.bottom-right {
+  bottom: 6px;
+  right: 6px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
+}
+
+.folio-grid {
+  display: grid;
+  grid-template-columns: 330px 1fr;
+  gap: 22px;
+  position: relative;
+  z-index: 10;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .folio-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   LEFT COLUMN: COMPACT DOCKED ARCHIVAL DOSSIER CARD
+   Strictly sized to fit in standard viewports without any scrolling!
+   ========================================================================== */
+
+.folio-left-card {
+  background: #fdfaf3;
+  border: 1px solid rgba(70, 40, 10, 0.22);
+  border-radius: 4px;
+  padding: 14px 16px;
+  position: relative;
+  box-shadow: 0 16px 36px -8px rgba(10, 5, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.folio-washi-tape {
+  position: absolute;
+  top: -8px;
+  width: 60px;
+  height: 16px;
+  background: rgba(235, 220, 194, 0.85);
+  backdrop-filter: blur(1px);
+  border-left: 1px dashed rgba(0, 0, 0, 0.2);
+  border-right: 1px dashed rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+}
+
+.folio-washi-tape.tape-left {
+  left: 20px;
+  transform: rotate(-3deg);
+}
+
+.folio-washi-tape.tape-right {
+  right: 20px;
+  transform: rotate(3deg);
+}
+
+.folio-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(70, 40, 10, 0.15);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.folio-ref-code {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.folio-class-code {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #52270d;
+  margin: 0;
+}
+
+.folio-dispatch-stamp {
+  border: 1.5px solid #8a1c1c;
+  padding: 1px 5px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.55rem;
+  font-weight: 800;
+  color: #8a1c1c;
+  text-align: center;
+  transform: rotate(-2deg);
+  line-height: 1.1;
+  display: flex;
+  flex-direction: column;
+}
+
+.folio-dispatch-stamp .stamp-sub {
+  font-size: 0.5rem;
+  color: #8a1c1c;
+}
+
+.folio-photo-mount {
+  width: 100%;
+  height: 125px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  border: 1px solid rgba(70, 40, 10, 0.18);
+  margin-bottom: 4px;
+}
+
+.folio-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.folio-photo-badge {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: rgba(15, 12, 10, 0.88);
+  color: #ff9900;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-beacon {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff4500;
+  box-shadow: 0 0 5px #ff4500;
+}
+
+.folio-photo-caption {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.56rem;
+  color: var(--ink-soft);
+  margin: 0 0 8px;
+  line-height: 1.25;
+}
+
+.folio-doc-title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #1c1917;
+  line-height: 1.2;
+  margin: 0 0 4px;
+}
+
+.folio-doc-meta {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  color: #8a1c1c;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.folio-doc-blurb {
+  font-size: 0.78rem;
+  line-height: 1.36;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.folio-specs-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2px 8px;
+  font-size: 0.72rem;
+  margin-bottom: 6px;
+  border-top: 1px dashed rgba(70, 40, 10, 0.15);
+  padding-top: 5px;
+}
+
+.folio-specs-list dt {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  color: #8a1c1c;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.folio-specs-list dd {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.folio-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.folio-tag-chip {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  background: var(--paper-2);
+  border: 1px solid rgba(70, 40, 10, 0.14);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--ink);
+}
+
+.folio-card-actions {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.folio-btn-action {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: 3px;
   font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  color: #c59b27;
-  margin: 6px 0;
-  max-width: 440px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.ttl-arrow {
-  color: #c59b27;
-  font-weight: 800;
-  white-space: nowrap;
+.folio-btn-action.primary {
+  background: #1c1917;
+  color: #fbf7ee;
+  border: 1px solid #1c1917;
 }
 
-.ttl-text {
-  font-family: var(--font-sans, sans-serif);
-  font-size: 0.68rem;
-  color: #a8a29e;
-  line-height: 1.35;
-  text-align: left;
+.folio-btn-action.primary:hover {
+  background: #8a1c1c;
+  border-color: #8a1c1c;
 }
 
-.ttl-text strong {
-  color: #f5f5f4;
-  font-family: var(--font-mono, monospace);
+.folio-btn-action.secondary {
+  background: #ffffff;
+  color: #52270d;
+  border: 1px solid rgba(82, 39, 13, 0.25);
 }
 
-/* 5. Handwritten Fountain Pen Sideline Memo */
-.tdc-handnote-row {
-  margin-top: 6px;
-  padding: 4px 10px;
-  border-left: 2px solid #3b82f6;
-  background: rgba(30, 58, 138, 0.08);
-  border-radius: 2px;
-  max-width: 440px;
+.folio-btn-action.secondary:hover {
+  background: #f3ecdc;
 }
 
-.tdc-handnote {
-  font-family: var(--font-serif, Georgia, serif);
-  font-style: italic;
-  font-size: 0.72rem;
-  color: #93c5fd;
-  line-height: 1.35;
-  margin: 0;
-  text-align: left;
-}
-
-/* Bottom Quick-Step Tactical Bar */
-.tactical-bottom-nav {
+.folio-card-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 480px;
-  margin-top: 14px;
-  z-index: 10;
+  border-top: 1px dashed rgba(70, 40, 10, 0.15);
+  padding-top: 5px;
 }
 
-.tbn-step-btn {
+.folio-card-handwrite {
+  font-family: var(--font-hand, cursive);
+  font-size: 1.05rem;
+  color: #1c2833;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.folio-card-wax-seal {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(138, 28, 28, 0.6);
+  background: rgba(138, 28, 28, 0.08);
+  color: #8a1c1c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transform: rotate(12deg);
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: OPEN MANILA CONFIDENTIAL SCOUTING FOLDER FOLIO
+   ========================================================================== */
+
+.folio-right-folder {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* 5 Physical Staggered Die-Cut Manila Index Tabs */
+.folio-tabs-shelf {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding-left: 12px;
+  position: relative;
+  z-index: 20;
+  overflow-x: auto;
+}
+
+.manila-index-tab {
+  background: #dfcca4;
+  border: 1.5px solid #bda67a;
+  border-bottom: none;
+  border-radius: 5px 5px 0 0;
+  padding: 5px 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #52270d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.manila-index-tab:hover {
+  background: #d1be95;
+}
+
+.manila-index-tab.active {
+  background: #faf6ec;
+  color: #8a1c1c;
+  border-color: rgba(138, 28, 28, 0.45);
+  border-bottom: 2px solid #faf6ec;
+  transform: translateY(2px);
+  z-index: 25;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.tab-indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(82, 39, 13, 0.4);
+}
+
+.tab-indicator-dot.active {
+  background: #8a1c1c;
+  box-shadow: 0 0 5px rgba(138, 28, 28, 0.6);
+}
+
+/* Manila Cardstock Folder Casing */
+.manila-folder-casing {
+  background: #dfcca4;
+  border: 2px solid #caa875;
+  border-radius: 3px;
+  border-top-left-radius: 0;
+  padding: 8px;
+  position: relative;
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.35);
+}
+
+.folder-brass-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: #c59b27;
+  pointer-events: none;
+}
+
+.folder-brass-corner.top-right {
+  top: -2px;
+  right: -2px;
+  border-top: 3px solid;
+  border-right: 3px solid;
+}
+
+.folder-brass-corner.bottom-right {
+  bottom: -2px;
+  right: -2px;
+  border-bottom: 3px solid;
+  border-right: 3px solid;
+}
+
+.folder-brass-corner.bottom-left {
+  bottom: -2px;
+  left: -2px;
+  border-bottom: 3px solid;
+  border-left: 3px solid;
+}
+
+/* ==========================================================================
+   THE ARCHIVAL RAG PAPER BRIEFING SHEET
+   ========================================================================== */
+
+.archival-briefing-sheet {
+  background: #faf6ec;
+  border: 1px solid #ebdcc2;
+  border-radius: 2px;
+  padding: 16px 20px;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  max-height: calc(100vh - 170px);
+  overflow-y: auto;
+}
+
+/* Left Margin Brass Binder Eyelets (3 Grommets) */
+.binder-eyelet {
+  position: absolute;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ebdcc2 0%, #c59b27 50%, #52270d 100%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.binder-eyelet.eyelet-top {
+  top: 35px;
+}
+
+.binder-eyelet.eyelet-mid {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.binder-eyelet.eyelet-bot {
+  bottom: 35px;
+}
+
+.eyelet-hole {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3c1c09;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.sheet-inner-flow {
+  padding-left: 14px;
+}
+
+.sheet-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(70, 40, 10, 0.15);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+.sheet-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sheet-confidential-pill {
+  background: #8a1c1c;
+  color: #ffffff;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  letter-spacing: 0.05em;
+  border-radius: 2px;
+}
+
+.sheet-season-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  color: #5b5246;
+  font-weight: 600;
+}
+
+.sheet-folio-index {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  color: #8a1c1c;
+  font-weight: 700;
+}
+
+.sheet-title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1c1917;
+  line-height: 1.25;
+  margin: 0 0 3px;
+}
+
+.sheet-subtitle {
   font-family: var(--font-mono, monospace);
   font-size: 0.68rem;
   font-weight: 700;
-  padding: 6px 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(197, 155, 39, 0.25);
-  color: #d6d3d1;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.15s ease;
+  color: #8a1c1c;
+  margin: 0 0 10px;
 }
 
-.tbn-step-btn:hover {
-  background: #c59b27;
-  color: #090807;
-  border-color: #c59b27;
+.sheet-narrative-lead {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #26211b;
+  line-height: 1.42;
+  margin-bottom: 6px;
 }
 
-.tbn-indicator {
+.sheet-narrative-body {
+  font-size: 0.76rem;
+  color: #5b5246;
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+/* ==========================================================================
+   DYNAMIC VISUAL SECTIONS
+   ========================================================================== */
+
+/* 1. Tactical Pitch Blueprint (Phase 01) */
+.sheet-blueprint-box {
+  background: rgba(243, 236, 220, 0.65);
+  border: 1px solid rgba(70, 40, 10, 0.2);
+  border-radius: 3px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  background-size: 16px 16px;
+  background-image: 
+    linear-gradient(to right, rgba(91, 82, 70, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(91, 82, 70, 0.06) 1px, transparent 1px);
+}
+
+.blueprint-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono, monospace);
+  margin-bottom: 8px;
+}
+
+.blueprint-title {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #52270d;
+}
+
+.blueprint-calib {
+  font-size: 0.58rem;
+  color: #5b5246;
+}
+
+.blueprint-pitch-canvas {
+  width: 100%;
+  height: 110px;
+  border: 1px solid rgba(91, 82, 70, 0.35);
+  border-radius: 2px;
+  background: rgba(250, 246, 236, 0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.pitch-half-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(91, 82, 70, 0.35);
+}
+
+.pitch-center-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(91, 82, 70, 0.35);
+}
+
+.pitch-box-left {
+  position: absolute;
+  left: 0;
+  top: 20px;
+  bottom: 20px;
+  width: 45px;
+  border-right: 1px solid rgba(91, 82, 70, 0.35);
+  border-top: 1px solid rgba(91, 82, 70, 0.35);
+  border-bottom: 1px solid rgba(91, 82, 70, 0.35);
+}
+
+.pitch-box-right {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  bottom: 20px;
+  width: 45px;
+  border-left: 1px solid rgba(91, 82, 70, 0.35);
+  border-top: 1px solid rgba(91, 82, 70, 0.35);
+  border-bottom: 1px solid rgba(91, 82, 70, 0.35);
+}
+
+.pitch-corridor-pocket {
+  position: absolute;
+  left: 28%;
+  top: 10px;
+  bottom: 10px;
+  width: 65px;
+  background: rgba(138, 28, 28, 0.1);
+  border-left: 1px dashed rgba(138, 28, 28, 0.4);
+  border-right: 1px dashed rgba(138, 28, 28, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pitch-corridor-pocket span {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #8a1c1c;
+  transform: rotate(-90deg);
+}
+
+.pitch-high-tilt-cone {
+  position: absolute;
+  right: 22%;
+  top: 15px;
+  bottom: 15px;
+  width: 75px;
+  background: rgba(197, 155, 39, 0.15);
+  border-left: 1px dashed rgba(197, 155, 39, 0.55);
+  border-right: 1px dashed rgba(197, 155, 39, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pitch-high-tilt-cone span {
   font-family: var(--font-mono, monospace);
   font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #78716c;
+  color: #52270d;
 }
 
+.blueprint-note-left {
+  position: absolute;
+  bottom: 3px;
+  left: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.55rem;
+  color: #5b5246;
+}
+
+.blueprint-note-right {
+  position: absolute;
+  top: 3px;
+  right: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #8a1c1c;
+}
+
+/* 2. Equation Box (Phase 02) */
+.sheet-equation-box {
+  background: #fdfaf3;
+  border: 1px solid rgba(70, 40, 10, 0.2);
+  border-radius: 3px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+
+.equation-hdr {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #52270d;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.equation-math {
+  background: #faf6ec;
+  border: 1px solid rgba(70, 40, 10, 0.15);
+  padding: 8px 12px;
+  border-radius: 3px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #1c1917;
+  margin-bottom: 5px;
+}
+
+.equation-caption {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  color: #5b5246;
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* 3. Tradeoffs Grid (Phase 03) */
+.sheet-tradeoffs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .sheet-tradeoffs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tradeoff-card {
+  border-radius: 3px;
+  padding: 8px 10px;
+}
+
+.tradeoff-card.approach-a {
+  border: 1px solid rgba(138, 28, 28, 0.3);
+  background: rgba(138, 28, 28, 0.05);
+}
+
+.tradeoff-card.approach-b {
+  border: 1px solid rgba(82, 39, 13, 0.3);
+  background: rgba(82, 39, 13, 0.05);
+}
+
+.tc-badge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.6rem;
+  font-weight: 800;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.tc-badge.red {
+  color: #8a1c1c;
+}
+
+.tc-badge.green {
+  color: #52270d;
+}
+
+.tc-body {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  color: #5b5246;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* 4. Pipeline Stack (Phase 04) */
+.sheet-pipeline-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.pipeline-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #fdfaf3;
+  border: 1px solid rgba(70, 40, 10, 0.15);
+  border-radius: 3px;
+  padding: 6px 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  color: #26211b;
+  line-height: 1.35;
+}
+
+.psi-badge {
+  color: #ffffff;
+  font-weight: 800;
+  padding: 1px 5px;
+  font-size: 0.58rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.psi-badge.b1 { background: #8a1c1c; }
+.psi-badge.b2 { background: #52270d; }
+.psi-badge.b3 { background: #c59b27; color: #1c1500; }
+.psi-badge.b4 { background: #1c1917; }
+
+/* 5. Plots Row (Phase 05) */
+.sheet-plots-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .sheet-plots-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sheet-plot-card {
+  background: #ffffff;
+  border: 1px solid rgba(70, 40, 10, 0.18);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.spc-hdr {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #52270d;
+  background: #f3ecdc;
+  padding: 4px 8px;
+  border-bottom: 1px solid rgba(70, 40, 10, 0.15);
+}
+
+.spc-img {
+  width: 100%;
+  height: 95px;
+  object-fit: cover;
+  display: block;
+}
+
+/* 4-Metric Statistical Audit Sub-Grid */
+.sheet-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .sheet-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.sheet-metric-card {
+  background: #f3ecdc;
+  border: 1px solid rgba(70, 40, 10, 0.15);
+  border-radius: 3px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.smc-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.55rem;
+  color: #5b5246;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.smc-val {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #8a1c1c;
+  line-height: 1.2;
+  margin: 1px 0;
+}
+
+.smc-sub {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.52rem;
+  color: #5b5246;
+}
+
+/* Structured Cardinal Diamond Takeaways */
+.sheet-takeaways-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.sheet-takeaway-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: #26211b;
+  line-height: 1.35;
+}
+
+.diamond-bullet {
+  color: #8a1c1c;
+  font-size: 0.65rem;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.takeaway-bold {
+  color: #1c1917;
+}
+
+.takeaway-text {
+  color: #5b5246;
+}
+
+/* Bottom Handwritten Fountain Pen Sign-Off */
+.sheet-signature-box {
+  border-top: 1px dashed rgba(70, 40, 10, 0.18);
+  padding-top: 6px;
+  margin-bottom: 12px;
+}
+
+.sheet-handwrite-text {
+  font-family: var(--font-hand, cursive);
+  font-size: 1.05rem;
+  color: #1c2833;
+  margin: 0 0 2px;
+  line-height: 1.15;
+}
+
+.sheet-author-tag {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.58rem;
+  color: #5b5246;
+  font-weight: 600;
+  display: block;
+  text-align: right;
+}
+
+/* Footer Navigation */
+.sheet-footer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(70, 40, 10, 0.15);
+  padding-top: 8px;
+}
+
+.sheet-nav-btn {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(70, 40, 10, 0.2);
+  background: #ffffff;
+  color: #26211b;
+}
+
+.sheet-nav-btn:hover {
+  background: #f3ecdc;
+}
+
+.sheet-nav-btn.next {
+  background: #8a1c1c;
+  color: #ffffff;
+  border-color: #8a1c1c;
+}
+
+.sheet-nav-btn.next:hover {
+  background: #6e1616;
+}
+
+.sheet-nav-btn.close {
+  background: #1c1917;
+  color: #ffffff;
+  border-color: #1c1917;
+}
+
+.sheet-pagination-indicator {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #8a1c1c;
+  letter-spacing: 0.08em;
+}

@@ -33,8 +33,9 @@ export const glance = [
 export const projects = [
   {
     n: "01",
+    slug: "placeholder-01",
     category: "Audio Software",
-    title: "PulseJam: Real-Time Audio Canvas",
+    title: "Placeholder: Real-Time Audio Canvas",
     year: "2024",
     blurb: "In-browser collaborative audio playground with low-latency DSP synthesis and WebSockets synchronization.",
     role: "Systems & Frontend Architect",
@@ -82,9 +83,9 @@ export const projects = [
   },
   {
     n: "04",
-    slug: "resumehack",
+    slug: "placeholder-04",
     category: "NLP & Systems",
-    title: "ResumeHack: Intelligent ATS Alignment Engine",
+    title: "Placeholder: Intelligent ATS Alignment Engine",
     year: "2024",
     blurb: "Semantic document parsing pipeline matching applicant qualifications against enterprise job descriptions with vector similarity.",
     role: "Full-Stack Developer",
@@ -99,9 +100,9 @@ export const projects = [
   },
   {
     n: "05",
-    slug: "homebite",
+    slug: "placeholder-05",
     category: "iOS & Marketplace",
-    title: "HomeBite: Campus Micro-Kitchen Marketplace",
+    title: "Placeholder: Campus Micro-Kitchen Marketplace",
     year: "2024",
     blurb: "Peer-to-peer campus food marketplace connecting student home cooks with local peers with real-time order tracking.",
     role: "Mobile & Backend Lead",
@@ -116,9 +117,9 @@ export const projects = [
   },
   {
     n: "06",
-    slug: "imitate",
+    slug: "placeholder-06",
     category: "Embodied AI",
-    title: "Imitate: Action-Cloning Robotics Sandbox",
+    title: "Placeholder: Action-Cloning Robotics Sandbox",
     year: "2024",
     blurb: "Desktop telemetry recorder capturing demonstration trajectories to train behavioral cloning policy checkpoints.",
     role: "Robotics Researcher",

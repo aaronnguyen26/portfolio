@@ -265,8 +265,17 @@ async function run() {
   const svg = renderContributionSvg(data);
   const outPath = path.join(process.cwd(), "public", "github_contributions.svg");
   fs.writeFileSync(outPath, svg, "utf-8");
+
+  const jsonPath = path.join(process.cwd(), "src", "data", "contributions.json");
+  const cells = Object.entries(data.grid).map(([coord, item]) => {
+    const [col, row] = coord.split(",").map(Number);
+    return { col, row, ...item };
+  });
+  fs.writeFileSync(jsonPath, JSON.stringify({ total: data.total, months: data.months, cells }, null, 2), "utf-8");
+
   console.log(`Successfully generated and saved up-to-date contribution graph (${data.total} contributions) to:`);
   console.log(outPath);
+  console.log(jsonPath);
 }
 
 if (process.argv[1]?.endsWith("update-contributions.mjs")) {

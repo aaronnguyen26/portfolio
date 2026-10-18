@@ -6,7 +6,7 @@ import { Code, Skyline, Group, Coffee, FloorPlan, BuildingSketch } from "@/compo
 import { projects } from "@/data/site";
 import GitHubContributionGraph from "@/components/GitHubContributionGraph";
 import ProjectJourneyFan from "@/components/ProjectJourneyFan";
-import ProjectJourneyTactics from "@/components/ProjectJourneyTactics";
+import ProjectJourneyScoutingFolio from "@/components/ProjectJourneyScoutingFolio";
 
 const tilts = ["rot-l", "rot-r", "rot-l2"];
 
@@ -159,8 +159,8 @@ export default function ProjectsWorkbench() {
         originRect={cardOriginRect}
       />
 
-      {/* Project Journey Tactics Overlay (EPL Project 02 - Football Pitch Tactical Board) */}
-      <ProjectJourneyTactics
+      {/* Project Journey Manila Scouting Folio Overlay (EPL Predictor Project 02) */}
+      <ProjectJourneyScoutingFolio
         isOpen={!!selectedJourneyProject && selectedJourneyProject.n === "02"}
         onClose={() => {
           setSelectedJourneyProject(null);
