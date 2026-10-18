@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import { projects } from "@/data/site";
-import eplData from "@/data/epl_data.json";
 
 interface ProjectJourneyTacticsProps {
   isOpen: boolean;
@@ -14,179 +12,180 @@ interface ProjectJourneyTacticsProps {
 }
 
 interface TacticalPhase {
-  minute: string;
-  badge: string;
-  tag: string;
+  id: number;
+  num: string;
+  codename: string;
   title: string;
   subtitle: string;
-  lead: string;
-  body: string[];
-  metrics?: { val: string; label: string; sub?: string }[];
-  takeaways?: { title: string; desc: string }[];
-  visualType: "pitch-overview" | "features-scouting" | "architecture-tactics" | "live-simulator" | "var-review";
-  handNote: string;
+  motivationHeader: string;
+  motivationBody: string;
+  metrics: {
+    val: string;
+    label: string;
+    sub: string;
+  }[];
+  tradeOff: {
+    heading: string;
+    detail: string;
+  };
+  scoutNote: string;
 }
 
 const tacticalPhases: TacticalPhase[] = [
   {
-    minute: "00'",
-    badge: "KICKOFF",
-    tag: "PROBLEM SCOPE & THE PREDICTABILITY PARADOX",
-    title: "The Low-Variance Football Paradox",
-    subtitle: "Why predicting 90-minute football matches breaks conventional machine learning models.",
-    lead: "Football is the most analytically hostile sport on earth: an average of only 2.7 goals per match means random deflections and referee whistles frequently decouple the better tactical team from the final scoreline.",
-    body: [
-      "Traditional sports betting markets and naive Poisson models suffer from structural bias: bookmakers bake in public sentiment (consistently overvaluing commercial giants like Manchester United), while classical static models ignore pitch context, tactical pressing intensity, and rest-day fatigue.",
-      "Our mandate was to construct a fully autonomous econometric prediction framework. Without looking at market odds, could an ensemble of dynamic Elo tracking, FBref expected goals (xG), and Poisson goal generation beat the 46.2% home-win baseline across 8 Premier League seasons?"
-    ],
+    id: 1,
+    num: "01",
+    codename: "THE PARADOX",
+    title: "The 2.7-Goal Predictability Paradox",
+    subtitle: "Low goal frequency generates extreme stochastic noise where inferior teams win on deflections.",
+    motivationHeader: "CHIEF SCOUT DIRECTIVE · PERSONAL MOTIVATION",
+    motivationBody:
+      "Watching weekend Premier League matches on cold afternoons, I realized the core problem: football averages only 2.7 goals per 90 minutes. This creates massive variance where lucky deflections decide matches, while commercial bookmakers exploit public hype around legacy clubs like Manchester United to skew betting lines.",
     metrics: [
-      { val: "2.72", label: "Avg Goals / Match", sub: "Extreme Low Variance" },
-      { val: "26.8%", label: "Historical Draw Rate", sub: "Bimodal Outcome Cliff" },
-      { val: "3,040", label: "Matches Analyzed", sub: "8 Premier League Seasons" },
-      { val: "< 15ms", label: "Inference Latency", sub: "Sub-Second Deployment" }
+      { val: "2.72", label: "AVG GOALS", sub: "Scarcity Index" },
+      { val: "26.8%", label: "DRAW CLIFF", sub: "Historical Rate" },
+      { val: "3,040", label: "FIXTURES", sub: "8 Seasons Data" },
     ],
-    takeaways: [
-      {
-        title: "The Bookmaker Bias",
-        desc: "Public betting volume skews commercial lines on high-profile clubs. A quantitative model must remain purely objective based on underlying chance generation."
-      },
-      {
-        title: "The Variance Barrier",
-        desc: "Raw goals are noisy; true tactical superiority lives in expected goals (xG), shot creation volume, and progressive territorial possession."
-      }
-    ],
-    visualType: "pitch-overview",
-    handNote: "↳ Core thesis: Teams don't win matches by scoring lucky deflections; they win by consistently generating high-probability xG funnels."
+    tradeOff: {
+      heading: "Zero-Odds Mandate vs Market Shortcuts",
+      detail:
+        "Forbidding commercial betting odds as model inputs, forcing predictions to rely strictly on dynamic Elo and underlying shot generation.",
+    },
+    scoutNote:
+      "↳ Scout Note: Football matches aren't won by luck; they are won by teams consistently generating high-probability xG funnels.",
   },
   {
-    minute: "25'",
-    badge: "SCOUTING",
-    tag: "FEATURE ENGINEERING & XG FUSION",
-    title: "Dynamic Elo, FBref xG & Fatigue Vectors",
-    subtitle: "Isolating underlying team strength from scoreline noise using 18 analytical feature dimensions.",
-    lead: "Rather than feeding raw goal tallies into a model, we engineered an 18-dimensional feature vector combining dynamic ratings, underlying chance creation, and physical fatigue.",
-    body: [
-      "Dynamic Elo Ratings: Traditional league tables suffer from calendar lag. We implemented an iterative Elo system with an optimized home-field advantage bonus (+70 rating points). After every single match, ratings recalibrate based on margin of victory and opponent difficulty.",
-      "FBref Tactical xG Fusion: Scraped multi-season advanced analytics from FBref—including expected goals per 90 (xG for/against), progressive ball carries, and average possession %—to capture genuine pitch dominance.",
-      "Fatigue & Rest-Day Windows: A team playing on a 3-day turnaround following a mid-week European Champions League fixture exhibits a measurable drop in defensive pressing recovery. Rest-day vectors capture this physical cliff."
-    ],
+    id: 2,
+    num: "02",
+    codename: "DYNAMIC ELO",
+    title: "Feature Scouting & Continuous Elo",
+    subtitle: "Overcoming league table lag with continuous match-by-match squad skill tracking.",
+    motivationHeader: "DATA SCOUT DISPATCH · FEATURE INGESTION",
+    motivationBody:
+      "Official league standings lag real squad capability by 4 to 6 weeks. We compute dynamic Elo ratings updated after every single 90-minute fixture with a +70 home field advantage offset, and ingest FBref shot-creation actions to quantify underlying quality.",
     metrics: [
-      { val: "18", label: "Engineered Features", sub: "Multivariate Vector" },
-      { val: "+70 PTS", label: "Home Elo Advantage", sub: "Empirical Ground Bias" },
-      { val: "5-MATCH", label: "Rolling Form Window", sub: "Exponential Decay" },
-      { val: "14-DAY", label: "Rest-Day Threshold", sub: "Fatigue Calibration" }
+      { val: "18", label: "VECTORS", sub: "Tactical Feature Set" },
+      { val: "+70", label: "HOME ELO", sub: "Advantage Boost" },
+      { val: "5 M", label: "DECAY", sub: "Rolling Form Window" },
     ],
-    visualType: "features-scouting",
-    handNote: "↳ Elo Delta accounts for 23.0% of outcome variance; adding FBref xG pushed 3-way directional accuracy past 58%."
+    tradeOff: {
+      heading: "Continuous Elo Updates vs League Table Inertia",
+      detail:
+        "Capturing managerial bounce effects and squad momentum instantly while applying fatigue penalties for teams with 3-day European turnarounds.",
+    },
+    scoutNote:
+      "↳ Scout Note: +70 Elo points accurately models the hostile refereeing pressure and crowd intensity at Anfield and St James' Park.",
   },
   {
-    minute: "45'",
-    badge: "TACTICS",
-    tag: "TWO-STAGE HYBRID ARCHITECTURE",
-    title: "The Hybrid Regressor + Poisson Simulator",
-    subtitle: "Why two-stage modeling outperforms monolithic multi-class classifiers on football scorelines.",
-    lead: "Predicting football requires solving two interrelated problems simultaneously: how many goals will each team score, and what is the discrete probability distribution of the final match outcome?",
-    body: [
-      "Stage 1 (Dual Goal Regressors): We train two independent XGBoost gradient boosted regressors to predict continuous expected home goals (λ_H) and away goals (λ_A) based on team Elo differential, rolling form, and defensive xG conceded.",
-      "Stage 2 (Bivariate Poisson Simulation): Modeling goal generation as two independent Poisson point processes allows us to calculate the exact probability of every scoreline P(X = x, Y = y) across a 5×5 matrix.",
-      "Stage 3 (Calibrated 3-Way Classifier): A specialized XGBoost outcome classifier generates calibrated probabilities for Home Win, Draw, and Away Win, resolving the notoriously tricky 26.8% draw probability cliff."
-    ],
-    takeaways: [
-      {
-        title: "Why XGBoost over Deep Neural Networks?",
-        desc: "Tabular sports metrics with non-linear threshold interactions (e.g., Elo differential vs 3-day rest turnaround) overfit on deep MLPs. Gradient boosted trees deliver superior log-loss and sub-millisecond serialization."
-      },
-      {
-        title: "Exact Scoreline Decomposition",
-        desc: "Combining regression with Poisson simulation enables pricing rare outcomes (e.g. 3-2 or 4-1) with mathematically coherent probability masses."
-      }
-    ],
-    visualType: "architecture-tactics",
-    handNote: "↳ Decoupling goal intensity from outcome classification dropped home goal MAE down to 0.97."
-  },
-  {
-    minute: "70'",
-    badge: "SIMULATOR",
-    tag: "LIVE TACTICAL PITCH ENGINE",
-    title: "Interactive Matchday Predictor",
-    subtitle: "Select any two Premier League clubs to run live simulations using our serialized model pipeline.",
-    lead: "Experience the model live in your browser: select any home and away club from the 31 Premier League teams in our dataset to compute dynamic Elo differentials, expected goals, and most likely scorelines.",
-    body: [
-      "The engine below evaluates real cached team metrics: current dynamic Elo ratings, 5-match rolling goals scored/conceded, and seasonal FBref xG. Toggle fixtures to observe how home-field advantage and tactical strength interact."
-    ],
-    visualType: "live-simulator",
-    handNote: "↳ Try simulating Arsenal vs Chelsea, Man City vs Liverpool, or Aston Villa vs Wolves."
-  },
-  {
-    minute: "90'",
-    badge: "VAR REVIEW",
-    tag: "EMPIRICAL EVALUATION & METRICS",
-    title: "Full-Time Model Scorecard & Results",
-    subtitle: "Benchmarking XGBoost and Poisson simulations against 8 years of Premier League fixtures.",
-    lead: "Trained on historical fixtures from 2017 to 2023 and evaluated out-of-sample against the complete 2024 Premier League campaign, the hybrid model established strong predictive superiority over market baselines.",
-    body: [
-      "Directional Outcome Accuracy: Achieved 58.2% 3-way accuracy (Home / Draw / Away), significantly outperforming the naive home-win heuristic (46.2%) and competitive with professional consensus pricing.",
-      "Goal Prediction Precision: Home goal MAE was restricted to 0.97 goals and away goal MAE to 0.87 goals, validating that the Poisson intensity parameter closely reflects actual match pacing.",
-      "Decision Driver Insights: Feature gain analysis confirms that the Elo Rating Delta accounts for 23.0% of the model's split decisions, followed by seasonal home xG (6.8%) and away defensive xG conceded (5.5%)."
-    ],
+    id: 3,
+    num: "03",
+    codename: "THE DUAL ENGINE",
+    title: "Decoupled XGBoost + Poisson Core",
+    subtitle: "Why end-to-end classification fails on soccer and how a two-stage hybrid solves it.",
+    motivationHeader: "CHIEF ARCHITECT DISPATCH · ALGORITHMIC CORE",
+    motivationBody:
+      "Standard neural networks overfit tabular sports data. We engineered a dual-engine: independent XGBoost regressors predict continuous home and away goal intensities (λ_H, λ_A), feeding a 5x5 bivariate Poisson probability matrix ensembled with a 3-way calibrated classifier.",
     metrics: [
-      { val: "58.2%", label: "3-Way Accuracy", sub: "vs 46.2% Naive Baseline" },
-      { val: "0.97", label: "Home Goals MAE", sub: "Mean Absolute Error" },
-      { val: "0.87", label: "Away Goals MAE", sub: "Mean Absolute Error" },
-      { val: "1.00", label: "Test Log Loss", sub: "Cross-Entropy Metric" }
+      { val: "2-Stage", label: "HYBRID", sub: "Decoupled Pipeline" },
+      { val: "5x5", label: "POISSON", sub: "Scoreline Grid" },
+      { val: "0.87", label: "AWAY MAE", sub: "Goal Delta Benchmark" },
     ],
-    visualType: "var-review",
-    handNote: "↳ Retrained on 3,040 fixtures. Complete serialized weights and pipeline packaged into epl_models.joblib."
-  }
+    tradeOff: {
+      heading: "Gradient-Boosted Trees vs Deep Neural Nets",
+      detail:
+        "Decision trees preserve sharp Elo decision boundaries without memorizing noise, while Poisson modeling coherently prices stalemates.",
+    },
+    scoutNote:
+      "↳ Scout Note: Decoupling goal intensity from 3-way outcome classification prevents underestimating high-scoring stalemates.",
+  },
+  {
+    id: 4,
+    num: "04",
+    codename: "SIMULATOR",
+    title: "Sub-15ms Matchday Simulator",
+    subtitle: "Simulating any Premier League fixture with live tactical scenario testing.",
+    motivationHeader: "SIDELINE MANAGER DISPATCH · SIMULATION ENGINE",
+    motivationBody:
+      "The simulation engine bundles pre-trained weights in an in-memory joblib pipeline. Selecting any two Premier League clubs computes win/draw/away probabilities, projected scorelines, and tactical managerial summaries in under 15 milliseconds.",
+    metrics: [
+      { val: "31", label: "EPL CLUBS", sub: "Supported Teams" },
+      { val: "< 15ms", label: "LATENCY", sub: "In-Memory Inference" },
+      { val: "Top 3", label: "RANKS", sub: "Probable Scorelines" },
+    ],
+    tradeOff: {
+      heading: "In-Memory Serialization vs Static Lookup",
+      detail:
+        "Bundling lightweight pipelines enables instantaneous client evaluations and dynamic managerial tactical verdicts.",
+    },
+    scoutNote:
+      "↳ Scout Note: Sub-15ms inference speed allows analysts to stress-test hypothetical squad rotations and rest days before kickoff.",
+  },
+  {
+    id: 5,
+    num: "05",
+    codename: "EMPIRICAL AUDIT",
+    title: "Holdout Scorecard & Empirical Validation",
+    subtitle: "Rigorous out-of-sample evaluation across 8 seasons against baseline heuristics.",
+    motivationHeader: "VAR RETROSPECTIVE · EMPIRICAL SCORECARD",
+    motivationBody:
+      "Rigorous evaluation on the out-of-sample 2024 holdout test set demonstrated a 58.2% 3-way directional accuracy, outperforming the naive home-win baseline (46.2%) by +12.0%. Home and away goal MAE remained below 1.0, proving that underlying xG chance quality strips out stochastic noise.",
+    metrics: [
+      { val: "58.2%", label: "ACCURACY", sub: "3-Way Test Set" },
+      { val: "+12.0%", label: "GAIN", sub: "Over Naive Baseline" },
+      { val: "1.00", label: "LOG LOSS", sub: "Calibrated Softmax" },
+    ],
+    tradeOff: {
+      heading: "Beating Naive Baselines in High-Variance Sports",
+      detail:
+        "Rolling time-series split cross-validation ensures future fixtures never leak into historical training data while capturing draw risk.",
+    },
+    scoutNote:
+      "↳ Scout Note: Rest-day fatigue and progressive xG carries are vastly more predictive of match outcomes than raw past scorelines.",
+  },
 ];
 
 export default function ProjectJourneyTactics({
   isOpen,
   onClose,
   project,
-  originRect,
 }: ProjectJourneyTacticsProps) {
   const [mounted, setMounted] = useState(false);
-  const [activeMinuteIdx, setActiveMinuteIdx] = useState(0);
   const [overlayActive, setOverlayActive] = useState(false);
-
-  // Interactive Live Simulator State
-  const teamsList = useMemo(() => eplData.teams || [], []);
-  const teamStats = useMemo(() => (eplData.stats as Record<string, any>) || {}, []);
-
-  const [homeTeam, setHomeTeam] = useState<string>("Arsenal");
-  const [awayTeam, setAwayTeam] = useState<string>("Chelsea");
-
-  const cardRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Sync animation open
   useEffect(() => {
     if (isOpen) {
+      const t = setTimeout(() => setOverlayActive(true), 30);
       document.body.style.overflow = "hidden";
-      const timer = setTimeout(() => setOverlayActive(true), 20);
-      return () => clearTimeout(timer);
+      return () => clearTimeout(t);
     } else {
       setOverlayActive(false);
       document.body.style.overflow = "";
     }
   }, [isOpen]);
 
-  // Handle ESC key
+  // Keyboard controls: 1-5, ArrowLeft, ArrowRight, ESC
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
       if (e.key === "Escape") {
         e.preventDefault();
         handleClose();
-      } else if (e.key === "ArrowRight") {
-        setActiveMinuteIdx((prev) => Math.min(prev + 1, tacticalPhases.length - 1));
-      } else if (e.key === "ArrowLeft") {
-        setActiveMinuteIdx((prev) => Math.max(prev - 1, 0));
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveIdx((prev) => (prev + 1) % tacticalPhases.length);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveIdx((prev) => (prev - 1 + tacticalPhases.length) % tacticalPhases.length);
+      } else if (e.key >= "1" && e.key <= "5") {
+        const target = parseInt(e.key, 10) - 1;
+        if (target >= 0 && target < tacticalPhases.length) {
+          setActiveIdx(target);
+        }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -197,523 +196,263 @@ export default function ProjectJourneyTactics({
     setOverlayActive(false);
     setTimeout(() => {
       onClose();
-      setActiveMinuteIdx(0);
+      setActiveIdx(0);
     }, 280);
   }, [onClose]);
 
-  // Scroll to top on phase change
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = 0;
-    }
-  }, [activeMinuteIdx]);
-
-  // --- Real Live Fixture Calculation for 70' Simulator ---
-  const simulationResult = useMemo(() => {
-    const hStats = teamStats[homeTeam] || { elo: 1500, rollGF: 1.5, rollGA: 1.2, xGFor: 1.4, xGAgainst: 1.2 };
-    const aStats = teamStats[awayTeam] || { elo: 1500, rollGF: 1.2, rollGA: 1.5, xGFor: 1.2, xGAgainst: 1.4 };
-
-    const eloHome = hStats.elo;
-    const eloAway = aStats.elo;
-    const eloDiff = eloHome - eloAway + 70; // +70 home advantage
-
-    // Expected goals lambda calculation
-    // Base goals ~ 1.5, adjusted by elo diff and xG
-    const lambdaHome = Math.max(0.4, Number((1.35 + (eloDiff / 450) * 0.75 + (hStats.xGFor - 1.3) * 0.4).toFixed(2)));
-    const lambdaAway = Math.max(0.3, Number((1.15 - (eloDiff / 500) * 0.65 + (aStats.xGFor - 1.3) * 0.4).toFixed(2)));
-
-    // Bivariate Poisson simulation across 5x5 scorelines
-    const factorial = (n: number): number => (n <= 1 ? 1 : n * factorial(n - 1));
-    const poissonPmf = (k: number, l: number) => (Math.pow(l, k) * Math.exp(-l)) / factorial(k);
-
-    let homeWinProb = 0;
-    let drawProb = 0;
-    let awayWinProb = 0;
-    const scorelines: { score: string; p: number }[] = [];
-
-    for (let h = 0; h <= 5; h++) {
-      for (let a = 0; a <= 5; a++) {
-        const p = poissonPmf(h, lambdaHome) * poissonPmf(a, lambdaAway);
-        scorelines.push({ score: `${h} - ${a}`, p });
-        if (h > a) homeWinProb += p;
-        else if (h === a) drawProb += p;
-        else awayWinProb += p;
-      }
-    }
-
-    const totalP = homeWinProb + drawProb + awayWinProb;
-    const hWinPct = Math.round((homeWinProb / totalP) * 1000) / 10;
-    const drawPct = Math.round((drawProb / totalP) * 1000) / 10;
-    const aWinPct = Math.round((awayWinProb / totalP) * 1000) / 10;
-
-    scorelines.sort((a, b) => b.p - a.p);
-    const topScores = scorelines.slice(0, 3).map((s) => ({
-      score: s.score,
-      pct: (s.p * 100).toFixed(1) + "%",
-    }));
-
-    let insight = "";
-    if (Math.abs(hWinPct - aWinPct) < 8 || drawPct > 30) {
-      insight = "Tactical Deadlock: High probability of a low-scoring draw or 1-goal margin.";
-    } else if (hWinPct > 60) {
-      insight = `Dominant Home Advantage: ${homeTeam} projected to dictate territory and xG volume.`;
-    } else if (aWinPct > 50) {
-      insight = `Away Tactical Superiority: ${awayTeam}'s rating overpowers home ground resistance.`;
-    } else {
-      insight = `Competitive Fixture: ${homeTeam} holds slight edge through coastal home advantage.`;
-    }
-
-    return {
-      eloHome,
-      eloAway,
-      eloDiff: eloHome - eloAway,
-      lambdaHome,
-      lambdaAway,
-      hWinPct,
-      drawPct,
-      aWinPct,
-      topScores,
-      insight,
-    };
-  }, [homeTeam, awayTeam, teamStats]);
-
   if (!mounted || !isOpen || !project) return null;
 
-  const currentPhase = tacticalPhases[activeMinuteIdx];
+  const current = tacticalPhases[activeIdx];
+  // Satellite tokens: the other 4 phases orbiting around the central tactical disc
+  const satellites = tacticalPhases.filter((_, idx) => idx !== activeIdx);
 
   return createPortal(
     <div
-      className={`tactics-overlay ${overlayActive ? "active" : ""}`}
+      className={`tactical-arena-overlay ${overlayActive ? "active" : ""}`}
       onClick={(e) => {
         if (e.target === e.currentTarget) handleClose();
       }}
       role="dialog"
       aria-modal="true"
-      aria-label="EPL Match Predictor Tactical Journey"
+      aria-label="Tactical Passing Arena"
     >
-      {/* Top Header Bar */}
-      <div className="tactics-top-bar">
-        <div className="tactics-top-info">
-          <span className="tactics-pill">⚽ PREMIER LEAGUE ANALYTICS</span>
-          <span className="tactics-sep">/</span>
-          <h2 className="tactics-top-title">{project.title}</h2>
+      {/* Top Bar HUD */}
+      <header className="tactical-arena-header">
+        <div className="tah-left">
+          <span className="tah-live-dot" />
+          <span className="tah-title">TACTICAL MATCHDAY ARENA</span>
+          <span className="tah-sep">&middot;</span>
+          <span className="tah-sub">QUANTITATIVE PREMIER LEAGUE SYSTEM</span>
         </div>
-        <button
-          type="button"
-          onClick={handleClose}
-          className="tactics-close-top-btn"
-          title="Exit to Workbench [ESC]"
-          aria-label="Exit to Workbench"
-        >
-          <span>✕ Exit Workbench</span>
-          <kbd className="tactics-kbd">ESC</kbd>
-        </button>
-      </div>
+        <div className="tah-right">
+          <span className="tah-phase-counter">
+            PHASE 0{activeIdx + 1} / 05 &middot; {current.codename}
+          </span>
+          <button
+            type="button"
+            onClick={handleClose}
+            className="tah-exit-btn"
+            title="Exit Arena [ESC]"
+            aria-label="Exit Arena"
+          >
+            <span>Exit Arena</span>
+            <kbd>ESC</kbd>
+          </button>
+        </div>
+      </header>
 
-      {/* Main Pitch Stage */}
-      <div className="tactics-stage">
-        {/* Left: Docked Matchday Dossier / Card */}
-        <div ref={cardRef} className="tactics-docked-card">
-          <span className="tactics-tape" />
-
-          <div className="tactics-card-shot">
-            {project.image ? (
-              <img
-                src={project.image}
-                alt={project.title}
-                className="tactics-card-img"
-              />
-            ) : (
-              <div className="tactics-card-placeholder">
-                <span>⚽ MATCHDAY DOSSIER</span>
-              </div>
-            )}
-            {project.badge && (
-              <span className="tactics-shot-badge">{project.badge}</span>
-            )}
+      {/* Main 2-Column Stage */}
+      <div className="tactical-arena-stage">
+        {/* =====================================================================
+            LEFT COLUMN: THE PROJECT DOSSIER CARD
+            Matches the portfolio's project card structure (No. 02, role, outcome)
+            ===================================================================== */}
+        <aside className="tactical-sidebar-card">
+          <div className="tsc-stamp">
+            <span className="tsc-stamp-dot" />
+            <span className="tsc-stamp-text">CONFIDENTIAL ARCHIVE</span>
           </div>
 
-          <div className="tactics-card-meta">
-            <span className="tactics-card-num">No. {project.n}</span>
-            <span className="tactics-card-sep">&middot;</span>
-            <span className="tactics-card-cat">{project.category}</span>
-            <span className="tactics-card-year">{project.year}</span>
+          <div className="tsc-meta">
+            <span className="tsc-num">
+              No. {project.n} &middot; {project.category}
+            </span>
+            <span className="tsc-year">{project.year}</span>
           </div>
 
-          <h3 className="tactics-card-title">{project.title}</h3>
-          <p className="tactics-card-blurb">{project.blurb}</p>
+          <h2 className="tsc-title">{project.title}</h2>
+          <p className="tsc-blurb">{project.blurb}</p>
 
-          <div className="tactics-card-specs">
-            <div className="tactics-spec-row">
-              <span className="spec-label">MY ROLE</span>
-              <span className="spec-val">{project.role}</span>
-            </div>
-            <div className="tactics-spec-row">
-              <span className="spec-label">OUTCOME</span>
-              <span className="spec-val highlight">{project.outcome}</span>
-            </div>
-          </div>
+          <dl className="tsc-specs">
+            <dt>MY ROLE</dt>
+            <dd>{project.role}</dd>
+            <dt>OUTCOME</dt>
+            <dd>{project.outcome}</dd>
+          </dl>
 
-          <div className="tactics-tags-row">
+          <div className="tsc-tags">
             {project.tags.map((t) => (
-              <span key={t} className="tactics-tag">
+              <span key={t} className="tsc-tag">
                 {t}
               </span>
             ))}
           </div>
 
-          <p className="tactics-hand-note">↳ {project.note}</p>
+          <p className="tsc-handnote">↳ {project.note}</p>
 
-          <a
-            href="https://github.com/aaronnguyen26"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tactics-repo-btn"
-          >
-            <span>View GitHub Repository</span>
-            <span>↗</span>
-          </a>
-        </div>
-
-        {/* Right: The Manager's Tactical Dugout & Pitch Board */}
-        <div className="tactics-pitch-board">
-          {/* Pitch Brass Clip at Top */}
-          <div className="pitch-brass-clip">
-            <div className="pbc-bolt left" />
-            <span className="pbc-engraving">TACTICAL MATCHDAY DOSSIER • PREMIER LEAGUE QUANT</span>
-            <div className="pbc-bolt right" />
-          </div>
-
-          {/* Close button on pitch top-right */}
-          <button
-            type="button"
-            onClick={handleClose}
-            className="pitch-close-x"
-            title="Exit [ESC]"
-            aria-label="Exit Pitch"
-          >
-            ✕
-          </button>
-
-          {/* Matchday Tactical Clock / Timeline Navigation */}
-          <div className="pitch-timeline-nav">
-            {tacticalPhases.map((phase, idx) => (
-              <button
-                key={phase.minute}
-                type="button"
-                onClick={() => setActiveMinuteIdx(idx)}
-                className={`pitch-nav-tab ${activeMinuteIdx === idx ? "active" : ""}`}
-              >
-                <span className="pnt-minute">{phase.minute}</span>
-                <span className="pnt-badge">{phase.badge}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Scrollable Editorial Tactical Canvas */}
-          <div ref={scrollRef} className="pitch-scroll-area">
-            {/* Phase Header */}
-            <div className="pitch-phase-header">
-              <div className="pitch-eyebrow">
-                <span className="pitch-phase-min">{currentPhase.minute} MATCH MINUTE</span>
-                <span className="pitch-tag-sep">/</span>
-                <span className="pitch-phase-tag">{currentPhase.tag}</span>
-              </div>
-              <h3 className="pitch-main-title">{currentPhase.title}</h3>
-              <p className="pitch-subtitle">{currentPhase.subtitle}</p>
+          {/* Quick Tactical Phase Navigator */}
+          <div className="tsc-phase-nav-block">
+            <span className="tsc-pnb-title">TACTICAL PHASE SELECTOR</span>
+            <div className="tsc-phase-list">
+              {tacticalPhases.map((p, idx) => {
+                const isActive = activeIdx === idx;
+                return (
+                  <button
+                    key={p.num}
+                    type="button"
+                    onClick={() => setActiveIdx(idx)}
+                    className={`tsc-phase-btn ${isActive ? "selected" : ""}`}
+                  >
+                    <span className="tpb-num">{p.num}</span>
+                    <span className="tpb-name">{p.codename}</span>
+                    {isActive && <span className="tpb-active-indicator">&bull;</span>}
+                  </button>
+                );
+              })}
             </div>
+          </div>
+        </aside>
 
-            {/* Narrative Content */}
-            <div className="pitch-narrative-section">
-              <p className="pitch-narrative-lead">{currentPhase.lead}</p>
-              {currentPhase.body.map((p, pIdx) => (
-                <p key={pIdx} className="pitch-narrative-p">
-                  {p}
-                </p>
-              ))}
-            </div>
+        {/* =====================================================================
+            RIGHT COLUMN: THE NON-RECTANGULAR TACTICAL DISK & SATELLITE ARENA
+            Completely borderless open surface with a large central circular disc,
+            concentric brass rings, chalk passing arcs, and orbiting satellite tokens.
+            ZERO RECTANGLES. ZERO MINUTES. ZERO GREEN.
+            ===================================================================== */}
+        <main className="tactical-orbit-arena">
+          {/* Subtle Tactical Chalk Pitch Center Circle & Passing Arcs */}
+          <svg className="tactical-chalk-canvas" viewBox="0 0 760 680" fill="none">
+            {/* Outer tactical orbital ring */}
+            <circle
+              cx="380"
+              cy="340"
+              r="305"
+              stroke="rgba(197, 155, 39, 0.16)"
+              strokeWidth="1.5"
+              strokeDasharray="6 8"
+            />
+            {/* Center pitch spot */}
+            <circle cx="380" cy="340" r="4" fill="#c59b27" />
+            <circle cx="380" cy="340" r="32" stroke="rgba(197, 155, 39, 0.18)" strokeWidth="1" />
+            {/* Curved Passing Trajectory vectors connecting satellites to center */}
+            <path
+              d="M 120 180 Q 230 220 380 340"
+              stroke="rgba(197, 155, 39, 0.22)"
+              strokeWidth="1.5"
+              strokeDasharray="4 6"
+            />
+            <path
+              d="M 640 180 Q 530 220 380 340"
+              stroke="rgba(197, 155, 39, 0.22)"
+              strokeWidth="1.5"
+              strokeDasharray="4 6"
+            />
+            <path
+              d="M 160 520 Q 250 460 380 340"
+              stroke="rgba(197, 155, 39, 0.22)"
+              strokeWidth="1.5"
+              strokeDasharray="4 6"
+            />
+            <path
+              d="M 600 520 Q 510 460 380 340"
+              stroke="rgba(197, 155, 39, 0.22)"
+              strokeWidth="1.5"
+              strokeDasharray="4 6"
+            />
+          </svg>
 
-            {/* Metrics Telemetry Grid (if present) */}
-            {currentPhase.metrics && currentPhase.metrics.length > 0 && (
-              <div className="pitch-metric-grid">
-                {currentPhase.metrics.map((m) => (
-                  <div key={m.label} className="pitch-metric-box">
-                    <span className="pmb-val">{m.val}</span>
-                    <span className="pmb-label">{m.label}</span>
-                    {m.sub && <span className="pmb-sub">{m.sub}</span>}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Structured Takeaways (if present) */}
-            {currentPhase.takeaways && currentPhase.takeaways.length > 0 && (
-              <div className="pitch-takeaways-list">
-                {currentPhase.takeaways.map((item, tIdx) => (
-                  <div key={tIdx} className="pitch-takeaway-item">
-                    <span className="pitch-bullet">›</span>
-                    <div>
-                      <strong className="pitch-takeaway-title">{item.title}: </strong>
-                      <span className="pitch-takeaway-desc">{item.desc}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Visual 01: Pitch Atmosphere Overview */}
-            {currentPhase.visualType === "pitch-overview" && (
-              <div className="pitch-media-card">
-                <img
-                  src="/epl_match_hero.jpg"
-                  alt="Premier League Matchday Atmosphere"
-                  className="pitch-media-img"
-                />
-                <div className="pitch-media-caption">
-                  <span><strong>MATCHDAY ARENA:</strong> PREMIER LEAGUE STADIUM ATMOSPHERE</span>
-                  <span>CALIBRATED TO 3,040 HISTORICAL FIXTURES</span>
-                </div>
-              </div>
-            )}
-
-            {/* Visual 02: Feature Importance Chart */}
-            {currentPhase.visualType === "features-scouting" && (
-              <div className="pitch-plot-card">
-                <div className="plot-header-bar">
-                  <span className="phb-icon">📊</span>
-                  <span className="phb-title">XGBOOST FEATURE IMPORTANCE (RELATIVE GAIN %)</span>
-                </div>
-                <img
-                  src="/epl_feature_importance.png"
-                  alt="Feature Importance Chart"
-                  className="pitch-plot-img"
-                />
-                <div className="plot-footer-note">
-                  <span>↳ Elo Rating Delta accounts for 23.0% of model split gain, followed by FBref season xG (6.8%).</span>
-                </div>
-              </div>
-            )}
-
-            {/* Visual 03: Architecture & Dynamic Elo Curves */}
-            {currentPhase.visualType === "architecture-tactics" && (
-              <div className="pitch-plot-card">
-                <div className="plot-header-bar">
-                  <span className="phb-icon">📈</span>
-                  <span className="phb-title">DYNAMIC ELO TRAJECTORIES OVER 8 SEASONS (2017–2024)</span>
-                </div>
-                <img
-                  src="/epl_elo_progression.png"
-                  alt="Elo Trajectories Plot"
-                  className="pitch-plot-img"
-                />
-                <div className="plot-footer-note">
-                  <span>↳ Tracks dynamic club rating trajectories updated after each matchday with +70 home advantage bonus.</span>
-                </div>
-              </div>
-            )}
-
-            {/* Visual 04: INTERACTIVE LIVE MATCH SIMULATOR */}
-            {currentPhase.visualType === "live-simulator" && (
-              <div className="interactive-pitch-simulator">
-                {/* Team Selectors Row */}
-                <div className="sim-selectors-row">
-                  <div className="sim-team-select">
-                    <label className="sim-label">🏠 HOME TEAM</label>
-                    <select
-                      value={homeTeam}
-                      onChange={(e) => setHomeTeam(e.target.value)}
-                      className="sim-dropdown"
-                    >
-                      {teamsList.map((t) => (
-                        <option key={t} value={t} disabled={t === awayTeam}>
-                          {t}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="sim-vs-badge">VS</div>
-
-                  <div className="sim-team-select">
-                    <label className="sim-label">✈️ AWAY TEAM</label>
-                    <select
-                      value={awayTeam}
-                      onChange={(e) => setAwayTeam(e.target.value)}
-                      className="sim-dropdown"
-                    >
-                      {teamsList.map((t) => (
-                        <option key={t} value={t} disabled={t === homeTeam}>
-                          {t}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Tactical Pitch Visualizer */}
-                <div className="mini-tactical-pitch">
-                  <div className="pitch-half-line" />
-                  <div className="pitch-center-circle">
-                    <div className="pitch-center-spot" />
-                  </div>
-                  <div className="pitch-box-left" />
-                  <div className="pitch-box-right" />
-
-                  {/* Home Team Formation Marker */}
-                  <div className="pitch-marker home-marker">
-                    <span className="marker-pin">🏠</span>
-                    <span className="marker-name">{homeTeam}</span>
-                    <span className="marker-elo">{simulationResult.eloHome} Elo</span>
-                  </div>
-
-                  {/* Away Team Formation Marker */}
-                  <div className="pitch-marker away-marker">
-                    <span className="marker-pin">✈️</span>
-                    <span className="marker-name">{awayTeam}</span>
-                    <span className="marker-elo">{simulationResult.eloAway} Elo</span>
-                  </div>
-                </div>
-
-                {/* Fixture Simulation Dashboard */}
-                <div className="sim-results-grid">
-                  {/* Probability Bar */}
-                  <div className="sim-prob-card">
-                    <div className="prob-header">
-                      <span>OUTCOME PROBABILITIES (CALIBRATED ENSEMBLE)</span>
-                    </div>
-                    <div className="prob-bar-container">
-                      <div
-                        className="prob-slice home-slice"
-                        style={{ width: `${simulationResult.hWinPct}%` }}
-                        title={`${homeTeam} Win: ${simulationResult.hWinPct}%`}
-                      >
-                        {simulationResult.hWinPct > 15 && `${simulationResult.hWinPct}%`}
-                      </div>
-                      <div
-                        className="prob-slice draw-slice"
-                        style={{ width: `${simulationResult.drawPct}%` }}
-                        title={`Draw: ${simulationResult.drawPct}%`}
-                      >
-                        {simulationResult.drawPct > 15 && `${simulationResult.drawPct}%`}
-                      </div>
-                      <div
-                        className="prob-slice away-slice"
-                        style={{ width: `${simulationResult.aWinPct}%` }}
-                        title={`${awayTeam} Win: ${simulationResult.aWinPct}%`}
-                      >
-                        {simulationResult.aWinPct > 15 && `${simulationResult.aWinPct}%`}
-                      </div>
-                    </div>
-                    <div className="prob-legend">
-                      <span className="legend-item home">
-                        <span className="legend-dot home" /> {homeTeam} ({simulationResult.hWinPct}%)
-                      </span>
-                      <span className="legend-item draw">
-                        <span className="legend-dot draw" /> Draw ({simulationResult.drawPct}%)
-                      </span>
-                      <span className="legend-item away">
-                        <span className="legend-dot away" /> {awayTeam} ({simulationResult.aWinPct}%)
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Expected Goals & Top Scorelines */}
-                  <div className="sim-score-card">
-                    <div className="xg-row">
-                      <div className="xg-box">
-                        <span className="xg-label">EXPECTED GOALS (xG)</span>
-                        <span className="xg-val">
-                          {simulationResult.lambdaHome} &mdash; {simulationResult.lambdaAway}
-                        </span>
-                      </div>
-                      <div className="xg-box">
-                        <span className="xg-label">ELO DELTA</span>
-                        <span className="xg-val">
-                          {simulationResult.eloDiff > 0 ? `+${simulationResult.eloDiff}` : simulationResult.eloDiff}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="top-scores-row">
-                      <span className="ts-title">POISSON MOST LIKELY SCORELINES:</span>
-                      <div className="ts-badges">
-                        {simulationResult.topScores.map((s, i) => (
-                          <span key={i} className="score-pill">
-                            <strong>{s.score}</strong> ({s.pct})
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Manager Insight */}
-                <div className="sim-insight-callout">
-                  <span className="insight-badge">TACTICAL VERDICT</span>
-                  <p className="insight-text">{simulationResult.insight}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Visual 05: VAR Review & Bivariate Poisson Matrix */}
-            {currentPhase.visualType === "var-review" && (
-              <div className="pitch-plot-card">
-                <div className="plot-header-bar">
-                  <span className="phb-icon">🎯</span>
-                  <span className="phb-title">BIVARIATE POISSON SCORELINE PROBABILITY MATRIX</span>
-                </div>
-                <img
-                  src="/epl_poisson_matrix.png"
-                  alt="Bivariate Poisson Score Matrix"
-                  className="pitch-plot-img"
-                />
-                <div className="plot-footer-note">
-                  <span>↳ Exact probability distribution across 25 discrete goal combinations P(Home=x, Away=y).</span>
-                </div>
-              </div>
-            )}
-
-            {/* Handwritten Manager's Field Note */}
-            <p className="pitch-hand-note">{currentPhase.handNote}</p>
-
-            {/* Navigation Buttons Row */}
-            <div className="pitch-actions-row">
-              <div className="pitch-pagination">
+          {/* 4 Orbiting Circular Satellite Tokens */}
+          <div className="tactical-satellites-layer">
+            {satellites.map((sat, sIdx) => {
+              const origIdx = tacticalPhases.findIndex((p) => p.num === sat.num);
+              // Positions on the perimeter: top-left, top-right, bottom-left, bottom-right
+              const posClasses = ["pos-tl", "pos-tr", "pos-bl", "pos-br"];
+              return (
                 <button
+                  key={sat.num}
                   type="button"
-                  disabled={activeMinuteIdx === 0}
-                  onClick={() => setActiveMinuteIdx((p) => Math.max(p - 1, 0))}
-                  className="pitch-nav-btn prev"
+                  onClick={() => setActiveIdx(origIdx)}
+                  className={`satellite-token-btn ${posClasses[sIdx]}`}
+                  title={`Switch to Phase ${sat.num}: ${sat.title}`}
                 >
-                  &larr; Prev
+                  <div className="stb-inner-disc">
+                    <span className="stb-num">{sat.num}</span>
+                    <span className="stb-label">{sat.codename}</span>
+                  </div>
+                  <span className="stb-pulse-ring" />
                 </button>
-                <span className="pitch-page-indicator">
-                  MATCH {currentPhase.minute} OF 90&apos;
-                </span>
-                <button
-                  type="button"
-                  disabled={activeMinuteIdx === tacticalPhases.length - 1}
-                  onClick={() => setActiveMinuteIdx((p) => Math.min(p + 1, tacticalPhases.length - 1))}
-                  className="pitch-nav-btn next"
-                >
-                  Next &rarr;
-                </button>
-              </div>
+              );
+            })}
+          </div>
 
-              <div className="pitch-links">
-                <a
-                  href="https://github.com/aaronnguyen26"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="pitch-action-link primary"
-                >
-                  <span>Explore Repository</span>
-                  <span>↗</span>
-                </a>
+          {/* ===================================================================
+              CENTER PIECE: THE 530px CIRCULAR TACTICAL INSPECTION DISC
+              A pure geometric circle with double brass rim, zero right angles.
+              Holds the motivation memorandum, quantitative metrics, and trade-offs.
+              =================================================================== */}
+          <div className="tactical-disc-center">
+            {/* Outer Machined Brass Bevel Ring */}
+            <div className="tdc-machined-ring">
+              {/* Slate Disc Face */}
+              <div className="tdc-slate-face">
+                {/* 1. Disc Header Badge */}
+                <div className="tdc-header-block">
+                  <span className="tdc-phase-pill">PHASE {current.num} &middot; {current.codename}</span>
+                  <h3 className="tdc-title">{current.title}</h3>
+                  <p className="tdc-subtitle">{current.subtitle}</p>
+                </div>
+
+                {/* 2. Pinned Personal Motivation Memorandum */}
+                <div className="tdc-memo-ribbon">
+                  <div className="tmr-header">
+                    <span className="tmr-tag">{current.motivationHeader}</span>
+                    <span className="tmr-author">AUTHOR DIRECTIVE</span>
+                  </div>
+                  <p className="tmr-text">{current.motivationBody}</p>
+                </div>
+
+                {/* 3. Circular Micro-Metrics Trio */}
+                <div className="tdc-metrics-trio">
+                  {current.metrics.map((m, mIdx) => (
+                    <div key={mIdx} className="tdc-metric-disc">
+                      <span className="tmd-val">{m.val}</span>
+                      <span className="tmd-label">{m.label}</span>
+                      <span className="tmd-sub">{m.sub}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 4. Architectural Trade-Off Leader */}
+                <div className="tdc-tradeoff-line">
+                  <div className="ttl-arrow">●──────&gt;</div>
+                  <div className="ttl-text">
+                    <strong>{current.tradeOff.heading}:</strong> {current.tradeOff.detail}
+                  </div>
+                </div>
+
+                {/* 5. Handwritten Fountain Pen Sideline Memo */}
+                <div className="tdc-handnote-row">
+                  <p className="tdc-handnote">{current.scoutNote}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+
+          {/* Bottom Quick-Step Tactical Bar */}
+          <div className="tactical-bottom-nav">
+            <button
+              type="button"
+              onClick={() => setActiveIdx((prev) => (prev - 1 + tacticalPhases.length) % tacticalPhases.length)}
+              className="tbn-step-btn prev"
+              title="Previous Phase [←]"
+            >
+              &larr; Prev Phase
+            </button>
+
+            <span className="tbn-indicator">
+              TACTICAL NODE {current.num} OF 05 &middot; KEY [1-5]
+            </span>
+
+            <button
+              type="button"
+              onClick={() => setActiveIdx((prev) => (prev + 1) % tacticalPhases.length)}
+              className="tbn-step-btn next"
+              title="Next Phase [→]"
+            >
+              Next Phase &rarr;
+            </button>
+          </div>
+        </main>
       </div>
     </div>,
     document.body
