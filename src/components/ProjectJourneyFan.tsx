@@ -17,6 +17,49 @@ interface PhaseTopic {
   detail: string;
 }
 
+interface PhaseSection {
+  partLabel: string;
+  lead?: string;
+  body?: string[];
+  stats?: { val: string; label: string; sub?: string }[];
+  bullets?: { val: string; text: string }[];
+  takeaways?: { title: string; desc: string }[];
+}
+
+interface SplitItem {
+  title: string;
+  desc: string;
+}
+
+interface SplitColumn {
+  tag: string;
+  title: string;
+  items: SplitItem[];
+}
+
+interface SplitComparison {
+  left: SplitColumn;
+  right: SplitColumn;
+}
+
+interface DecisionItem {
+  num: string;
+  title: string;
+  what: string;
+  why: string;
+  impact: string;
+}
+
+interface ConvolutionStage {
+  num: string;
+  stageTag: string;
+  title: string;
+  specs: string;
+  role: string;
+  what: string;
+  why: string;
+}
+
 interface PhaseDetail {
   num: string;
   tag: string;
@@ -33,6 +76,15 @@ interface PhaseDetail {
   narrativeLead: string;
   narrativeBody: string[];
   takeaways?: { title: string; desc: string }[];
+  sections?: PhaseSection[];
+  splitComparison?: SplitComparison;
+  decisions?: DecisionItem[];
+  cnnDiagram?: {
+    src: string;
+    alt: string;
+    caption?: string;
+  };
+  convolutionStages?: ConvolutionStage[];
   visualType: "photo" | "timeline" | "tradeoffs" | "tensor" | "plots" | "none";
   photoUrl?: string;
   photoCaption?: { left: string; right: string };
@@ -59,102 +111,145 @@ interface PhaseDetail {
 const wildfirePhases: PhaseDetail[] = [
   {
     num: "01",
-    tag: "PROBLEM SCOPE & ORIGIN",
-    badgeLabel: "CONTEXT & SPECS",
+    tag: "PROBLEM & ORIGIN",
+    badgeLabel: "PROBLEM & ORIGIN",
     title: "Context & Constraints",
     ctaText: "Explore Phase 01",
     summary:
-      "Scoping problem bounds, operational requirements, and success metrics before design:",
+      "Understanding the California wildfire crisis and the Pacific Palisades origin catalyst:",
     topics: [
       {
-        label: "Problem Scope",
-        detail: "Real-world friction driving the project.",
+        label: "Statewide Crisis",
+        detail: "2.5M+ acres burned & $10B+ damage annually.",
       },
       {
-        label: "Hard Limits",
-        detail: "Hardware memory and latency budgets.",
+        label: "Palisades Origin",
+        detail: "1,200 acres burned & 10,000 evacuated.",
       },
       {
-        label: "Success Bar",
-        detail: "Verifiable targets to declare victory.",
+        label: "The Breakthrough",
+        detail: "Sub-15ms edge inference to beat detection lag.",
       },
     ],
-    fullTitle: "Pacific Palisades & The Motivation for FireCNN",
-    subtitle: "Witnessing coastal canyon wildfires in Los Angeles exposed the critical bottleneck of detection delay.",
+    fullTitle: "California's Wildfire Crisis & The Pacific Palisades Origin",
+    subtitle:
+      "Bridging the statewide crisis with the ground reality I witnessed in the Palisades.",
     metrics: [],
-    incidentStats: [
-      { val: "1,200+ ACRES", label: "Burned & Threatened", sub: "Coastal Chaparral" },
-      { val: "10,000+", label: "Under Evacuation", sub: "Palisades & Topanga" },
-      { val: "3–6 HOURS", label: "Detection Delay", sub: "Orbital Satellite Passes" },
-      { val: "45 MINUTES", label: "Containment Window", sub: "Ground to Tree Canopies" },
-    ],
-    narrativeLead:
-      "Watching the Pacific Palisades wildfire ignite over the Santa Monica Mountains from Los Angeles was my catalyst: fires spread exponentially in minutes, but detection systems still move in hours.",
-    narrativeBody: [
-      "When dry chaparral brush caught fire along coastal ridges, 20–35 mph canyon gusts pushed flames through steep terrain faster than ground crews could reach. By the time orbital satellites processed their next pass or human 911 calls arrived, embers were already jumping ridge lines.",
-    ],
-    takeaways: [
+    incidentStats: [],
+    narrativeLead: "",
+    narrativeBody: [],
+    takeaways: [],
+    sections: [
       {
-        title: "The Detection Bottleneck",
-        desc: "Downlink lag and orbital intervals miss the 45-minute containment window, allowing surface brush fires to crown into unstoppable tree canopies.",
+        partLabel: "PART I · THE STATEWIDE CRISIS",
+        bullets: [
+          {
+            val: "2.5M+ Acres Burned",
+            text: "Burned annually across peak California wildfire seasons.",
+          },
+          {
+            val: "7,000+ Incidents",
+            text: "Wildfire ignitions logged each year statewide across CAL FIRE jurisdictions.",
+          },
+          {
+            val: "$10B to $15B Losses",
+            text: "Annual economic destruction, property loss, and emergency suppression expenditures.",
+          },
+        ],
       },
       {
-        title: "The Edge Mandate",
-        desc: "Eliminate reliance on cloud uplinks by running sub-15ms ignition classification directly aboard autonomous scout drones (<5W power, <35MB model footprint).",
+        partLabel: "PART II · THE PACIFIC PALISADES ORIGIN",
+        lead:
+          "Watching the Pacific Palisades wildfire ignite over the Santa Monica Mountains from Los Angeles was my personal turning point. I watched a small canyon plume explode into a fast-moving front while emergency crews lacked real-time ridge visibility.",
+        bullets: [
+          {
+            val: "1,200+ Acres Scorched",
+            text: "Coastal canyon and ridge chaparral consumed within hours across extreme terrain.",
+          },
+          {
+            val: "10,000+ Residents Evacuated",
+            text: "Forced under immediate mandatory evacuation orders across Pacific Palisades and Topanga.",
+          },
+          {
+            val: "500+ Homes Directly Threatened",
+            text: "Canyon residences and mountain structures endangered before ridge containment was established.",
+          },
+        ],
       },
     ],
     visualType: "none",
-    handNote: "↳ Core goal: Alert commanders within 60 seconds of ignition, before brush fires breach tree canopies.",
+    handNote:
+      "↳ What I realized: We cannot rely on delayed satellites or blocked engines. Drones need sub-15ms on-device vision to alert commanders within 60 seconds of ignition.",
   },
   {
     num: "02",
-    tag: "ROOT CAUSE ANALYSIS",
-    badgeLabel: "CORE BOTTLENECK",
-    title: "The Root Failure Point",
+    tag: "SCOPE & ROOT CAUSE",
+    badgeLabel: "STATUS QUO VS AIM",
+    title: "Scope & Status Quo",
     ctaText: "Explore Phase 02",
     summary:
-      "Diagnosing why existing tools fail and isolating the critical failure threshold:",
+      "Analyzing current wildfire detection bottlenecks and defining a focused, pragmatic project scope:",
     topics: [
       {
-        label: "Workflow Lag",
-        detail: "Where conventional tools break down.",
+        label: "Current Bottlenecks",
+        detail: "Why 911 calls, satellites & cloud models lag.",
       },
       {
-        label: "Critical Cliff",
-        detail: "Threshold where delays become fatal.",
+        label: "Pragmatic Aim",
+        detail: "A compact local model for binary fire detection.",
       },
       {
-        label: "Custom Need",
-        detail: "Why off-the-shelf software fell short.",
+        label: "Grounded Scope",
+        detail: "Software classification, not replacing drone hardware.",
       },
     ],
-    fullTitle: "The 45-Minute Canopy Escalation Cliff",
-    subtitle: "Why satellite downlink delays kill containment, and how 15ms edge inference saves it.",
-    metrics: [
-      { label: "SPEEDUP", val: "700,000×", sub: "3 hours → 15ms" },
-      { label: "CONTAINMENT CLIFF", val: "45 Minutes", sub: ">85% down to <25%" },
-      { label: "UPLINK REQUIRED", val: "0.0 KB/s", sub: "Fully Autonomous" },
-    ],
-    narrativeLead:
-      "Wildland firefighters face an unforgiving physical reality: chaparral brush ignitions escalate into unstoppable tree-canopy crown fires in under 45 minutes.",
-    narrativeBody: [
-      "Traditional satellite imaging cycles take 3 to 6 hours between orbital passes and image processing downlinks. By the time a thermal anomaly is confirmed, the initial attack window has collapsed, escalating containment costs from thousands to tens of millions of dollars.",
-      "FireCNN closes the detection loop directly aboard forward scout drones. By evaluating frames in 14.8ms with zero cellular or satellite uplink dependency, alert coordinates reach incident commanders within 60 seconds of ignition.",
-    ],
-    visualType: "timeline",
-    timelineData: {
-      legacy: {
-        badge: "TRADITIONAL SATELLITE REVIEW",
-        stat: "3 to 6 Hours",
-        desc: "Orbital passes and downlink processing miss the initial 45-minute containment window, allowing brush fires to breach canopies.",
+    fullTitle: "Status Quo Bottlenecks & The Focused Project Scope",
+    subtitle:
+      "Why existing detection workflows fail early containment, and the pragmatic objective of engineering a lightweight local classification model.",
+    metrics: [],
+    narrativeLead: "",
+    narrativeBody: [],
+    splitComparison: {
+      left: {
+        tag: "CURRENT STATUS QUO (SQ)",
+        title: "Existing Detection Bottlenecks",
+        items: [
+          {
+            title: "Delayed Human Line-of-Sight (911 Calls)",
+            desc: "Most initial ignitions are reported via emergency calls only after smoke plumes crest ridge lines or threaten homes, introducing 30 to 60 minutes of uncontained burn time.",
+          },
+          {
+            title: "Orbital Satellite Revisit Lag",
+            desc: "Commercial thermal satellites operate on 3 to 6-hour orbital passes. Overhead passes are frequently occluded by cloud cover and lack the spatial resolution needed for pinpointing spot fires.",
+          },
+          {
+            title: "Cloud Connectivity Bottlenecks",
+            desc: "Existing computer vision pipelines depend on high-bandwidth cloud servers. In steep backcountry canyons and remote ridges, cellular signals are nonexistent or severed by wildfire heat.",
+          },
+        ],
       },
-      modern: {
-        badge: "FIRECNN EDGE DRONE RELAY",
-        stat: "14.8 ms (700,000× Faster)",
-        desc: "Local on-drone inference detects plumes at minute 2. Drops and ground alerts trigger within 60 seconds of ignition.",
+      right: {
+        tag: "PROJECT AIM & SCOPE",
+        title: "Grounded Software Objective",
+        items: [
+          {
+            title: "Compact, Lightweight Model Footprint",
+            desc: "Engineering a small convolutional architecture (< 35MB parameter budget) that operates within the strict memory and compute limits of standard edge hardware.",
+          },
+          {
+            title: "Autonomous Local Edge Inference",
+            desc: "Executing image inference on-device in under 15ms per frame, ensuring immediate classification without requiring internet access or remote servers.",
+          },
+          {
+            title: "Focused Binary Smoke & Fire Detection",
+            desc: "A pragmatic, dedicated scope: accurately classifying whether an incoming image contains a wildfire or not, serving as an efficient software tool rather than overhauling drone hardware.",
+          },
+        ],
       },
     },
-    handNote: "↳ Retardant drops within 45 minutes maintain >85% containment probability.",
+    visualType: "none",
+    handNote:
+      "↳ Grounded Scope: Building a fast, lightweight software classifier to verify smoke in aerial frames locally, keeping compute requirements small enough for real-time edge devices.",
   },
   {
     num: "03",
@@ -163,54 +258,55 @@ const wildfirePhases: PhaseDetail[] = [
     title: "Architecture Decisions",
     ctaText: "Explore Phase 03",
     summary:
-      "Weighing architectural forks and deliberate cuts made to protect performance:",
+      "Core engineering choices and trade-offs made to keep local inference fast, lightweight, and accurate:",
     topics: [
       {
-        label: "Design Forks",
-        detail: "Evaluating competing architectures.",
+        label: "Model Sizing",
+        detail: "Custom compact CNN vs heavy backbones.",
       },
       {
-        label: "Scope Cuts",
-        detail: "Cutting features to preserve speed.",
+        label: "Scope Cut",
+        detail: "Classification over polygon segmentation.",
       },
       {
-        label: "Trade-Offs",
-        detail: "Balancing compute, memory, and accuracy.",
+        label: "Regularization",
+        detail: "Dense head dropout to stop overfitting.",
       },
     ],
-    fullTitle: "Edge Architecture: Compute, Regularization & Scope Cuts",
-    subtitle: "Why custom CNN won over ViT, fixing the 16.1% memorization gap with Dropout.",
-    metrics: [
-      { label: "EDGE POWER", val: "< 5 Watts", sub: "Quadcopter Budget" },
-      { label: "MEMORIZATION GAP", val: "16.1% → 5.07%", sub: "Resolved via Dropout" },
-      { label: "LATENCY SAVED", val: "-78%", sub: "Scope Cut: Classify vs Seg" },
-    ],
-    narrativeLead:
-      "Every architectural choice was constrained by real-world edge physics: limited battery power, quad-core drone processors, and high vibration telemetry.",
-    narrativeBody: [
-      "Decision 1 (Custom 3-Stage CNN vs Vision Transformers): Standard transfer learning with 86M ViT-B/16 or ResNet-50 requires 80–120W of compute power, draining drone flight time down to 18 minutes. We engineered a custom 3-stage CNN with 16.8M parameters consuming under 5W while delivering 14.8ms inference.",
-      "Decision 2 (Dense Head Dropout p=0.5): Initial models suffered severe loss divergence (16.1% generalization gap) due to memorizing specific mountain ridge angles. Introducing 50% random neuron masking across the 512 latent units forced the network to learn turbulent smoke textures instead of terrain backgrounds.",
-      "Decision 3 (Classification over Polygon Segmentation): While polygon segmentation masks look impressive in papers, generating pixel-level contours added 320ms per tile. Deliberately cutting segmentation in favor of binary ignition confidence preserved real-time 60+ FPS edge throughput.",
-    ],
-    visualType: "tradeoffs",
-    tradeoffs: [
+    fullTitle: "Architectural Decisions",
+    subtitle:
+      "Key design trade-offs made to balance speed, memory, and generalization on edge devices.",
+    metrics: [],
+    incidentStats: [],
+    narrativeLead: "",
+    narrativeBody: [],
+    takeaways: [],
+    decisions: [
       {
         num: "01",
-        title: "Custom 3-Stage CNN vs. Vision Transformers (ViT)",
-        body: "86M ViT-B/16 requires 80–120W of compute power, draining drone batteries in 18 minutes. Custom 3-stage CNN uses 16.8M parameters consuming under 5W on edge quadcopters.",
+        title: "Custom 3-Stage CNN vs Heavy Backbones (ViT / ResNet)",
+        what: "Engineered a compact 3-stage CNN (33.9MB footprint) instead of deploying heavy pretrained vision transformers or 50-layer ResNets.",
+        why: "Pretrained transformer backbones require 80W+ power draws and massive memory bandwidth that drain edge batteries and choke low-power processors.",
+        impact: "Achieved sub-15ms inference latency per frame with minimal memory consumption, ideal for standalone local execution.",
       },
       {
         num: "02",
-        title: "Dense Head Dropout (p=0.5)",
-        body: "Baseline models memorized specific mountain ridge angles (16.1% generalization gap). 50% random masking across 512 latent units narrowed the spread down to 5.07%.",
+        title: "Binary Smoke & Fire Classification vs Polygon Segmentation",
+        what: "Scoped the model strictly to binary image classification (fire/smoke present vs clean) rather than pixel-level contour segmentation masks.",
+        why: "Generating dense segmentation masks adds more than 300ms of latency per frame without providing extra value for initial ignition alerts.",
+        impact: "Saved over 75% compute latency, maintaining continuous real-time 60+ FPS processing without frame-dropping.",
       },
       {
         num: "03",
-        title: "Classification over Polygon Segmentation",
-        body: "Cut contour segmentation (+320ms per tile) to preserve real-time 60+ FPS edge throughput and sub-15ms ignition classification.",
+        title: "Dense Head Dropout (p=0.5) Regularization",
+        what: "Integrated a 50% dropout layer directly before the final dense classification head.",
+        why: "Early baseline models memorized static background terrain features and mountain contours rather than generic smoke textures.",
+        impact: "Eliminated terrain overfitting, narrowing the train-validation generalization gap from 16.1% down to 5.07%.",
       },
     ],
-    handNote: "↳ Sacrificed fire perimeter polygons to achieve real-time 60+ FPS edge alerts.",
+    visualType: "none",
+    handNote:
+      "↳ Core Engineering Takeaway: Cutting unnecessary segmentation complexity and prioritizing a compact CNN architecture delivered the sub-15ms speed required for local edge execution.",
   },
   {
     num: "04",
@@ -236,27 +332,53 @@ const wildfirePhases: PhaseDetail[] = [
     ],
     fullTitle: "Neural Network Pipeline & Tensor Flow Walkthrough",
     subtitle: "From raw 128×128 sensor tile through Conv1, Conv2, Conv3 to dense logits.",
-    metrics: [
-      { label: "CONV STAGES", val: "3 Blocks", sub: "32 → 64 → 128 filters" },
-      { label: "LATENT UNITS", val: "512", sub: "Dense Head (p=0.5)" },
-      { label: "FINAL LOGIT", val: "97.4%", sub: "Calibrated Sigmoid" },
+    metrics: [],
+    narrativeLead: "",
+    narrativeBody: [],
+    cnnDiagram: {
+      src: "/firecnn_architecture_diagram.svg",
+      alt: "FireCNN 3-Stage Convolutional Neural Network Architecture Diagram",
+      caption: "FIRECNN TENSOR ARCHITECTURE • 128×128 INPUT TO BINARY DECISION",
+    },
+    convolutionStages: [
+      {
+        num: "01",
+        stageTag: "STAGE 01 // CONV BLOCK 1",
+        title: "Convolution 1: Low-Level Spatial Edge Extractor",
+        specs: "32 Filters (3×3) • ReLU • 2×2 MaxPool • 64×64×32",
+        role: "Detects sharp spatial boundaries, flame contrast edges, and horizon contours.",
+        what: "Applies 32 parallel 3×3 convolutional filters across normalized 128×128 RGB crops, followed by ReLU non-linearity and a 2×2 max pooling operation downsampling spatial dimensions to 64×64.",
+        why: "Extracts fundamental geometric boundaries between bright chaparral brush lines, flame margins, and rugged mountain ridges while immediately cutting tensor volume by 75% for low latency.",
+      },
+      {
+        num: "02",
+        stageTag: "STAGE 02 // CONV BLOCK 2",
+        title: "Convolution 2: Mid-Level Smoke Plume Texture",
+        specs: "64 Filters (3×3) • ReLU • 2×2 MaxPool • 32×32×64",
+        role: "Encodes turbulent smoke dispersion patterns, plume gradient flows, and vapor spread.",
+        what: "Expands channel capacity to 64 filters operating on 64×64 feature maps, learning multi-pixel textural relationships before downsampling through 2×2 max pooling to 32×32.",
+        why: "Wildfire smoke lacks rigid polygonal edges. Expanding filter depth allows the network to distinguish diffuse aerodynamic billows from static background brush and rock formations.",
+      },
+      {
+        num: "03",
+        stageTag: "STAGE 03 // CONV BLOCK 3",
+        title: "Convolution 3: High-Level Combustion Filter",
+        specs: "128 Filters (3×3) • ReLU • 2×2 MaxPool • 16×16×128",
+        role: "Semantic combustion isolation and atmospheric false positive discrimination.",
+        what: "Deepens the representation to 128 feature channels over 16×16 feature maps, synthesizing complex contextual cues and downsampling to a compact 16×16 spatial activation grid.",
+        why: "Acts as the primary discriminator separating authentic organic combustion plumes from benign atmospheric distractors such as low coastal marine fog, cloud shadows, and dry canyon dust.",
+      },
+      {
+        num: "04",
+        stageTag: "STAGE 04 // DENSE HEAD",
+        title: "Classification Head: Dense Projection & Dropout Regularization",
+        specs: "Flatten (32,768) • Dense 512 • Dropout (p=0.5) • 1 Binary Logit",
+        role: "Feature map aggregation, spatial regularization, and calibrated fire probability output.",
+        what: "Flattens 32,768 spatial activations into a 512-neuron dense layer with 50% dropout during training, projecting to a single scalar logit calibrated through a Sigmoid activation function.",
+        why: "The 0.5 dropout rate suppresses co-adaptation and prevents memorization of fixed sensor background tiles, narrowing validation loss divergence while keeping execution sub-15ms.",
+      },
     ],
-    narrativeLead:
-      "A 6-stage forward pipeline engineered to extract contrast edges, smoke turbulence, and aerodynamic billows in 14.8ms.",
-    narrativeBody: [
-      "Standardized 128×128 RGB crops undergo zero-mean normalization to eliminate harsh daylight contrast across desert and coastal ridgelines.",
-      "Conv 1 (64×64×32) extracts sharp boundary edges between flame points and dark chaparral brush. Conv 2 (32×32×64) expands channel depth to learn turbulent smoke textures. Conv 3 (16×16×128) acts as the critical combustion filter, isolating authentic wildfire smoke plumes from morning coastal fog banks.",
-      "32,768 spatial activations flatten into a 512-dimensional latent head with 50% dropout, projecting to a single binary activation weighted heavily against false negatives.",
-    ],
-    visualType: "tensor",
-    pipelineStages: [
-      { stage: "Stage 00 // Input", dim: "128×128×3 RGB", title: "Input Sensor Tile", op: "Raw Drone Crop • Zero-Mean Norm", speed: "Input Feed", weights: "0 params" },
-      { stage: "Stage 01 // Conv 1", dim: "64×64×32", title: "Conv 1: Edge & Horizon Extractor", op: "32 filters (3×3) • ReLU • 2×2 Pool", speed: "<1ms MPS", weights: "896 params" },
-      { stage: "Stage 02 // Conv 2", dim: "32×32×64", title: "Conv 2: Smoke Plume Texture", op: "64 filters (3×3) • ReLU • 2×2 Pool", speed: "2ms edge", weights: "18,496 params" },
-      { stage: "Stage 03 // Conv 3", dim: "16×16×128", title: "Conv 3: Combustion Filter", op: "128 filters (3×3) • ReLU • 2×2 Pool", speed: "3ms edge", weights: "73,856 params" },
-      { stage: "Stage 04 // Dense", dim: "512 Neurons • p=0.5", title: "Dense Head & Dropout", op: "Linear(32K → 512) • Dropout(0.5)", speed: "4ms edge", weights: "16.7M params" },
-      { stage: "Stage 05 // Logits", dim: "1 Logit • Sigmoid", title: "Output: Fire Probability", op: "Linear(512 → 1) • Weighted BCE", speed: "<1ms logit", weights: "513 params" },
-    ],
+    visualType: "none",
     handNote: "↳ Conv 3 filters isolate genuine smoke plumes from Malibu morning fog.",
   },
   {
@@ -330,7 +452,7 @@ const eplPhases: PhaseDetail[] = [
       },
     ],
     fullTitle: "Premier League Match Prediction & The Draw Paradox",
-    subtitle: "Football match outcomes are notoriously low-scoring and volatile—predicting them requires isolating signal from high-variance noise.",
+    subtitle: "Football match outcomes are notoriously low-scoring and volatile: predicting them requires isolating signal from high-variance noise.",
     metrics: [],
     incidentStats: [
       { val: "380 FIXTURES", label: "Matches Per Season", sub: "1992–2024 Archive" },
@@ -352,7 +474,7 @@ const eplPhases: PhaseDetail[] = [
       },
       {
         title: "The Temporal Mandate",
-        desc: "Every metric must be strictly point-in-time—rolling statistics cannot include the current fixture's performance.",
+        desc: "Every metric must be strictly point-in-time, meaning rolling statistics cannot include the current fixture's performance.",
       },
     ],
     visualType: "photo",
@@ -530,7 +652,7 @@ const eplPhases: PhaseDetail[] = [
       { val: "38 FEATURES", label: "Engineered Vector", sub: "Zero Lookahead Bias" },
     ],
     narrativeLead:
-      "To project not just single matches but entire 38-game seasons—including title odds, Champions League qualification, and relegation probabilities—the pipeline integrates a high-speed Monte Carlo simulation engine.",
+      "To project not just single matches but entire 38-game seasons (including title odds, Champions League qualification, and relegation probabilities), the pipeline integrates a high-speed Monte Carlo simulation engine.",
     narrativeBody: [
       "For each fixture in the remaining schedule, the engine computes team attack/defense ratings, samples scorelines from the bivariate Poisson distribution, and updates each team's dynamic Elo rating before proceeding to the next matchweek.",
       "Running this simulation 10,000 times produces empirical confidence intervals for points totals, goal difference distributions, and exact finishing positions with complete variance modeling.",
@@ -889,56 +1011,710 @@ export default function ProjectJourneyFan({
 
         {/* Scrollable Content Container */}
         <div ref={isInteractive ? scrollRef : undefined} className="expanded-scroll-area">
-          {/* Metric Strip (Omitted if metrics is empty) */}
-          {ph.metrics && ph.metrics.length > 0 && (
-            <div className="expanded-metric-grid">
-              {ph.metrics.map((m) => (
-                <div key={m.label} className="expanded-metric-box">
-                  <span className="emb-label">{m.label}</span>
-                  <span className="emb-val">{m.val}</span>
-                  {m.sub && <span className="emb-sub">{m.sub}</span>}
+          {/* 2-Column Split Comparison (e.g. Phase 02 Status Quo vs Scope) */}
+          {ph.splitComparison ? (
+            <div
+              className="expanded-split-comparison"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1px 1fr",
+                gap: "24px",
+                margin: "4px 0 16px 0",
+              }}
+            >
+              {/* Left Column: Problem with current SQ */}
+              <div
+                className="split-col-sq"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "14px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid rgba(70, 40, 10, 0.14)",
+                    paddingBottom: "6px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "0.68rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: "#6b625b",
+                    }}
+                  >
+                    {ph.splitComparison.left.tag}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                  {ph.splitComparison.left.items.map((item, idx) => (
+                    <div key={idx} style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+                      <div style={{ display: "flex", alignItems: "baseline", gap: "7px" }}>
+                        <span style={{ color: "#78716c", fontSize: "0.80rem", fontWeight: 700, lineHeight: 1 }}>•</span>
+                        <strong
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.88rem",
+                            fontWeight: 700,
+                            color: "#1c1917",
+                            letterSpacing: "-0.01em",
+                          }}
+                        >
+                          {item.title}
+                        </strong>
+                      </div>
+                      <p
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.82rem",
+                          lineHeight: 1.52,
+                          color: "#44403c",
+                          margin: "0 0 0 14px",
+                        }}
+                      >
+                        {item.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Center Vertical Divider */}
+              <div
+                className="split-center-divider"
+                style={{
+                  backgroundColor: "rgba(70, 40, 10, 0.14)",
+                  width: "1px",
+                  height: "100%",
+                }}
+              />
+
+              {/* Right Column: Aim & Pragmatic Scope */}
+              <div
+                className="split-col-aim"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "14px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    borderBottom: "1px solid rgba(70, 40, 10, 0.14)",
+                    paddingBottom: "6px",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "0.68rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: "#6b625b",
+                    }}
+                  >
+                    {ph.splitComparison.right.tag}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                  {ph.splitComparison.right.items.map((item, idx) => (
+                    <div key={idx} style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+                      <div style={{ display: "flex", alignItems: "baseline", gap: "7px" }}>
+                        <span style={{ color: "#78716c", fontSize: "0.80rem", fontWeight: 700, lineHeight: 1 }}>•</span>
+                        <strong
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.88rem",
+                            fontWeight: 700,
+                            color: "#1c1917",
+                            letterSpacing: "-0.01em",
+                          }}
+                        >
+                          {item.title}
+                        </strong>
+                      </div>
+                      <p
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.82rem",
+                          lineHeight: 1.52,
+                          color: "#44403c",
+                          margin: "0 0 0 14px",
+                        }}
+                      >
+                        {item.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : ph.decisions && ph.decisions.length > 0 ? (
+            <div
+              className="expanded-decisions-list"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                margin: "4px 0 16px 0",
+              }}
+            >
+              {ph.decisions.map((dec, dIdx) => (
+                <div
+                  key={dec.num}
+                  className="expanded-decision-card"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "9px",
+                    paddingBottom: dIdx < ph.decisions!.length - 1 ? "16px" : "4px",
+                    borderBottom:
+                      dIdx < ph.decisions!.length - 1
+                        ? "1px solid rgba(70, 40, 10, 0.14)"
+                        : "none",
+                  }}
+                >
+                  {/* Header: Number and Title */}
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: "0.70rem",
+                        fontWeight: 700,
+                        color: "#78716c",
+                        letterSpacing: "0.06em",
+                      }}
+                    >
+                      DECISION {dec.num}
+                    </span>
+                    <span style={{ color: "rgba(70, 40, 10, 0.25)" }}>/</span>
+                    <h4
+                      style={{
+                        fontFamily: "var(--font-serif, Georgia, serif)",
+                        fontSize: "0.92rem",
+                        fontWeight: 700,
+                        color: "#1c1917",
+                        margin: 0,
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
+                      {dec.title}
+                    </h4>
+                  </div>
+
+                  {/* What / Why / Impact Rows */}
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "6px",
+                      paddingLeft: "2px",
+                    }}
+                  >
+                    {/* WHAT */}
+                    <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                      <strong
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.84rem",
+                          fontWeight: 700,
+                          color: "#1c1917",
+                          minWidth: "62px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        What:
+                      </strong>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.83rem",
+                          lineHeight: 1.5,
+                          color: "#383531",
+                        }}
+                      >
+                        {dec.what}
+                      </span>
+                    </div>
+
+                    {/* WHY */}
+                    <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                      <strong
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.84rem",
+                          fontWeight: 700,
+                          color: "#1c1917",
+                          minWidth: "62px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        Why:
+                      </strong>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.83rem",
+                          lineHeight: 1.5,
+                          color: "#383531",
+                        }}
+                      >
+                        {dec.why}
+                      </span>
+                    </div>
+
+                    {/* IMPACT */}
+                    <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                      <strong
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.84rem",
+                          fontWeight: 700,
+                          color: "#1c1917",
+                          minWidth: "62px",
+                          flexShrink: 0,
+                        }}
+                      >
+                        Impact:
+                      </strong>
+                      <span
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.83rem",
+                          lineHeight: 1.5,
+                          color: "#383531",
+                        }}
+                      >
+                        {dec.impact}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
-          )}
+          ) : ph.convolutionStages && ph.convolutionStages.length > 0 ? (
+            <div
+              className="expanded-cnn-walkthrough"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "18px",
+                margin: "4px 0 16px 0",
+              }}
+            >
+              {/* Top: Image of the CNN Network */}
+              {ph.cnnDiagram && (
+                <div
+                  className="cnn-diagram-card"
+                  style={{
+                    borderRadius: "8px",
+                    border: "1px solid rgba(70, 40, 10, 0.16)",
+                    backgroundColor: "#ffffff",
+                    overflow: "hidden",
+                    boxShadow: "0 2px 8px rgba(35, 25, 15, 0.04)",
+                  }}
+                >
+                  <img
+                    src={ph.cnnDiagram.src}
+                    alt={ph.cnnDiagram.alt}
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
+                  {ph.cnnDiagram.caption && (
+                    <div
+                      style={{
+                        padding: "6px 12px",
+                        backgroundColor: "#f7f3ec",
+                        borderTop: "1px solid rgba(70, 40, 10, 0.10)",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: "0.68rem",
+                        color: "#78716c",
+                        letterSpacing: "0.04em",
+                      }}
+                    >
+                      <span>{ph.cnnDiagram.caption}</span>
+                      <span style={{ color: "#1e5c38", fontWeight: 600 }}>FORWARD FLOW • 14.8ms</span>
+                    </div>
+                  )}
+                </div>
+              )}
 
-          {/* Narrative Paragraphs */}
-          <div className="expanded-narrative-section">
-            <p className="expanded-narrative-lead">{ph.narrativeLead}</p>
-            {ph.narrativeBody.map((paragraph, pIdx) => (
-              <p key={pIdx} className="expanded-narrative-p">
-                {paragraph}
-              </p>
-            ))}
-
-            {/* Incident / Context Statistics Strip */}
-            {ph.incidentStats && ph.incidentStats.length > 0 && (
-              <div className="expanded-incident-grid">
-                {ph.incidentStats.map((st) => (
-                  <div key={st.label} className="expanded-incident-box">
-                    <span className="eib-val">{st.val}</span>
-                    <span className="eib-label">{st.label}</span>
-                    {st.sub && <span className="eib-sub">{st.sub}</span>}
-                  </div>
-                ))}
+              {/* Section Sub-Header */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  borderBottom: "1px solid rgba(70, 40, 10, 0.14)",
+                  paddingBottom: "6px",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "0.68rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "#6b625b",
+                  }}
+                >
+                  CONVOLUTIONAL STAGES &amp; LAYER EXPLANATIONS
+                </span>
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono, monospace)",
+                    fontSize: "0.68rem",
+                    color: "#8a1c1c",
+                    fontWeight: 600,
+                  }}
+                >
+                  3 CONV BLOCKS + DENSE HEAD
+                </span>
               </div>
-            )}
 
-            {/* Bullet / Takeaway points if present */}
-            {ph.takeaways && ph.takeaways.length > 0 && (
-              <div className="expanded-takeaways-list">
-                {ph.takeaways.map((item, tIdx) => (
-                  <div key={tIdx} className="expanded-takeaway-item">
-                    <span className="takeaway-bullet">—</span>
-                    <div>
-                      <strong className="takeaway-title">{item.title}: </strong>
-                      <span className="takeaway-desc">{item.desc}</span>
+              {/* Convolution Stages Explanation List */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {ph.convolutionStages.map((stg, sIdx) => (
+                  <div
+                    key={stg.num}
+                    className="expanded-conv-card"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "9px",
+                      paddingBottom: sIdx < ph.convolutionStages!.length - 1 ? "16px" : "4px",
+                      borderBottom:
+                        sIdx < ph.convolutionStages!.length - 1
+                          ? "1px solid rgba(70, 40, 10, 0.14)"
+                          : "none",
+                    }}
+                  >
+                    {/* Header: Stage and Title */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "baseline",
+                        justifyContent: "space-between",
+                        flexWrap: "wrap",
+                        gap: "6px",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-mono, monospace)",
+                            fontSize: "0.70rem",
+                            fontWeight: 700,
+                            color: "#78716c",
+                            letterSpacing: "0.06em",
+                          }}
+                        >
+                          {stg.stageTag}
+                        </span>
+                        <span style={{ color: "rgba(70, 40, 10, 0.25)" }}>/</span>
+                        <h4
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.92rem",
+                            fontWeight: 700,
+                            color: "#1c1917",
+                            margin: 0,
+                            letterSpacing: "-0.01em",
+                          }}
+                        >
+                          {stg.title}
+                        </h4>
+                      </div>
+
+                      <span
+                        style={{
+                          fontFamily: "var(--font-mono, monospace)",
+                          fontSize: "0.66rem",
+                          color: "#8a1c1c",
+                          backgroundColor: "rgba(138, 28, 28, 0.06)",
+                          padding: "2px 7px",
+                          borderRadius: "4px",
+                          letterSpacing: "0.03em",
+                        }}
+                      >
+                        {stg.specs}
+                      </span>
+                    </div>
+
+                    {/* Details: Role, What, Why */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "6px",
+                        paddingLeft: "2px",
+                      }}
+                    >
+                      {/* ROLE */}
+                      <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                        <strong
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.84rem",
+                            fontWeight: 700,
+                            color: "#1c1917",
+                            minWidth: "62px",
+                            flexShrink: 0,
+                          }}
+                        >
+                          Role:
+                        </strong>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.83rem",
+                            lineHeight: 1.5,
+                            color: "#383531",
+                          }}
+                        >
+                          {stg.role}
+                        </span>
+                      </div>
+
+                      {/* WHAT */}
+                      <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                        <strong
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.84rem",
+                            fontWeight: 700,
+                            color: "#1c1917",
+                            minWidth: "62px",
+                            flexShrink: 0,
+                          }}
+                        >
+                          What:
+                        </strong>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.83rem",
+                            lineHeight: 1.5,
+                            color: "#383531",
+                          }}
+                        >
+                          {stg.what}
+                        </span>
+                      </div>
+
+                      {/* WHY */}
+                      <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                        <strong
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.84rem",
+                            fontWeight: 700,
+                            color: "#1c1917",
+                            minWidth: "62px",
+                            flexShrink: 0,
+                          }}
+                        >
+                          Why:
+                        </strong>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-serif, Georgia, serif)",
+                            fontSize: "0.83rem",
+                            lineHeight: 1.5,
+                            color: "#383531",
+                          }}
+                        >
+                          {stg.why}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-            )}
-          </div>
+            </div>
+          ) : ph.sections && ph.sections.length > 0 ? (
+            <div className="expanded-narrative-section">
+              {ph.sections.map((sec, sIdx) => (
+                <div key={sIdx} className="expanded-editorial-part">
+                  {sec.partLabel && (
+                    <div className="expanded-part-header">
+                      <span className="expanded-part-label">{sec.partLabel}</span>
+                    </div>
+                  )}
+
+                  {sec.lead && (
+                    <p
+                      className="expanded-narrative-lead"
+                      style={{
+                        fontFamily: "var(--font-serif, Georgia, serif)",
+                        fontWeight: 400,
+                        color: "#383531",
+                        fontSize: "0.85rem",
+                        lineHeight: 1.55,
+                        margin: "0 0 12px 0",
+                      }}
+                    >
+                      {sec.lead}
+                    </p>
+                  )}
+
+                  {sec.bullets && sec.bullets.length > 0 && (
+                    <div className="expanded-bullet-list" style={{ display: "flex", flexDirection: "column", gap: "9px", margin: "8px 0 14px 0" }}>
+                      {sec.bullets.map((b, bIdx) => (
+                        <div
+                          key={bIdx}
+                          className="expanded-bullet-item"
+                          style={{ display: "flex", alignItems: "baseline", gap: "8px" }}
+                        >
+                          <span
+                            className="expanded-bullet-marker"
+                            style={{
+                              color: "var(--cardinal, #8a1c1c)",
+                              fontWeight: 700,
+                              flexShrink: 0,
+                              fontSize: "0.82rem",
+                              lineHeight: 1,
+                            }}
+                          >
+                            •
+                          </span>
+                          <div className="expanded-bullet-content" style={{ flex: 1 }}>
+                            <strong
+                              className="expanded-bullet-val"
+                              style={{
+                                fontFamily: "var(--font-serif, Georgia, serif)",
+                                fontSize: "0.92rem",
+                                fontWeight: 700,
+                                color: "#1c1917",
+                                letterSpacing: "-0.01em",
+                                marginRight: "5px",
+                              }}
+                            >
+                              {b.val}:
+                            </strong>{" "}
+                            <span
+                              className="expanded-bullet-text"
+                              style={{
+                                fontFamily: "var(--font-serif, Georgia, serif)",
+                                color: "#383531",
+                                fontSize: "0.83rem",
+                                lineHeight: 1.5,
+                              }}
+                            >
+                              {b.text}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {sec.body &&
+                    sec.body.map((p, pIdx) => (
+                      <p key={pIdx} className="expanded-narrative-p">
+                        {p}
+                      </p>
+                    ))}
+
+                  {sec.stats && sec.stats.length > 0 && (
+                    <div className="expanded-incident-grid">
+                      {sec.stats.map((st) => (
+                        <div key={st.label} className="expanded-incident-box">
+                          <span className="eib-val">{st.val}</span>
+                          <span className="eib-label">{st.label}</span>
+                          {st.sub && <span className="eib-sub">{st.sub}</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {sec.takeaways && sec.takeaways.length > 0 && (
+                    <div className="expanded-takeaways-list">
+                      {sec.takeaways.map((item, tIdx) => (
+                        <div key={tIdx} className="expanded-takeaway-item">
+                          <span className="takeaway-bullet">•</span>
+                          <div>
+                            <strong className="takeaway-title">{item.title}: </strong>
+                            <span className="takeaway-desc">{item.desc}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <>
+              {/* Metric Strip (Omitted if metrics is empty) */}
+              {ph.metrics && ph.metrics.length > 0 && (
+                <div className="expanded-metric-grid">
+                  {ph.metrics.map((m) => (
+                    <div key={m.label} className="expanded-metric-box">
+                      <span className="emb-label">{m.label}</span>
+                      <span className="emb-val">{m.val}</span>
+                      {m.sub && <span className="emb-sub">{m.sub}</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Narrative Paragraphs */}
+              <div className="expanded-narrative-section">
+                {ph.narrativeLead && <p className="expanded-narrative-lead">{ph.narrativeLead}</p>}
+                {ph.narrativeBody &&
+                  ph.narrativeBody.map((paragraph, pIdx) => (
+                    <p key={pIdx} className="expanded-narrative-p">
+                      {paragraph}
+                    </p>
+                  ))}
+
+                {/* Incident / Context Statistics Strip */}
+                {ph.incidentStats && ph.incidentStats.length > 0 && (
+                  <div className="expanded-incident-grid">
+                    {ph.incidentStats.map((st) => (
+                      <div key={st.label} className="expanded-incident-box">
+                        <span className="eib-val">{st.val}</span>
+                        <span className="eib-label">{st.label}</span>
+                        {st.sub && <span className="eib-sub">{st.sub}</span>}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Bullet / Takeaway points if present */}
+                {ph.takeaways && ph.takeaways.length > 0 && (
+                  <div className="expanded-takeaways-list">
+                    {ph.takeaways.map((item, tIdx) => (
+                      <div key={tIdx} className="expanded-takeaway-item">
+                        <span className="takeaway-bullet">•</span>
+                        <div>
+                          <strong className="takeaway-title">{item.title}: </strong>
+                          <span className="takeaway-desc">{item.desc}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
 
           {/* Phase-Specific Visual Sections */}
           {ph.visualType === "photo" && ph.photoUrl && (

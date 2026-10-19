@@ -2956,10 +2956,15 @@ h1.project-title em {
 /* Expanded Scrollable Body */
 .expanded-scroll-area {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 8px;
   margin-right: -4px;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 70, 30, 0.28) rgba(100, 70, 30, 0.05);
 }
 
 .expanded-scroll-area::-webkit-scrollbar {
@@ -2972,7 +2977,7 @@ h1.project-title em {
 }
 
 .expanded-scroll-area::-webkit-scrollbar-thumb {
-  background: rgba(100, 70, 30, 0.25);
+  background: rgba(100, 70, 30, 0.28);
   border-radius: 3px;
 }
 
@@ -3027,20 +3032,92 @@ h1.project-title em {
   margin-bottom: 12px;
 }
 
+.expanded-editorial-part {
+  margin-bottom: 16px;
+}
+
+.expanded-editorial-part:not(:first-child) {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(70, 40, 10, 0.16);
+}
+
+.expanded-part-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.expanded-part-label {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cardinal, #8a1c1c);
+}
+
 .expanded-narrative-lead {
   font-family: var(--font-serif, Georgia, serif);
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: #1c1917;
-  line-height: 1.45;
-  margin-bottom: 6px;
+  font-size: 0.86rem;
+  font-weight: 400;
+  color: #383531;
+  line-height: 1.55;
+  margin-bottom: 12px;
 }
 
 .expanded-narrative-p {
-  font-size: 0.80rem;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #383531;
+  margin-bottom: 8px;
+}
+
+/* Editorial Bullet List (Field Briefing Numbers) */
+.expanded-bullet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 6px 0 10px 0;
+  padding: 0;
+}
+
+.expanded-bullet-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.82rem;
   line-height: 1.5;
+  color: #383531;
+}
+
+.expanded-bullet-marker {
+  color: var(--cardinal, #8a1c1c);
+  font-size: 0.80rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.expanded-bullet-content {
+  flex: 1;
+}
+
+.expanded-bullet-val {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.90rem;
+  font-weight: 700;
+  color: #1c1917;
+  letter-spacing: -0.01em;
+}
+
+.expanded-bullet-text {
+  font-family: var(--font-serif, Georgia, serif);
   color: #44403c;
-  margin-bottom: 6px;
+  font-size: 0.81rem;
+  line-height: 1.5;
 }
 
 /* Incident Statistics Ledger (Editorial Open Ledger - No Boxes) */
@@ -3078,11 +3155,10 @@ h1.project-title em {
 
 .eib-val {
   font-family: var(--font-serif, Georgia, serif);
-  font-size: 1.05rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: #1c1917;
   line-height: 1.15;
-  white-space: nowrap;
   letter-spacing: -0.01em;
 }
 
@@ -3148,6 +3224,7 @@ h1.project-title em {
 }
 
 .takeaway-desc {
+  font-family: var(--font-serif, Georgia, serif);
   color: #44403c;
 }
 
