@@ -1432,25 +1432,6 @@ export default function ProjectJourneyFan({
                     alt={ph.cnnDiagram.alt}
                     style={{ width: "100%", height: "auto", display: "block" }}
                   />
-                  {ph.cnnDiagram.caption && (
-                    <div
-                      style={{
-                        padding: "6px 12px",
-                        backgroundColor: "#f7f3ec",
-                        borderTop: "1px solid rgba(70, 40, 10, 0.10)",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        fontFamily: "var(--font-mono, monospace)",
-                        fontSize: "0.68rem",
-                        color: "#78716c",
-                        letterSpacing: "0.04em",
-                      }}
-                    >
-                      <span>{ph.cnnDiagram.caption}</span>
-                      <span style={{ color: "#1e5c38", fontWeight: 600 }}>FORWARD FLOW • 14.8ms</span>
-                    </div>
-                  )}
                 </div>
               )}
 
