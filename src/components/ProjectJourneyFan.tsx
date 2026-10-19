@@ -1794,12 +1794,12 @@ export default function ProjectJourneyFan({
                     />
                   </div>
 
-                  {/* Quick Metric Ledger Strip */}
+                  {/* Quick Metric Ledger Strip (Strict single-line 4-column layout) */}
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
-                      gap: "8px",
+                      gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                      gap: "6px",
                     }}
                   >
                     {fig.stats.map((st) => (
@@ -1808,8 +1808,10 @@ export default function ProjectJourneyFan({
                         style={{
                           display: "flex",
                           flexDirection: "column",
+                          justifyContent: "space-between",
+                          minWidth: 0,
                           gap: "2px",
-                          padding: "8px 10px",
+                          padding: "6px 8px",
                           backgroundColor: "#fcfaf7",
                           border: "1px solid rgba(70, 40, 10, 0.12)",
                           borderRadius: "4px",
@@ -1818,11 +1820,14 @@ export default function ProjectJourneyFan({
                         <span
                           style={{
                             fontFamily: "var(--font-mono, monospace)",
-                            fontSize: "0.62rem",
+                            fontSize: "0.58rem",
                             fontWeight: 700,
-                            letterSpacing: "0.06em",
+                            letterSpacing: "0.04em",
                             textTransform: "uppercase",
                             color: "#78716c",
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
                           }}
                         >
                           {st.label}
@@ -1833,6 +1838,7 @@ export default function ProjectJourneyFan({
                             fontSize: "0.96rem",
                             fontWeight: 700,
                             color: "#1c1917",
+                            lineHeight: 1.15,
                           }}
                         >
                           {st.val}
@@ -1841,9 +1847,13 @@ export default function ProjectJourneyFan({
                           <span
                             style={{
                               fontFamily: "var(--font-serif, Georgia, serif)",
-                              fontSize: "0.68rem",
+                              fontSize: "0.64rem",
                               fontStyle: "italic",
                               color: "#8c827a",
+                              lineHeight: 1.2,
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
                             }}
                           >
                             {st.detail}
