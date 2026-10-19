@@ -62,12 +62,12 @@ interface ConvolutionStage {
 
 interface EvaluationFigure {
   num: string;
-  stageTag: string;
+  stageTag?: string;
   title: string;
-  badge: string;
+  badge?: string;
   src: string;
   alt: string;
-  caption: string;
+  caption?: string;
   stats: { label: string; val: string; detail?: string }[];
   numbersBreakdown: { label: string; desc: string }[];
   whatItMeans: string;
@@ -1754,57 +1754,20 @@ export default function ProjectJourneyFan({
                         : "none",
                   }}
                 >
-                  {/* Figure Header: Tag, Title & Badge */}
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
-                      flexWrap: "wrap",
-                      gap: "6px",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-mono, monospace)",
-                          fontSize: "0.70rem",
-                          fontWeight: 700,
-                          color: "#78716c",
-                          letterSpacing: "0.06em",
-                        }}
-                      >
-                        {fig.stageTag}
-                      </span>
-                      <span style={{ color: "rgba(70, 40, 10, 0.25)" }}>/</span>
-                      <h4
-                        style={{
-                          fontFamily: "var(--font-serif, Georgia, serif)",
-                          fontSize: "0.94rem",
-                          fontWeight: 700,
-                          color: "#1c1917",
-                          margin: 0,
-                          letterSpacing: "-0.01em",
-                        }}
-                      >
-                        {fig.title}
-                      </h4>
-                    </div>
-
-                    <span
+                  {/* Figure Header: Title */}
+                  <div>
+                    <h4
                       style={{
-                        fontFamily: "var(--font-mono, monospace)",
-                        fontSize: "0.66rem",
+                        fontFamily: "var(--font-serif, Georgia, serif)",
+                        fontSize: "0.96rem",
                         fontWeight: 700,
-                        color: fig.num === "01" ? "#8a1c1c" : "#1e5c38",
-                        backgroundColor: fig.num === "01" ? "rgba(138, 28, 28, 0.07)" : "rgba(30, 92, 56, 0.08)",
-                        padding: "3px 8px",
-                        borderRadius: "4px",
-                        letterSpacing: "0.03em",
+                        color: "#1c1917",
+                        margin: 0,
+                        letterSpacing: "-0.01em",
                       }}
                     >
-                      {fig.badge}
-                    </span>
+                      {fig.title}
+                    </h4>
                   </div>
 
                   {/* Figure Image Container */}
@@ -1829,25 +1792,6 @@ export default function ProjectJourneyFan({
                         backgroundColor: "#fcfaf6",
                       }}
                     />
-                    <div
-                      style={{
-                        padding: "6px 12px",
-                        backgroundColor: "#f7f3ec",
-                        borderTop: "1px solid rgba(70, 40, 10, 0.10)",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        fontFamily: "var(--font-mono, monospace)",
-                        fontSize: "0.66rem",
-                        color: "#78716c",
-                        letterSpacing: "0.04em",
-                      }}
-                    >
-                      <span>{fig.caption}</span>
-                      <span style={{ color: fig.num === "01" ? "#8a1c1c" : "#1e5c38", fontWeight: 700 }}>
-                        {fig.num === "01" ? "UNCONSTRAINED DIVERGENCE" : "REGULARIZED CONVERGENCE"}
-                      </span>
-                    </div>
                   </div>
 
                   {/* Quick Metric Ledger Strip */}
