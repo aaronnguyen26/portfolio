@@ -1794,11 +1794,11 @@ export default function ProjectJourneyFan({
                     />
                   </div>
 
-                  {/* Quick Metric Ledger Strip (Strict single-line 4-column layout) */}
+                  {/* Quick Metric Ledger Strip */}
                   <div
                     style={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                      gridTemplateColumns: "repeat(4, 1fr)",
                       gap: "6px",
                     }}
                   >
@@ -1808,13 +1808,12 @@ export default function ProjectJourneyFan({
                         style={{
                           display: "flex",
                           flexDirection: "column",
-                          justifyContent: "space-between",
-                          minWidth: 0,
                           gap: "2px",
                           padding: "6px 8px",
                           backgroundColor: "#fcfaf7",
                           border: "1px solid rgba(70, 40, 10, 0.12)",
                           borderRadius: "4px",
+                          minWidth: 0,
                         }}
                       >
                         <span
@@ -1838,7 +1837,6 @@ export default function ProjectJourneyFan({
                             fontSize: "0.96rem",
                             fontWeight: 700,
                             color: "#1c1917",
-                            lineHeight: 1.15,
                           }}
                         >
                           {st.val}
@@ -1850,7 +1848,6 @@ export default function ProjectJourneyFan({
                               fontSize: "0.64rem",
                               fontStyle: "italic",
                               color: "#8c827a",
-                              lineHeight: 1.2,
                               whiteSpace: "nowrap",
                               overflow: "hidden",
                               textOverflow: "ellipsis",
