@@ -52,12 +52,12 @@ interface DecisionItem {
 
 interface ConvolutionStage {
   num: string;
-  stageTag: string;
+  stageTag?: string;
   title: string;
   specs: string;
   role: string;
   what: string;
-  why: string;
+  why?: string;
 }
 
 interface EvaluationFigure {
@@ -358,39 +358,31 @@ const wildfirePhases: PhaseDetail[] = [
     convolutionStages: [
       {
         num: "01",
-        stageTag: "STAGE 01 // CONV BLOCK 1",
         title: "Convolution 1: Low-Level Spatial Edge Extractor",
         specs: "32 Filters (3×3) • ReLU • 2×2 MaxPool • 64×64×32",
         role: "Detects sharp spatial boundaries, flame contrast edges, and horizon contours.",
         what: "Applies 32 parallel 3×3 convolutional filters across normalized 128×128 RGB crops, followed by ReLU non-linearity and a 2×2 max pooling operation downsampling spatial dimensions to 64×64.",
-        why: "Extracts fundamental geometric boundaries between bright chaparral brush lines, flame margins, and rugged mountain ridges while immediately cutting tensor volume by 75% for low latency.",
       },
       {
         num: "02",
-        stageTag: "STAGE 02 // CONV BLOCK 2",
         title: "Convolution 2: Mid-Level Smoke Plume Texture",
         specs: "64 Filters (3×3) • ReLU • 2×2 MaxPool • 32×32×64",
         role: "Encodes turbulent smoke dispersion patterns, plume gradient flows, and vapor spread.",
         what: "Expands channel capacity to 64 filters operating on 64×64 feature maps, learning multi-pixel textural relationships before downsampling through 2×2 max pooling to 32×32.",
-        why: "Wildfire smoke lacks rigid polygonal edges. Expanding filter depth allows the network to distinguish diffuse aerodynamic billows from static background brush and rock formations.",
       },
       {
         num: "03",
-        stageTag: "STAGE 03 // CONV BLOCK 3",
         title: "Convolution 3: High-Level Combustion Filter",
         specs: "128 Filters (3×3) • ReLU • 2×2 MaxPool • 16×16×128",
         role: "Semantic combustion isolation and atmospheric false positive discrimination.",
         what: "Deepens the representation to 128 feature channels over 16×16 feature maps, synthesizing complex contextual cues and downsampling to a compact 16×16 spatial activation grid.",
-        why: "Acts as the primary discriminator separating authentic organic combustion plumes from benign atmospheric distractors such as low coastal marine fog, cloud shadows, and dry canyon dust.",
       },
       {
         num: "04",
-        stageTag: "STAGE 04 // DENSE HEAD",
         title: "Classification Head: Dense Projection & Dropout Regularization",
         specs: "Flatten (32,768) • Dense 512 • Dropout (p=0.5) • 1 Binary Logit",
         role: "Feature map aggregation, spatial regularization, and calibrated fire probability output.",
         what: "Flattens 32,768 spatial activations into a 512-neuron dense layer with 50% dropout during training, projecting to a single scalar logit calibrated through a Sigmoid activation function.",
-        why: "The 0.5 dropout rate suppresses co-adaptation and prevents memorization of fixed sensor background tiles, narrowing validation loss divergence while keeping execution sub-15ms.",
       },
     ],
     visualType: "none",
@@ -1486,7 +1478,7 @@ export default function ProjectJourneyFan({
                           : "none",
                     }}
                   >
-                    {/* Header: Stage and Title */}
+                    {/* Header: Title and Specs */}
                     <div
                       style={{
                         display: "flex",
@@ -1496,32 +1488,18 @@ export default function ProjectJourneyFan({
                         gap: "6px",
                       }}
                     >
-                      <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                        <span
-                          style={{
-                            fontFamily: "var(--font-mono, monospace)",
-                            fontSize: "0.70rem",
-                            fontWeight: 700,
-                            color: "#78716c",
-                            letterSpacing: "0.06em",
-                          }}
-                        >
-                          {stg.stageTag}
-                        </span>
-                        <span style={{ color: "rgba(70, 40, 10, 0.25)" }}>/</span>
-                        <h4
-                          style={{
-                            fontFamily: "var(--font-serif, Georgia, serif)",
-                            fontSize: "0.92rem",
-                            fontWeight: 700,
-                            color: "#1c1917",
-                            margin: 0,
-                            letterSpacing: "-0.01em",
-                          }}
-                        >
-                          {stg.title}
-                        </h4>
-                      </div>
+                      <h4
+                        style={{
+                          fontFamily: "var(--font-serif, Georgia, serif)",
+                          fontSize: "0.92rem",
+                          fontWeight: 700,
+                          color: "#1c1917",
+                          margin: 0,
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
+                        {stg.title}
+                      </h4>
 
                       <span
                         style={{
@@ -1538,7 +1516,7 @@ export default function ProjectJourneyFan({
                       </span>
                     </div>
 
-                    {/* Details: Role, What, Why */}
+                    {/* Details: Role and What */}
                     <div
                       style={{
                         display: "flex",
@@ -1596,32 +1574,6 @@ export default function ProjectJourneyFan({
                           }}
                         >
                           {stg.what}
-                        </span>
-                      </div>
-
-                      {/* WHY */}
-                      <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
-                        <strong
-                          style={{
-                            fontFamily: "var(--font-serif, Georgia, serif)",
-                            fontSize: "0.84rem",
-                            fontWeight: 700,
-                            color: "#1c1917",
-                            minWidth: "62px",
-                            flexShrink: 0,
-                          }}
-                        >
-                          Why:
-                        </strong>
-                        <span
-                          style={{
-                            fontFamily: "var(--font-serif, Georgia, serif)",
-                            fontSize: "0.83rem",
-                            lineHeight: 1.5,
-                            color: "#383531",
-                          }}
-                        >
-                          {stg.why}
                         </span>
                       </div>
                     </div>
@@ -2187,28 +2139,6 @@ export default function ProjectJourneyFan({
 
           {/* Handwritten engineering note */}
           <p className="expanded-hand-note">{ph.handNote}</p>
-
-          {/* Action buttons */}
-          <div className="expanded-actions-row">
-            <a
-              href={isEpl ? (project.href || "https://github.com/aaronnguyen26") : "https://github.com/aaronnguyen26/wildfire"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-exp-action primary"
-            >
-              <span>View GitHub Repository</span>
-              <span>↗</span>
-            </a>
-            <a
-              href={isEpl ? (project.href || "https://github.com/aaronnguyen26") : "https://github.com/aaronnguyen26/wildfire/blob/main/Wildfire_classification.ipynb"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-exp-action secondary"
-            >
-              <span>{isEpl ? "Explore Prediction Notebook" : "Open Jupyter Notebook"}</span>
-              <span>↗</span>
-            </a>
-          </div>
         </div>
 
         {/* Bottom Footer Navigation */}
@@ -2311,14 +2241,37 @@ export default function ProjectJourneyFan({
 
           <p className="fan-hand-note">↳ {project.note}</p>
 
-          <button
-            type="button"
-            onClick={() => handleExpandPhase(0)}
-            className="fan-btn-primary"
-          >
-            <span>Open Complete Journey (Phase 1)</span>
-            <span className="arrow">&rarr;</span>
-          </button>
+          <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "6px" }}>
+            <button
+              type="button"
+              onClick={() => handleExpandPhase(0)}
+              className="fan-btn-primary"
+            >
+              <span>Open Complete Journey (Phase 1)</span>
+              <span className="arrow">&rarr;</span>
+            </button>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
+              <a
+                href={isEpl ? (project.href || "https://github.com/aaronnguyen26") : "https://github.com/aaronnguyen26/wildfire"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fan-btn-docked-link"
+              >
+                <span>View GitHub</span>
+                <span className="arrow">↗</span>
+              </a>
+              <a
+                href={isEpl ? (project.href || "https://github.com/aaronnguyen26") : "https://github.com/aaronnguyen26/wildfire/blob/main/Wildfire_classification.ipynb"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fan-btn-docked-link"
+              >
+                <span>{isEpl ? "Prediction Notebook" : "Open Notebook"}</span>
+                <span className="arrow">↗</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Right: Warm Leather/Wood Desk Mat holding the Fanned & In-Deck Expanded Cards */}
