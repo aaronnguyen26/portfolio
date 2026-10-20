@@ -99,6 +99,8 @@ interface PhaseDetail {
   };
   convolutionStages?: ConvolutionStage[];
   evaluationFigures?: EvaluationFigure[];
+  evaluationFiguresWithoutDropout?: EvaluationFigure[];
+  evaluationFiguresWithDropout?: EvaluationFigure[];
   evaluationAccuracyFigures?: EvaluationFigure[];
   visualType: "photo" | "timeline" | "tradeoffs" | "tensor" | "plots" | "none";
   photoUrl?: string;
@@ -390,36 +392,36 @@ const wildfirePhases: PhaseDetail[] = [
   },
   {
     num: "05",
-    tag: "EMPIRICAL EVALUATION",
+    tag: "RESULTS & GENERALIZATION",
     badgeLabel: "RESULTS & TELEMETRY",
-    title: "Results & Retrospective",
+    title: "Results & Generalization",
     ctaText: "Explore Phase 05",
     summary:
       "Empirical benchmarks, edge stress testing, and core architectural takeaways:",
     topics: [
       {
-        label: "Benchmarks",
-        detail: "Measured throughput and accuracy.",
+        label: "Without Dropout",
+        detail: "Baseline model: severe loss divergence and premature 79.6% validation plateau.",
       },
       {
-        label: "Edge Cases",
-        detail: "Validating stability against noisy inputs.",
+        label: "Dropout",
+        detail: "Regularized model: stabilized convergence and 81.84% validation accuracy.",
       },
       {
-        label: "Takeaways",
-        detail: "Lessons learned for future systems.",
+        label: "Generalization",
+        detail: "Eliminated static terrain memorization, narrowing the generalization gap to 5.07%.",
       },
     ],
-    fullTitle: "Validation Divergence, Ablations & Edge Telemetry",
-    subtitle: "Comparing loss curves with vs without dropout, narrowing spread to 5.07%.",
+    fullTitle: "Empirical Results & Generalization",
+    subtitle: "Comparing loss and accuracy trajectories across two model configurations: without dropout vs dropout.",
     metrics: [],
     narrativeLead: "",
     narrativeBody: [],
-    evaluationFigures: [
+    evaluationFiguresWithoutDropout: [
       {
         num: "01",
-        stageTag: "FIGURE 01 // BASELINE ARCHITECTURE",
-        title: "Validation Loss Divergence (Without Dropout)",
+        stageTag: "FIGURE 01 // BASELINE LOSS",
+        title: "Figure 1: Validation Loss Divergence (Without Dropout)",
         badge: "BASELINE MODEL · OVERFITTING",
         src: "/firecnn_without_dropout_loss.png",
         alt: "FireCNN Training and Validation Loss without Dropout Plot",
@@ -441,33 +443,8 @@ const wildfirePhases: PhaseDetail[] = [
       },
       {
         num: "02",
-        stageTag: "FIGURE 02 // REGULARIZED ARCHITECTURE",
-        title: "Stabilized Loss Trajectory (With Dropout p=0.5)",
-        badge: "FINAL MODEL · DROPOUT p=0.5",
-        src: "/firecnn_loss_plot.png",
-        alt: "FireCNN Training and Validation Loss with Dropout Plot",
-        caption: "REGULARIZED LOSS CURVE (10 EPOCHS) • STABILIZED CONVERGENCE TRACKING",
-        stats: [
-          { label: "MIN VAL LOSS", val: "0.386", detail: "Epoch 8 Best Checkpoint" },
-          { label: "FINAL VAL LOSS", val: "0.419", detail: "Epoch 9 Stable" },
-          { label: "FINAL TRAIN LOSS", val: "0.296", detail: "Epoch 9 Bounded" },
-          { label: "LOSS GAP", val: "0.123", detail: "76% Reduction" },
-        ],
-        numbersBreakdown: [
-          { label: "Epoch 0 (Initial Loss)", desc: "Training loss starts at 0.690 and validation loss starts at 0.606." },
-          { label: "Epoch 4 (Close Tracking)", desc: "Validation loss tracks training loss closely, registering 0.426 versus 0.432 on training." },
-          { label: "Epoch 8 to 9 (Convergence)", desc: "Validation loss reaches its lowest point of 0.386 at epoch 8 and settles at 0.419 at epoch 9, closely tracking training loss at 0.296." },
-          { label: "Generalization Gap", desc: "The loss spread is cut from 0.509 down to 0.123, reducing the validation accuracy gap to 5.07% while achieving 81.84% top validation accuracy." },
-        ],
-        whatItMeans:
-          "Randomly deactivating 50% of dense neurons during training forces the network to learn distributed, redundant smoke features rather than memorizing static terrain. Validation loss tracks training loss without diverging, proving that the model successfully learned invariant combustion features that generalize to new aerial scenes.",
-      },
-    ],
-    evaluationAccuracyFigures: [
-      {
-        num: "01",
-        stageTag: "FIGURE 01 // BASELINE ARCHITECTURE",
-        title: "Training & Validation Accuracy (Without Dropout)",
+        stageTag: "FIGURE 02 // BASELINE ACCURACY",
+        title: "Figure 2: Training & Validation Accuracy (Without Dropout)",
         badge: "BASELINE MODEL · 16.2% GAP",
         src: "/firecnn_without_dropout_accuracy.png",
         alt: "FireCNN Training and Validation Accuracy without Dropout Plot",
@@ -487,10 +464,35 @@ const wildfirePhases: PhaseDetail[] = [
         whatItMeans:
           "The widening gap between training and validation accuracy demonstrates that subsequent training epochs ceased learning general smoke properties. The unregularized model simply fit noise in the training set, causing accuracy on novel validation scenes to stall below 80%.",
       },
+    ],
+    evaluationFiguresWithDropout: [
+      {
+        num: "01",
+        stageTag: "FIGURE 01 // REGULARIZED LOSS",
+        title: "Figure 1: Stabilized Loss Trajectory (Dropout p=0.5)",
+        badge: "FINAL MODEL · DROPOUT p=0.5",
+        src: "/firecnn_loss_plot.png",
+        alt: "FireCNN Training and Validation Loss with Dropout Plot",
+        caption: "REGULARIZED LOSS CURVE (10 EPOCHS) • STABILIZED CONVERGENCE TRACKING",
+        stats: [
+          { label: "MIN VAL LOSS", val: "0.386", detail: "Epoch 8 Best Checkpoint" },
+          { label: "FINAL VAL LOSS", val: "0.419", detail: "Epoch 9 Stable" },
+          { label: "FINAL TRAIN LOSS", val: "0.296", detail: "Epoch 9 Bounded" },
+          { label: "LOSS GAP", val: "0.123", detail: "76% Reduction" },
+        ],
+        numbersBreakdown: [
+          { label: "Epoch 0 (Initial Loss)", desc: "Training loss starts at 0.690 and validation loss starts at 0.606." },
+          { label: "Epoch 4 (Close Tracking)", desc: "Validation loss tracks training loss closely, registering 0.426 versus 0.432 on training." },
+          { label: "Epoch 8 to 9 (Convergence)", desc: "Validation loss reaches its lowest point of 0.386 at epoch 8 and settles at 0.419 at epoch 9, closely tracking training loss at 0.296." },
+          { label: "Generalization Gap", desc: "The loss spread is cut from 0.509 down to 0.123, reducing the validation accuracy gap to 5.07% while achieving 81.84% top validation accuracy." },
+        ],
+        whatItMeans:
+          "Randomly deactivating 50% of dense neurons during training forces the network to learn distributed, redundant smoke features rather than memorizing static terrain. Validation loss tracks training loss without diverging, proving that the model successfully learned invariant combustion features that generalize to new aerial scenes.",
+      },
       {
         num: "02",
-        stageTag: "FIGURE 02 // REGULARIZED ARCHITECTURE",
-        title: "Training & Validation Accuracy (With Dropout p=0.5)",
+        stageTag: "FIGURE 02 // REGULARIZED ACCURACY",
+        title: "Figure 2: Training & Validation Accuracy (Dropout p=0.5)",
         badge: "FINAL MODEL · 81.84% TOP ACC",
         src: "/firecnn_accuracy_plot.png",
         alt: "FireCNN Training and Validation Accuracy with Dropout Plot",
@@ -845,11 +847,18 @@ export default function ProjectJourneyFan({
   const [cardTransitionState, setCardTransitionState] = useState<
     "idle" | "folding" | "restoring" | "fanning"
   >("idle");
-  const [evalMetricView, setEvalMetricView] = useState<"loss" | "accuracy">("loss");
+  const [dropoutTab, setDropoutTab] = useState<"without_dropout" | "with_dropout">("without_dropout");
   const isTransitioningRef = useRef(false);
 
   const cardRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectDropoutTab = useCallback((tab: "without_dropout" | "with_dropout") => {
+    setDropoutTab(tab);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, []);
   const deltaRef = useRef<{ x: number; y: number; scale: number }>({
     x: 0,
     y: 0,
@@ -1581,7 +1590,7 @@ export default function ProjectJourneyFan({
                 ))}
               </div>
             </div>
-          ) : ph.evaluationFigures && ph.evaluationFigures.length > 0 ? (
+          ) : (ph.evaluationFiguresWithoutDropout && ph.evaluationFiguresWithoutDropout.length > 0) || (ph.evaluationFigures && ph.evaluationFigures.length > 0) ? (
             <div
               className="expanded-evaluation-section"
               style={{
@@ -1591,19 +1600,20 @@ export default function ProjectJourneyFan({
                 margin: "4px 0 16px 0",
               }}
             >
-              {/* Optional Metric View Switcher */}
-              {ph.evaluationAccuracyFigures && ph.evaluationAccuracyFigures.length > 0 && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    paddingBottom: "8px",
-                    borderBottom: "1px solid rgba(70, 40, 10, 0.14)",
-                    flexWrap: "wrap",
-                    gap: "8px",
-                  }}
-                >
+              {/* Tab Switcher Bar - scrolls naturally with content */}
+              <div
+                className="dropout-tabs-bar"
+                style={{
+                  padding: "4px 0 12px 0",
+                  borderBottom: "1px solid rgba(70, 40, 10, 0.14)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "10px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <span
                     style={{
                       fontFamily: "var(--font-mono, monospace)",
@@ -1614,73 +1624,100 @@ export default function ProjectJourneyFan({
                       color: "#6b625b",
                     }}
                   >
-                    EMPIRICAL EVALUATION • WITHOUT DROPOUT VS WITH DROPOUT
+                    RESULTS & GENERALIZATION
                   </span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono, monospace)",
+                      fontSize: "0.62rem",
+                      fontWeight: 700,
+                      padding: "2px 6px",
+                      borderRadius: "3px",
+                      backgroundColor: "rgba(138, 28, 28, 0.08)",
+                      color: "#8a1c1c",
+                      border: "1px solid rgba(138, 28, 28, 0.2)",
+                    }}
+                  >
+                    2 FIGURES IN THIS TAB
+                  </span>
+                </div>
 
+                {ph.evaluationFiguresWithoutDropout && ph.evaluationFiguresWithDropout && (
                   <div
                     style={{
                       display: "inline-flex",
                       borderRadius: "6px",
                       padding: "2px",
                       backgroundColor: "rgba(70, 40, 10, 0.08)",
-                      border: "1px solid rgba(70, 40, 10, 0.12)",
+                      border: "1px solid rgba(70, 40, 10, 0.14)",
                     }}
                   >
                     <button
                       type="button"
-                      onClick={() => setEvalMetricView("loss")}
+                      onClick={() => handleSelectDropoutTab("without_dropout")}
                       style={{
-                        padding: "3px 10px",
-                        fontSize: "0.68rem",
+                        padding: "5px 14px",
+                        fontSize: "0.72rem",
                         fontFamily: "var(--font-mono, monospace)",
                         fontWeight: 700,
                         border: "none",
                         borderRadius: "4px",
                         cursor: "pointer",
                         transition: "all 0.15s ease",
-                        backgroundColor: evalMetricView === "loss" ? "#ffffff" : "transparent",
-                        color: evalMetricView === "loss" ? "#8a1c1c" : "#6b625b",
-                        boxShadow: evalMetricView === "loss" ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                        backgroundColor:
+                          dropoutTab === "without_dropout" ? "#ffffff" : "transparent",
+                        color:
+                          dropoutTab === "without_dropout" ? "#8a1c1c" : "#6b625b",
+                        boxShadow:
+                          dropoutTab === "without_dropout"
+                            ? "0 1px 3px rgba(0,0,0,0.10)"
+                            : "none",
                       }}
                     >
-                      Loss Curves (Ablation)
+                      Without Dropout
                     </button>
+
                     <button
                       type="button"
-                      onClick={() => setEvalMetricView("accuracy")}
+                      onClick={() => handleSelectDropoutTab("with_dropout")}
                       style={{
-                        padding: "3px 10px",
-                        fontSize: "0.68rem",
+                        padding: "5px 14px",
+                        fontSize: "0.72rem",
                         fontFamily: "var(--font-mono, monospace)",
                         fontWeight: 700,
                         border: "none",
                         borderRadius: "4px",
                         cursor: "pointer",
                         transition: "all 0.15s ease",
-                        backgroundColor: evalMetricView === "accuracy" ? "#ffffff" : "transparent",
-                        color: evalMetricView === "accuracy" ? "#8a1c1c" : "#6b625b",
-                        boxShadow: evalMetricView === "accuracy" ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                        backgroundColor:
+                          dropoutTab === "with_dropout" ? "#ffffff" : "transparent",
+                        color:
+                          dropoutTab === "with_dropout" ? "#8a1c1c" : "#6b625b",
+                        boxShadow:
+                          dropoutTab === "with_dropout"
+                            ? "0 1px 3px rgba(0,0,0,0.10)"
+                            : "none",
                       }}
                     >
-                      Accuracy Curves
+                      Dropout
                     </button>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
 
-              {/* Vertical Stacked Figures: One first, then the other */}
-              {((evalMetricView === "accuracy" && ph.evaluationAccuracyFigures)
-                ? ph.evaluationAccuracyFigures
-                : ph.evaluationFigures
+              {/* Vertical Stacked Figures: Exactly 2 figures in the selected tab */}
+              {((ph.evaluationFiguresWithoutDropout && ph.evaluationFiguresWithDropout)
+                ? (dropoutTab === "with_dropout" ? ph.evaluationFiguresWithDropout : ph.evaluationFiguresWithoutDropout)
+                : (ph.evaluationFigures || [])
               ).map((fig, fIdx, arr) => (
                 <div
-                  key={fig.num}
+                  key={fig.num || fIdx}
                   className="evaluation-figure-card"
                   style={{
                     display: "flex",
                     flexDirection: "column",
                     gap: "14px",
-                    paddingBottom: fIdx < arr.length - 1 ? "20px" : "4px",
+                    paddingBottom: fIdx < arr.length - 1 ? "24px" : "4px",
                     borderBottom:
                       fIdx < arr.length - 1
                         ? "1px solid rgba(70, 40, 10, 0.14)"
