@@ -15,7 +15,7 @@ export default function Footer() {
         <a href={`mailto:${site.email}`}>Email</a>
       </div>
       <p className="mono" style={{ marginTop: 22, color: "var(--ink-soft)" }}>
-        {site.location} · placeholder content · 2026
+        {site.location} · {site.school} · {site.major} · 2026
       </p>
     </footer>
   );

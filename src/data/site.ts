@@ -6,11 +6,10 @@ export const site = {
   major: "Economics & Data Science",
   year: "Class of 2028",
   location: "Southern California",
-  email: "hello@example.com",
+  email: "minh7898888@gmail.com",
   links: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://linkedin.com/" },
-    { label: "Instagram", href: "https://instagram.com/" },
+    { label: "GitHub", href: "https://github.com/aaronnguyen26" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/aaronnguyen26" },
     { label: "Resume", href: "/resume.pdf" },
   ],
 };

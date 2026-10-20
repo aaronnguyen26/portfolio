@@ -103,26 +103,220 @@ p.body { font-size: 1.08rem; line-height: 1.7; max-width: 62ch; margin: 0 0 16px
 .circle { position: relative; display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; }
 .circle::after { content: ""; position: absolute; inset: 4px -4px; border: 2.5px solid var(--cardinal); border-radius: 50%; transform: rotate(-3deg); opacity: .8; pointer-events: none; }
 
-/* ---------- THE OPEN JOURNAL (hero) ---------- */
-.spread {
+/* ---------- 3D OPEN FIELD JOURNAL (hero centerpiece) ---------- */
+.spread-perspective-stage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0 34px;
+  margin-top: 14px;
+}
+
+.spread-3d-book-casing {
+  --shift-x: 0px;
+  --shift-y: 0px;
   container-type: inline-size;
   position: relative;
-  display: grid; grid-template-columns: 1fr 1fr;
   width: min(940px, 100%);
-  aspect-ratio: 100 / 56;
-  margin: 28px auto 0;
-  padding: 1.6cqw;
-  background: linear-gradient(160deg, var(--leather), var(--leather-2));
-  border-radius: 14px;
-  box-shadow: 0 34px 50px -24px rgba(60, 32, 14, .6), inset 0 0 0 1px rgba(255,255,255,.08);
-  text-align: left;
+  aspect-ratio: 100 / 58;
+  transform: translate(var(--shift-x), var(--shift-y));
+  transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+  border-radius: 12px;
+  background: linear-gradient(165deg, #462211 0%, #2f1609 50%, #1c0c04 100%);
+  box-shadow:
+    /* Solid physical leather board thickness extrusion on right and bottom */
+    1px 1px 0 #3a1c0b,
+    2px 2px 0 #321608,
+    3px 3px 0 #281105,
+    4px 4px 0 #1b0903,
+    5px 5px 0 #120602,
+    /* Contact ambient shadow on desk */
+    0 8px 12px -2px rgba(15, 6, 2, 0.6),
+    /* Elevation shadow to bottom and right */
+    4px 16px 26px -4px rgba(20, 8, 3, 0.48),
+    /* Deep desk cast shadow */
+    8px 36px 54px -8px rgba(25, 10, 4, 0.4),
+    /* Top bevel highlight & inner rim */
+    inset 0 1.5px 1px rgba(255, 235, 200, 0.28),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.6);
 }
-.leaf { position: relative; background:
-    radial-gradient(rgba(120, 90, 50, .12) 1px, transparent 1.4px) 0 0 / 14px 14px,
-    linear-gradient(#f9f1de, #f4e8cd); overflow: hidden; }
-.leaf.left { border-radius: 8px 0 0 8px; box-shadow: inset -22px 0 28px -18px rgba(70, 40, 10, .45); }
-.leaf.right { border-radius: 0 8px 8px 0; box-shadow: inset 22px 0 28px -18px rgba(70, 40, 10, .45); }
-.leaf::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6%; background: linear-gradient(to right, rgba(0,0,0,.0), rgba(0,0,0,.0)); }
+
+/* Stitched perimeter seam along the handcrafted leather edge */
+.spread-3d-book-casing::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 9px;
+  border: 1px dashed rgba(220, 185, 135, 0.28);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Cascading Paper Strata (Authentic physical page volume & depth on right and bottom) */
+.spread-page-stratum {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 6px;
+}
+
+.spread-page-stratum.stratum-4 {
+  top: 1.8cqw;
+  left: 2.2cqw;
+  right: 2.0cqw;
+  bottom: 2.0cqw;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #f6eedb 0px,
+      #f6eedb 1.5px,
+      #ecdcc0 2px,
+      #d8c29b 2.8px
+    );
+  box-shadow:
+    0 4px 10px rgba(25, 10, 4, 0.42),
+    2px 2px 4px rgba(20, 8, 3, 0.3);
+  border: 1px solid rgba(160, 125, 80, 0.55);
+  z-index: 2;
+}
+
+.spread-page-stratum.stratum-3 {
+  top: 1.8cqw;
+  left: 2.4cqw;
+  right: 2.6cqw;
+  bottom: 2.6cqw;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #faf3e4 0px,
+      #faf3e4 1.5px,
+      #ede0c6 2px,
+      #e2cfae 2.8px
+    );
+  box-shadow:
+    0 3px 8px rgba(30, 12, 5, 0.32),
+    1.5px 1.5px 3px rgba(25, 10, 4, 0.25);
+  border: 1px solid rgba(175, 140, 95, 0.5);
+  z-index: 3;
+}
+
+.spread-page-stratum.stratum-2 {
+  top: 1.8cqw;
+  left: 2.6cqw;
+  right: 3.2cqw;
+  bottom: 3.2cqw;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #fcf7ed 0px,
+      #fcf7ed 1.5px,
+      #f2e5ce 2px,
+      #ecdcbf 2.8px
+    );
+  box-shadow:
+    0 2px 6px rgba(35, 15, 6, 0.25),
+    1.5px 1.5px 3px rgba(30, 12, 5, 0.2);
+  border: 1px solid rgba(190, 155, 110, 0.45);
+  z-index: 4;
+}
+
+.spread-page-stratum.stratum-1 {
+  top: 1.8cqw;
+  left: 2.8cqw;
+  right: 3.8cqw;
+  bottom: 3.8cqw;
+  background: #f7eee0;
+  box-shadow:
+    0 2px 4px rgba(40, 18, 7, 0.2),
+    1px 1px 2px rgba(35, 15, 6, 0.15);
+  border: 1px solid rgba(205, 175, 130, 0.4);
+  z-index: 5;
+}
+
+/* Center Spine Notch at Bottom */
+.spread-spine-notch {
+  position: absolute;
+  left: calc(50% - 0.7cqw);
+  width: 1.4cqw;
+  bottom: 1.8cqw;
+  height: 2.6cqw;
+  background: linear-gradient(
+    to bottom,
+    #eedec2 0%,
+    #ccb38c 40%,
+    #4a220e 100%
+  );
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.35),
+    0 2px 4px rgba(15, 6, 2, 0.6);
+  border-radius: 0 0 3px 3px;
+  z-index: 6;
+  pointer-events: none;
+}
+
+/* The Open Journal Spread (Faces straight at the user) */
+.spread {
+  position: absolute;
+  top: 1.8cqw;
+  left: 3.0cqw;
+  right: 4.4cqw;
+  bottom: 4.4cqw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  z-index: 10;
+  text-align: left;
+  border-radius: 5px;
+  box-shadow:
+    0 2px 6px rgba(30, 12, 4, 0.18),
+    0 8px 18px -2px rgba(25, 10, 3, 0.2);
+}
+
+/* Individual Paper Leaves with 3D Page Curvature & Shading */
+.leaf {
+  position: relative;
+  overflow: hidden;
+}
+
+.leaf.left {
+  border-radius: 5px 0 0 5px;
+  background:
+    radial-gradient(rgba(120, 90, 50, .11) 1px, transparent 1.4px) 0 0 / 14px 14px,
+    linear-gradient(
+      to right,
+      rgba(205, 180, 145, 0.28) 0%,
+      rgba(255, 255, 255, 0.32) 14%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(195, 165, 125, 0.16) 88%,
+      rgba(150, 115, 75, 0.28) 100%
+    ),
+    linear-gradient(175deg, #fbf4e4 0%, #f3e5ca 100%);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.7),
+    inset 1px 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(160, 120, 75, 0.22);
+}
+
+.leaf.right {
+  border-radius: 0 5px 5px 0;
+  background:
+    radial-gradient(rgba(120, 90, 50, .11) 1px, transparent 1.4px) 0 0 / 14px 14px,
+    linear-gradient(
+      to right,
+      rgba(150, 115, 75, 0.28) 0%,
+      rgba(195, 165, 125, 0.16) 12%,
+      rgba(255, 255, 255, 0.04) 50%,
+      rgba(255, 255, 255, 0.32) 86%,
+      rgba(205, 180, 145, 0.28) 100%
+    ),
+    linear-gradient(175deg, #fbf4e4 0%, #f3e5ca 100%);
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.7),
+    inset -1px 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(160, 120, 75, 0.22);
+}
+
 .leaf > * { position: absolute; margin: 0; }
 .leaf .polaroid { position: absolute; padding: .9cqw .9cqw 2.4cqw; }
 .polaroid .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -148,9 +342,53 @@ p.body { font-size: 1.08rem; line-height: 1.7; max-width: 62ch; margin: 0 0 16px
 .stub { background: #e6c98f; border: 1px dashed #8a1c1c; padding: .9cqw 1.6cqw; font-size: 1.1cqw; color: #5a3a1c; box-shadow: 0 3px 6px -3px rgba(0,0,0,.4); width: 15cqw; letter-spacing: .12em; }
 .stub.s2 { transform: translateX(1.6cqw) rotate(2deg); background: #dcbb7e; }
 
-/* gold highlights on the page edges: the book "breathes" */
-.spread { animation: breathe 7s ease-in-out infinite; }
-@keyframes breathe { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.leaf::after { content: ""; position: absolute; top: 0; bottom: 0; width: 6%; background: linear-gradient(to right, rgba(0,0,0,.0), rgba(0,0,0,.0)); }
+.leaf > * { position: absolute; margin: 0; }
+
+/* Polaroid 3D Depth & Hover Lift */
+.leaf .polaroid {
+  position: absolute;
+  padding: .9cqw .9cqw 2.4cqw;
+  border-radius: 2px;
+  background: #fffdf8;
+  box-shadow:
+    0 3px 6px -1px rgba(40, 20, 10, 0.24),
+    0 10px 20px -4px rgba(40, 20, 10, 0.28),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.24s ease;
+  z-index: 4;
+}
+.leaf .polaroid:hover {
+  transform: translateY(-4px) scale(1.025) !important;
+  box-shadow:
+    0 6px 14px -2px rgba(40, 20, 10, 0.28),
+    0 18px 32px -6px rgba(40, 20, 10, 0.38),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+  z-index: 20;
+}
+
+.polaroid .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.leaf .ink { font-size: 1.9cqw; line-height: 1.15; }
+.leaf .ink.head { font-size: 2.3cqw; }
+.leaf .art { opacity: .92; }
+.leaf .polaroid .tape { height: 1.4cqw; top: -.7cqw; }
+
+.stamp {
+  position: absolute;
+  border: 1.5px solid rgba(138, 28, 28, 0.45);
+  color: rgba(138, 28, 28, 0.7);
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: var(--font-mono, 'JetBrains Mono', monospace);
+  font-size: clamp(0.55rem, 1cqw, 0.65rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transform: rotate(-3deg);
+}
+
+.ticket-pair { display: grid; gap: .8cqw; transform: rotate(-3deg); }
+.stub { background: #e6c98f; border: 1px dashed #8a1c1c; padding: .9cqw 1.6cqw; font-size: 1.1cqw; color: #5a3a1c; box-shadow: 0 3px 6px -3px rgba(0,0,0,.4); width: 15cqw; letter-spacing: .12em; }
+.stub.s2 { transform: translateX(1.6cqw) rotate(2deg); background: #dcbb7e; }
 
 /* ---------- recent explorations ---------- */
 .explore { margin-top: 56px; }
@@ -557,18 +795,42 @@ p.body { font-size: 1.08rem; line-height: 1.7; max-width: 62ch; margin: 0 0 16px
    MOBILE & RESPONSIVE RULES (Zero animation on phone screens, clean responsive UI)
    ========================================================================== */
 @media (max-width: 640px) {
+  .spread-perspective-stage {
+    perspective: none;
+    padding: 0;
+    margin-top: 16px;
+  }
+  .spread-3d-book-casing {
+    transform: none !important;
+    animation: none !important;
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 16px 28px -12px rgba(25, 12, 5, 0.45);
+  }
+  .spread-headband,
+  .spread-bookmark-ribbon,
+  .spread-page-stack,
+  .spread-spine-gutter,
+  .spread-side-wall,
+  .spread-right-fore-edge,
+  .spread-bottom-fore-edge,
+  .spread-page-stratum,
+  .spread-spine-notch {
+    display: none !important;
+  }
   /* Field journal spread stacks vertically into portrait notebook pages on mobile */
   .spread {
     grid-template-columns: 1fr;
     aspect-ratio: auto;
     gap: 16px;
-    padding: 14px;
-    border-radius: 12px;
+    padding: 0;
+    border-radius: 8px;
     animation: none;
   }
   .leaf {
     aspect-ratio: 100 / 136;
     border-radius: 8px !important;
+    transform: none !important;
   }
   .leaf.left {
     box-shadow: inset 0 -16px 24px -14px rgba(70, 40, 10, .35);
@@ -1473,304 +1735,10 @@ h1.project-title em {
   }
 }
 
-/* =========================================================================
-   CONCEPT 1: FULL-SCREEN HORIZONTAL LAB SCRUBBER (SIDEWAYS LEFT TO RIGHT)
-   ========================================================================= */
-
-.case-study-full-screen {
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  margin-right: calc(-50vw + 50%);
-  min-height: 100vh;
-  background: var(--paper);
-  background-image: radial-gradient(rgba(31, 26, 20, 0.11) 1px, transparent 1.2px);
-  background-size: 22px 22px;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-  position: relative;
-}
-
-/* Persistent full-width top header */
-.cs-top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 4vw;
-  background: var(--paper-2);
-  border-bottom: 1.5px solid rgba(70, 40, 10, 0.18);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  backdrop-filter: blur(8px);
-}
-
-.cs-top-bar .back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--cardinal);
-  text-decoration: none;
-  padding: 6px 14px;
-  background: rgba(138, 28, 28, 0.08);
-  border-radius: 4px;
-  border: 1px solid rgba(138, 28, 28, 0.25);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.cs-top-bar .back-btn:hover {
-  background: rgba(138, 28, 28, 0.16);
-  transform: translateX(-2px);
-}
-
-.cs-title-pill {
-  font-family: var(--font-serif), Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.01em;
-}
-
-.cs-title-pill em {
-  font-style: italic;
-  color: var(--cardinal);
-}
-
-.cs-stamp {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--cardinal);
-  border: 1.5px solid var(--cardinal);
-  padding: 3px 10px;
-  border-radius: 2px;
-  transform: rotate(-1.5deg);
-  background: rgba(255, 255, 255, 0.75);
-}
-
-/* Full-width Scrubber Navigation */
-.cs-scrubber-bar {
-  padding: 14px 4vw 14px;
-  background: transparent;
-  border-bottom: 1px solid rgba(70, 40, 10, 0.12);
-  position: sticky;
-  top: 61px;
-  z-index: 45;
-}
-
-.cs-scrubber-inner {
-  max-width: 920px;
-  margin: 0 auto;
-}
-
-/* Horizontal Timeline Steps */
-.cs-timeline-steps {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  position: relative;
-}
-
-.cs-timeline-steps::before {
-  content: "";
-  position: absolute;
-  top: 16px;
-  left: 6%;
-  right: 6%;
-  height: 1px;
-  background: #d5cfc4;
-  z-index: 1;
-}
-
-.cs-step-btn {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  padding: 0 4px;
-  transition: opacity 0.15s ease;
-}
-
-.cs-step-btn:hover {
-  opacity: 0.85;
-}
-
-.cs-step-node {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid #c8c2b5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: #78716c;
-  transition: all 0.2s ease;
-  margin-bottom: 8px;
-}
-
-.cs-step-btn.active .cs-step-node {
-  background: #8a1c1c;
-  color: #ffffff;
-  border: 1px solid #8a1c1c;
-  font-weight: 700;
-  box-shadow: 0 0 0 5px rgba(138, 28, 28, 0.14);
-}
-
-.cs-step-label {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: #6b6357;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  transition: color 0.15s ease;
-}
-
-.cs-step-btn.active .cs-step-label {
-  color: #8a1c1c;
-  font-weight: 700;
-}
-
-/* Case Study Main Viewport & Panels */
-.cs-main-viewport {
-  width: 100%;
-  max-width: 100%;
-  flex: 1;
-  position: relative;
-  background: transparent;
-}
-
-.cs-panel {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  padding: 40px 5vw 80px;
-  animation: csFadeIn 0.18s ease-out;
-}
-
-@keyframes csFadeIn {
-  from {
-    opacity: 0.8;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.cs-panel-inner {
-  max-width: 1360px;
-  margin: 0 auto;
-}
-
-/* 2-column Widescreen Grids */
-.cs-grid-split {
-  display: grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap: 48px;
-  align-items: start;
-}
-
-.cs-telemetry-box {
-  background: var(--paper-2);
-  border: 1.5px solid rgba(70, 40, 10, 0.2);
-  border-radius: 8px;
-  padding: 24px;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-  margin-bottom: 20px;
-}
-
-.cs-telemetry-val {
-  font-family: var(--font-mono, monospace);
-  font-size: 3.2rem;
-  font-weight: 700;
-  color: var(--cardinal);
-  line-height: 1.1;
-  margin: 6px 0;
-}
-
-.cs-telemetry-lbl {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.76rem;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.cs-persona-card {
-  background: rgba(138, 28, 28, 0.04);
-  border-left: 4px solid var(--cardinal);
-  border-radius: 0 6px 6px 0;
-  padding: 16px 20px;
-  font-size: 0.98rem;
-  line-height: 1.6;
-}
-
-.cs-specs-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.cs-spec-card {
-  background: var(--paper-2);
-  border: 1px solid rgba(70, 40, 10, 0.18);
-  border-radius: 6px;
-  padding: 14px 16px;
-  text-align: center;
-}
-
-.cs-spec-title {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  color: var(--ink-soft);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 4px;
-}
-
-.cs-spec-val {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--cardinal);
-}
-
-@media (max-width: 900px) {
-  .cs-grid-split {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-  .cs-specs-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .cs-step-label {
-    font-size: 0.64rem;
-  }
-  .cs-step-node {
-    width: 32px;
-    height: 32px;
-    font-size: 0.74rem;
-  }
-  .cs-panel {
-    padding: 24px 4vw 80px;
-  }
+.exploration-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -3px rgba(138, 28, 28, 0.18) !important;
+  border-color: rgba(138, 28, 28, 0.55) !important;
 }
 
 /* ==========================================================================
@@ -6239,4 +6207,355 @@ h1.project-title em {
   font-weight: 700;
   color: #8a1c1c;
   letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   CHAPTER 04: CONTACT: VINTAGE AIRMAIL DISPATCH & STATIONERY
+   ========================================================================== */
+
+.contact-envelope-stage {
+  position: relative;
+  background: #fffdf8;
+  border-radius: 8px;
+  box-shadow:
+    0 1px 3px rgba(38, 33, 27, 0.08),
+    0 12px 30px -8px rgba(38, 33, 27, 0.16),
+    0 0 0 1px rgba(38, 33, 27, 0.08);
+  padding: 24px 28px 28px;
+  border-top: 6px solid #8a1c1c;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Classic airmail striped accent trim along the top edge */
+.contact-envelope-stage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #8a1c1c 0,
+    #8a1c1c 12px,
+    #fffdf8 12px,
+    #fffdf8 18px,
+    #1d4ed8 18px,
+    #1d4ed8 30px,
+    #fffdf8 30px,
+    #fffdf8 36px
+  );
+}
+
+.airmail-header-band {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(38, 33, 27, 0.18);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.airmail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8a1c1c;
+  font-weight: 700;
+}
+
+.airmail-badge-tag {
+  background: #8a1c1c;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+/* Authentic circular postmark stamp */
+.contact-postmark-stamp {
+  position: absolute;
+  top: 14px;
+  right: 22px;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(138, 28, 28, 0.38);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform: rotate(14deg);
+  pointer-events: none;
+  color: rgba(138, 28, 28, 0.5);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  user-select: none;
+}
+
+.contact-postmark-stamp::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 1px solid rgba(138, 28, 28, 0.25);
+}
+
+.topic-chips-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.topic-chip {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  padding: 5px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(38, 33, 27, 0.22);
+  background: rgba(251, 247, 238, 0.85);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.topic-chip:hover {
+  border-color: #8a1c1c;
+  background: #fdfaf2;
+  transform: translateY(-1px);
+}
+
+.topic-chip.active {
+  background: #8a1c1c;
+  color: #ffffff;
+  border-color: #8a1c1c;
+  box-shadow: 0 2px 6px -2px rgba(138, 28, 28, 0.45);
+}
+
+/* Ruled notebook line texture on the dispatch message textarea */
+.contact-stationery-textarea {
+  width: 100%;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.08rem;
+  line-height: 32px;
+  color: var(--ink);
+  padding: 8px 14px;
+  background-color: #fffdf9;
+  background-image: linear-gradient(transparent 31px, rgba(38, 33, 27, 0.09) 32px);
+  background-size: 100% 32px;
+  border: 1.5px solid rgba(38, 33, 27, 0.25);
+  border-radius: 4px;
+  outline: none;
+  resize: vertical;
+  min-height: 160px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.contact-stationery-textarea:focus {
+  border-color: var(--cardinal);
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.4);
+}
+
+.contact-field-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+}
+
+.contact-field-label .req {
+  color: #8a1c1c;
+  font-weight: 700;
+  margin-left: 3px;
+}
+
+.contact-field-input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1.02rem;
+  padding: 10px 14px;
+  background: #fffdf8;
+  border: 1.5px solid rgba(38, 33, 27, 0.25);
+  border-radius: 4px;
+  outline: none;
+  color: var(--ink);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.contact-field-input:focus {
+  border-color: var(--cardinal);
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.4);
+}
+
+.contact-dispatch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 99px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: #26211b;
+  color: #fbf7ee;
+  border: 1.5px solid #26211b;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 4px 12px -3px rgba(0, 0, 0, 0.28);
+}
+
+.contact-dispatch-btn:hover:not(:disabled) {
+  background: #8a1c1c;
+  border-color: #8a1c1c;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -4px rgba(138, 28, 28, 0.45);
+}
+
+.contact-dispatch-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Dispatch receipt delivery confirmation */
+.dispatch-receipt-card {
+  background: #fbf7ee;
+  border: 2px dashed rgba(138, 28, 28, 0.45);
+  border-radius: 8px;
+  padding: 28px 24px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 8px 22px -6px rgba(38, 33, 27, 0.12);
+  animation: receiptSlideUp 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes receiptSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.receipt-stamp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #8a1c1c;
+  color: #ffffff;
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 8px -2px rgba(138, 28, 28, 0.45);
+}
+
+/* Live Time & Field Telemetry Badge */
+.telemetry-card {
+  width: 100%;
+  background: #fffdf8;
+  border: 1px solid rgba(38, 33, 27, 0.16);
+  border-radius: 6px;
+  padding: 14px 16px;
+  box-shadow: 0 2px 6px -2px rgba(38, 33, 27, 0.08);
+}
+
+.telemetry-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.telemetry-beacon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.22);
+  animation: pulseBeacon 2s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25); }
+  50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0.05); }
+}
+
+/* Interactive Ticket Copy Button */
+.ticket-copy-btn {
+  background: #8a1c1c;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.16s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ticket-copy-btn:hover {
+  background: #6e1616;
+  transform: scale(1.04);
+}
+
+.ticket-copy-btn.copied {
+  background: #15803d;
+}
+
+/* Chapter Turn Footer Navigation */
+.contact-chapter-turn {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1.5px dashed rgba(38, 33, 27, 0.22);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.turn-chapter-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  background: rgba(251, 247, 238, 0.9);
+  border: 1px solid rgba(38, 33, 27, 0.2);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  color: var(--ink);
+  transition: all 0.18s ease;
+}
+
+.turn-chapter-link:hover {
+  border-color: #8a1c1c;
+  color: #8a1c1c;
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px -3px rgba(38, 33, 27, 0.18);
 }
