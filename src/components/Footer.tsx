@@ -12,7 +12,7 @@ export default function Footer() {
             {l.label}
           </a>
         ))}
-        <a href={`mailto:${site.email}`}>Email</a>
+        <a href="/contact">Contact</a>
       </div>
       <p className="mono" style={{ marginTop: 22, color: "var(--ink-soft)" }}>
         {site.location} · {site.school} · {site.major} · 2026

@@ -10,10 +10,13 @@
     "update-contributions": "node scripts/update-contributions.mjs"
   },
   "dependencies": {
+    "@types/nodemailer": "^8.0.2",
     "lucide-react": "^1.56.0",
     "next": "16.4.0",
+    "nodemailer": "^10.1.7",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "resend": "^6.34.1"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",

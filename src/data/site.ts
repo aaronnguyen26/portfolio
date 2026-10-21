@@ -6,10 +6,11 @@ export const site = {
   major: "Economics & Data Science",
   year: "Class of 2028",
   location: "Southern California",
-  email: "minh7898888@gmail.com",
+  email: "aaronngu@usc.edu",
   links: [
     { label: "GitHub", href: "https://github.com/aaronnguyen26" },
     { label: "LinkedIn", href: "https://linkedin.com/in/aaronnguyen26" },
+    { label: "Instagram", href: "https://instagram.com/" },
     { label: "Resume", href: "/resume.pdf" },
   ],
 };
