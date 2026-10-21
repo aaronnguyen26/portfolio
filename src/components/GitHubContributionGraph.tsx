@@ -53,7 +53,8 @@ export default function GitHubContributionGraph() {
   // Background live update check
   useEffect(() => {
     let isMounted = true;
-    fetch("/api/contributions")
+    const hourStamp = new Date().toISOString().slice(0, 13);
+    fetch(`/api/contributions?t=${hourStamp}`, { cache: "no-store" })
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error("API route returned non-200");
@@ -72,13 +73,19 @@ export default function GitHubContributionGraph() {
     };
   }, []);
 
-  // Layout Constants matching the SVG design
-  const w = 960;
-  const h = 230;
+  // Dynamic layout constants matching the dataset
   const start_x = 36;
   const start_y = 72;
   const step = 16.75;
   const cell_size = 13.0;
+  const h = 230;
+
+  const maxCol = useMemo(() => {
+    if (!data.cells || data.cells.length === 0) return 52;
+    return Math.max(52, ...data.cells.map((c) => c.col));
+  }, [data.cells]);
+
+  const w = useMemo(() => Math.max(960, Math.ceil(start_x + (maxCol + 1) * step + 24)), [maxCol]);
 
   // Format date helper for tooltip
   const formatCellDate = (dateStr: string) => {
@@ -411,7 +418,7 @@ export default function GitHubContributionGraph() {
             {/* Bottom Legend: Interactive Less -> More with hover filtering */}
             {(() => {
               const legend_y = start_y + 7 * step + 18;
-              const legend_end_x = start_x + 52 * step + cell_size;
+              const legend_end_x = start_x + maxCol * step + cell_size;
               const legend_start_x = legend_end_x - 140;
 
               return (

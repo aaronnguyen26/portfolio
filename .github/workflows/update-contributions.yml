@@ -31,7 +31,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/github_contributions.svg
+          git add public/github_contributions.svg src/data/contributions.json
           if git diff --staged --quiet; then
             echo "No contribution changes detected."
           else

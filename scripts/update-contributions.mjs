@@ -10,7 +10,7 @@ const palette = {
   level_borders: ["#dfcaa4", "#85a476", "#4e7e45", "#1e4f26", "#661212"],
 };
 
-export function renderContributionSvg({ grid, months, total }) {
+export function renderContributionSvg({ cells, months, total }) {
   const w = 960;
   const h = 230;
   const start_x = 36;
@@ -37,14 +37,13 @@ export function renderContributionSvg({ grid, months, total }) {
   svg += `  <text x="${start_x - 10}" y="${start_y + 5 * step + 10}" font-family="'JetBrains Mono', monospace" font-size="9.5" fill="${palette.text_muted}" text-anchor="end">Fri</text>\n`;
 
   // Grid Cells
-  for (const [coord, item] of Object.entries(grid)) {
-    const [c, r] = coord.split(",").map(Number);
-    const lvl = Math.min(Math.max(item.level || 0, 0), 4);
+  for (const cell of cells) {
+    const lvl = Math.min(Math.max(cell.level || 0, 0), 4);
     const fill = palette.levels[lvl];
     const border = palette.level_borders[lvl];
-    const cx = start_x + c * step;
-    const cy = start_y + r * step;
-    const tooltipText = item.tooltip || `${item.date}: level ${lvl}`;
+    const cx = start_x + cell.col * step;
+    const cy = start_y + cell.row * step;
+    const tooltipText = cell.tooltip || `${cell.date}: level ${lvl}`;
     const safeTitle = tooltipText
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
@@ -125,7 +124,7 @@ export async function fetchContributionsData(username = "aaronnguyen26") {
         const cal = json?.data?.user?.contributionsCollection?.contributionCalendar;
         if (cal) {
           const total = String(cal.totalContributions);
-          const grid = {};
+          const cells = [];
 
           const levelMap = {
             NONE: 0,
@@ -141,11 +140,13 @@ export async function fetchContributionsData(username = "aaronnguyen26") {
               const lvl = levelMap[day.contributionLevel] ?? 0;
               const count = day.contributionCount;
               const countLabel = count === 1 ? "1 contribution" : `${count} contributions`;
-              grid[`${w},${day.weekday}`] = {
+              cells.push({
+                col: w,
+                row: day.weekday,
                 date: day.date,
                 level: lvl,
                 tooltip: `${countLabel} on ${day.date}`,
-              };
+              });
             }
           }
 
@@ -163,7 +164,7 @@ export async function fetchContributionsData(username = "aaronnguyen26") {
             }
           }
 
-          return { grid, months, total };
+          return { cells, months, total };
         }
       }
     } catch (err) {
@@ -188,7 +189,7 @@ export async function fetchContributionsData(username = "aaronnguyen26") {
     if (ghRes.ok) {
       const html = await ghRes.text();
       const h2Match = html.match(/([0-9,]+)\s+contributions\s+in the last year/);
-      const total = h2Match ? h2Match[1] : "695";
+      const total = h2Match ? h2Match[1] : "710";
 
       const monthMatches = [
         ...html.matchAll(
@@ -214,37 +215,49 @@ export async function fetchContributionsData(username = "aaronnguyen26") {
         ...html.matchAll(/<td[^>]*class="[^"]*ContributionCalendar-day[^"]*"[^>]*>/g),
       ].map((m) => m[0]);
 
-      let firstDateStr = null;
-      const grid = {};
-
+      const parsedDays = [];
       for (const tag of dayTags) {
         const dateMatch = tag.match(/data-date="(\d{4}-\d{2}-\d{2})"/);
         const levelMatch = tag.match(/data-level="(\d+)"/);
         const idMatch = tag.match(/id="([^"]+)"/);
 
         if (dateMatch && levelMatch) {
-          const date = dateMatch[1];
-          const level = parseInt(levelMatch[1], 10);
-          if (!firstDateStr) firstDateStr = date;
-
-          const startDate = new Date(firstDateStr + "T00:00:00Z");
-          const curDate = new Date(date + "T00:00:00Z");
-          const diffDays = Math.round(
-            (curDate.getTime() - startDate.getTime()) / 86400000
-          );
-          const row = curDate.getUTCDay();
-          const col = Math.floor(diffDays / 7);
-
-          const cellId = idMatch ? idMatch[1] : "";
-          const tooltip = tooltips[cellId] || `${date}: level ${level}`;
-
-          grid[`${col},${row}`] = { date, level, tooltip };
+          parsedDays.push({
+            date: dateMatch[1],
+            level: parseInt(levelMatch[1], 10),
+            cellId: idMatch ? idMatch[1] : "",
+          });
         }
       }
 
-      if (Object.keys(grid).length > 0) {
-        return { grid, months, total };
+      if (parsedDays.length === 0) return null;
+
+      parsedDays.sort((a, b) => a.date.localeCompare(b.date));
+
+      const firstDate = new Date(parsedDays[0].date + "T00:00:00Z");
+      const startSunday = new Date(firstDate);
+      startSunday.setUTCDate(firstDate.getUTCDate() - firstDate.getUTCDay());
+
+      const cells = [];
+      for (const day of parsedDays) {
+        const curDate = new Date(day.date + "T00:00:00Z");
+        const diffDays = Math.round(
+          (curDate.getTime() - startSunday.getTime()) / 86400000
+        );
+        const row = curDate.getUTCDay();
+        const col = Math.floor(diffDays / 7);
+
+        const tooltip = tooltips[day.cellId] || `${day.date}: level ${day.level}`;
+        cells.push({
+          col,
+          row,
+          date: day.date,
+          level: day.level,
+          tooltip,
+        });
       }
+
+      return { cells, months, total };
     }
   } catch (err) {
     console.warn("Public contributions scrape failed:", err);
@@ -267,11 +280,7 @@ async function run() {
   fs.writeFileSync(outPath, svg, "utf-8");
 
   const jsonPath = path.join(process.cwd(), "src", "data", "contributions.json");
-  const cells = Object.entries(data.grid).map(([coord, item]) => {
-    const [col, row] = coord.split(",").map(Number);
-    return { col, row, ...item };
-  });
-  fs.writeFileSync(jsonPath, JSON.stringify({ total: data.total, months: data.months, cells }, null, 2), "utf-8");
+  fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2), "utf-8");
 
   console.log(`Successfully generated and saved up-to-date contribution graph (${data.total} contributions) to:`);
   console.log(outPath);
