@@ -27,8 +27,8 @@ const palette = {
   text_name: "#26211b",
   text_count: "#5b5246",
   text_muted: "#7a4a2a",
-  levels: ["#ebdcc2", "#97b788", "#5b8e51", "#286332", "#8a1c1c"],
-  level_borders: ["#dfcaa4", "#85a476", "#4e7e45", "#1e4f26", "#661212"],
+  levels: ["#ebdcc2", "#97b788", "#5b8e51", "#286332", "#134e23"],
+  level_borders: ["#dfcaa4", "#85a476", "#4e7e45", "#1e4f26", "#0c3517"],
   level_names: ["No activity", "1-3 contributions", "4-9 contributions", "10-19 contributions", "20+ contributions"],
 };
 
@@ -282,8 +282,7 @@ export default function GitHubContributionGraph() {
                     }}
                     onMouseEnter={() => setHoveredCell(cell)}
                     onClick={(e) => handleCellClick(cell, e)}
-                    role="button"
-                    tabIndex={0}
+                    tabIndex={-1}
                     aria-label={`${cell.date}: ${cell.tooltip}`}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
@@ -397,7 +396,7 @@ export default function GitHubContributionGraph() {
                   fontFamily="'JetBrains Mono', monospace"
                   fontSize="11.5"
                   fontWeight="700"
-                  fill="#8a1c1c"
+                  fill="#134e23"
                 >
                   {activeCell ? getContributionText(activeCell.tooltip) : ""}
                 </text>

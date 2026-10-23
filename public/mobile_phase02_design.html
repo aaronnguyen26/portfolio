@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Project Detail · Phase 02: Scope & Status Quo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: #EDE6D8;
+    background-image: 
+      radial-gradient(#D5CBBA 1px, transparent 1px),
+      linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 20px 20px;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #26211B;
+    padding: 28px 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .header-presentation {
+    text-align: center;
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+
+  .header-presentation .folio-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #8A1C1C;
+    background: #FFFDF9;
+    border: 1px solid #E4DCCF;
+    padding: 4px 14px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(38,33,27,0.04);
+  }
+
+  .header-presentation h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #26211B;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+
+  .header-presentation p {
+    font-size: 13px;
+    color: #6B6257;
+    line-height: 1.45;
+  }
+
+  /* Single centered phone frame */
+  .phone-frame {
+    width: 410px;
+    height: 890px;
+    background: #18181B;
+    border-radius: 48px;
+    padding: 10px;
+    box-shadow: 
+      0 0 0 1px rgba(255,255,255,0.1),
+      0 25px 60px -15px rgba(38, 33, 27, 0.35),
+      0 12px 24px -8px rgba(38, 33, 27, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background-color: #FBF7EE;
+    background-image: radial-gradient(#E2D9C8 1px, transparent 1px);
+    background-size: 16px 16px;
+    border-radius: 38px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Darkened blurred backdrop in the upper 25% */
+  .phone-backdrop-preview {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 21, 16, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0 10px;
+  }
+
+  /* Underlying page peek */
+  .underlying-content {
+    position: absolute;
+    top: 24px;
+    left: 20px;
+    right: 20px;
+    color: #877E72;
+    z-index: 1;
+    opacity: 0.35;
+  }
+
+  .underlying-content h2 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 24px;
+    color: #26211B;
+    margin-bottom: 6px;
+  }
+
+  /* 75% Pull-Down Bottom Sheet */
+  .bottom-sheet {
+    position: relative;
+    width: 100%;
+    max-width: 410px;
+    height: 75%;
+    background-color: #FBF7EE;
+    background-image: radial-gradient(#E2D9C8 1px, transparent 1px);
+    background-size: 16px 16px;
+    border: 1px solid #E4DCCF;
+    border-bottom: none;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    box-shadow: 
+      0 -12px 40px rgba(26, 21, 16, 0.4),
+      0 -2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 20;
+  }
+
+  /* Pull Handle Bar */
+  .handle-bar {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 2px;
+    background: rgba(251, 247, 238, 0.98);
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    cursor: pointer;
+  }
+
+  .handle-pill {
+    width: 38px;
+    height: 4.5px;
+    border-radius: 999px;
+    background: #D4CABE;
+  }
+
+  /* Top Pinned Nav Bar */
+  .sheet-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px 10px;
+    background: rgba(251, 247, 238, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid #EAE3D2;
+    flex-shrink: 0;
+  }
+
+  .folio-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #8A1C1C;
+    text-transform: uppercase;
+  }
+
+  .close-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #FFFDF9;
+    border: 1px solid #DED6C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #5A524A;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(38, 33, 27, 0.04);
+  }
+
+  /* Scrollable Content Body */
+  .sheet-body {
+    padding: 12px 12px 24px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 70, 30, 0.25) transparent;
+  }
+
+  .sheet-body::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .sheet-body::-webkit-scrollbar-thumb {
+    background: rgba(100, 70, 30, 0.22);
+    border-radius: 4px;
+  }
+
+  /* Paper Leaf Card */
+  .paper-leaf {
+    background: #FFFDF9;
+    border: 1px solid #E4DCCF;
+    border-radius: 14px;
+    padding: 16px 14px 18px;
+    position: relative;
+    box-shadow: 
+      0 1px 2px rgba(38, 33, 27, 0.04),
+      0 4px 14px rgba(38, 33, 27, 0.03);
+  }
+
+  /* Washi Tape Header Decor */
+  .washi-tape {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 18px;
+    background: rgba(227, 216, 192, 0.85);
+    border: 1px dashed rgba(184, 169, 142, 0.5);
+    box-shadow: 0 1px 2px rgba(38, 33, 27, 0.05);
+  }
+
+  /* Metadata Header */
+  .leaf-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .cat-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #8A1C1C;
+    text-transform: uppercase;
+  }
+
+  .meta-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #877E72;
+  }
+
+  .leaf-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: #26211B;
+    letter-spacing: -0.01em;
+    margin: 4px 0 5px;
+  }
+
+  .leaf-desc {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #5A524A;
+    margin: 0 0 12px 0;
+  }
+
+  /* Section Divider */
+  .divider {
+    border-top: 1px dashed rgba(70, 40, 10, 0.18);
+    margin: 12px 0 10px;
+  }
+
+  .sec-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #8A1C1C;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 4px;
+  }
+
+  .sec-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #8A1C1C;
+    display: inline-block;
+  }
+
+  .sec-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #26211B;
+    margin: 0 0 6px 0;
+  }
+
+  .lead-p {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: #4A4239;
+    margin: 0 0 10px 0;
+  }
+
+  /* Split Comparison Stack */
+  .comp-block {
+    border-radius: 8px;
+    padding: 10px 11px;
+    margin-bottom: 9px;
+    border: 1px solid #EAE3D2;
+  }
+
+  .comp-block.status-quo {
+    background: #FDF7F4;
+    border-color: #EBDAD5;
+  }
+
+  .comp-block.project-aim {
+    background: #F4F8F4;
+    border-color: #D5E5D5;
+  }
+
+  .comp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .comp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .comp-block.status-quo .comp-tag {
+    color: #8A1C1C;
+  }
+
+  .comp-block.project-aim .comp-tag {
+    color: #2D6A4F;
+  }
+
+  .comp-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #26211B;
+    margin-bottom: 6px;
+  }
+
+  .comp-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .comp-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .comp-marker {
+    font-size: 8.5px;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .comp-block.status-quo .comp-marker { color: #8A1C1C; }
+  .comp-block.project-aim .comp-marker { color: #2D6A4F; }
+
+  .comp-text {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 11px;
+    line-height: 1.35;
+    color: #383531;
+  }
+
+  .comp-bold {
+    font-weight: 700;
+    color: #1C1917;
+    margin-right: 3px;
+  }
+
+  /* Handwritten Reflection Box */
+  .handwritten-box {
+    background: #F8F4EA;
+    border: 1px dashed #D5CAB5;
+    border-radius: 7px;
+    padding: 8px 10px;
+    margin-top: 10px;
+  }
+
+  .handwritten-text {
+    font-family: 'Caveat', cursive;
+    font-size: 14.5px;
+    line-height: 1.35;
+    color: #1A365D;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-presentation">
+  <div class="folio-badge">DOSSIER 02 · WILDFIRE CV</div>
+  <h1>Phase 02: Scope & Status Quo</h1>
+  <p>75% pull-down mobile drawer contrasting existing detection bottlenecks with the pragmatic local edge model scope.</p>
+</div>
+
+<!-- Phone Device Frame -->
+<div class="phone-frame">
+  <div class="phone-screen">
+    <!-- Underlying Page Peek -->
+    <div class="underlying-content">
+      <h2>Pages from the workbench.</h2>
+      <p>each project is an entry: the problem, the decisions...</p>
+    </div>
+
+    <!-- Backdrop with 75% Pull-Down Drawer -->
+    <div class="phone-backdrop-preview">
+      <div class="bottom-sheet">
+        <!-- Pull Handle Bar -->
+        <div class="handle-bar">
+          <div class="handle-pill"></div>
+        </div>
+
+        <!-- Sticky Top Bar -->
+        <div class="sheet-topbar">
+          <span class="folio-tag">DOSSIER 02 · WILDFIRE CV</span>
+          <button class="close-btn" aria-label="Close dossier">✕</button>
+        </div>
+
+        <!-- Scrollable Content Body -->
+        <div class="sheet-body">
+          <div class="paper-leaf">
+            <!-- Washi Tape -->
+            <div class="washi-tape" aria-hidden="true"></div>
+
+            <!-- Header Metadata -->
+            <div class="leaf-meta">
+              <span class="cat-pill">COMPUTER VISION · EDGE AI</span>
+              <span class="meta-year">SUMMER 2024</span>
+            </div>
+
+            <h2 class="leaf-title">Wildfire Image Detection</h2>
+            <p class="leaf-desc">
+              Sub-15ms edge CV pipeline classifying early wildfire ignitions from aerial frames.
+            </p>
+
+            <!-- Phase 02 Divider -->
+            <div class="divider"></div>
+
+            <!-- Phase 02 Header -->
+            <div class="sec-tag">
+              <span class="sec-dot"></span>
+              <span>PHASE 02 · SCOPE &amp; ROOT CAUSE</span>
+            </div>
+
+            <h3 class="sec-title">Status Quo vs. Project Aim</h3>
+            <p class="lead-p">
+              Why existing detection workflows fail early containment and setting a pragmatic edge software scope.
+            </p>
+
+            <!-- Comparison Block 1: Status Quo -->
+            <div class="comp-block status-quo">
+              <div class="comp-header">
+                <span class="comp-tag">CURRENT STATUS QUO (SQ)</span>
+              </div>
+              <div class="comp-title">Existing Detection Bottlenecks</div>
+              <div class="comp-bullets">
+                <div class="comp-row">
+                  <span class="comp-marker">•</span>
+                  <div class="comp-text">
+                    <strong class="comp-bold">911 Calls Lag:</strong>
+                    <span>30–60 min delay before human sighting reaches dispatch.</span>
+                  </div>
+                </div>
+                <div class="comp-row">
+                  <span class="comp-marker">•</span>
+                  <div class="comp-text">
+                    <strong class="comp-bold">Satellite Orbit Gap:</strong>
+                    <span>3–6 hr revisit cycles &amp; frequent cloud occlusion.</span>
+                  </div>
+                </div>
+                <div class="comp-row">
+                  <span class="comp-marker">•</span>
+                  <div class="comp-text">
+                    <strong class="comp-bold">Zero Cloud Access:</strong>
+                    <span>Steep canyon terrain severs cellular signals during fires.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Comparison Block 2: Project Aim -->
+            <div class="comp-block project-aim">
+              <div class="comp-header">
+                <span class="comp-tag">PROJECT AIM &amp; SCOPE</span>
+              </div>
+              <div class="comp-title">Grounded Software Objective</div>
+              <div class="comp-bullets">
+                <div class="comp-row">
+                  <span class="comp-marker">•</span>
+                  <div class="comp-text">
+                    <strong class="comp-bold">&lt;35MB Footprint:</strong>
+                    <span>Fits within strict micro-device RAM limits.</span>
+                  </div>
+                </div>
+                <div class="comp-row">
+                  <span class="comp-marker">•</span>
+                  <div class="comp-text">
+                    <strong class="comp-bold">Sub-15ms Inference:</strong>
+                    <span>Instant on-device classification without internet.</span>
+                  </div>
+                </div>
+                <div class="comp-row">
+                  <span class="comp-marker">•</span>
+                  <div class="comp-text">
+                    <strong class="comp-bold">Binary Smoke Detection:</strong>
+                    <span>Dedicated classifier instead of complex drone overhauls.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fountain Pen Reflection Note -->
+            <div class="handwritten-box">
+              <p class="handwritten-text">
+                &ldquo;Grounded Scope: Build a fast, lightweight software classifier to verify smoke in aerial frames locally — keeping compute small enough for real-time edge devices.&rdquo;
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

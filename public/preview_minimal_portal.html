@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimalist Hero &amp; Scroll-Down Navigation Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Geist+Mono:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #fbf7ee;
+      --paper-2: #f3ecdc;
+      --paper-card: #ffffff;
+      --ink: #26211b;
+      --ink-soft: #5b5246;
+      --cardinal: #8a1c1c;
+      --gold: #ffcc00;
+      --navy: #243b6b;
+      --rule: rgba(31, 26, 20, 0.12);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-mono: 'Geist Mono', monospace;
+      --font-hand: 'Caveat', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #181512;
+      color: var(--ink);
+      font-family: var(--font-serif);
+      padding: 32px 20px 80px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header-banner {
+      max-width: 1300px;
+      margin: 0 auto 32px;
+      padding: 24px 28px;
+      background: #231f1a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #ede6d8;
+    }
+
+    .banner-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .banner-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #b0a797;
+      line-height: 1.5;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #d6cebf;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: var(--cardinal);
+      color: #fff;
+      border-color: var(--cardinal);
+    }
+
+    /* Showcase Stage */
+    .showcase-stage {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: nowrap;
+    }
+
+    .phone-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .phone-badge {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #d1c7b7;
+      background: #24201c;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      letter-spacing: 0.05em;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background: var(--paper);
+      background-image: radial-gradient(rgba(31, 26, 20, 0.12) 1px, transparent 1.2px);
+      background-size: 20px 20px;
+      border-radius: 46px;
+      border: 10px solid #2f2a24;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island */
+    .iphone-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 108px;
+      height: 28px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* Scrollable viewport */
+    .iphone-scrollview {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .iphone-scrollview::-webkit-scrollbar {
+      width: 4px;
+    }
+    .iphone-scrollview::-webkit-scrollbar-thumb {
+      background: rgba(31, 26, 20, 0.15);
+      border-radius: 2px;
+    }
+
+    /* Top Bar: Clean "Aaron Nguyen" ONLY, no index button */
+    .mobile-nav-bar-clean {
+      height: 48px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      position: absolute;
+      top: 44px;
+      left: 0;
+      right: 0;
+      z-index: 20;
+    }
+
+    .brand-mark {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    /* HERO: Minimalist Centered Screen (100% of visible viewport height) */
+    .minimal-hero {
+      min-height: 824px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 70px 26px 40px;
+      position: relative;
+    }
+
+    .hero-centered-content {
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: auto 0;
+    }
+
+    .headline {
+      font-size: 2.22rem;
+      line-height: 1.22;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    .hl-gold {
+      background-image: linear-gradient(var(--gold), var(--gold));
+      background-size: 100% 38%;
+      background-position: 0 92%;
+      background-repeat: no-repeat;
+      display: inline;
+    }
+
+    .sub-lede {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      line-height: 1.52;
+      color: var(--ink-soft);
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    /* SCROLL ANIMATION CUE */
+    .scroll-cue {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink-soft);
+      transition: opacity 0.25s ease;
+      z-index: 10;
+    }
+
+    .scroll-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+    }
+
+    /* Living Ink Thread Animation */
+    .ink-thread {
+      width: 1.5px;
+      height: 42px;
+      background: rgba(31, 26, 20, 0.18);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
+    .ink-droplet {
+      width: 3.5px;
+      height: 10px;
+      background: var(--cardinal);
+      position: absolute;
+      left: -1px;
+      top: -10px;
+      border-radius: 3px;
+      animation: inkDrop 2.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    }
+
+    @keyframes inkDrop {
+      0% { top: -10px; opacity: 0; }
+      20% { opacity: 1; }
+      75% { top: 32px; opacity: 1; }
+      100% { top: 42px; opacity: 0; }
+    }
+
+    /* REVEALED CONTENT BELOW */
+    .revealed-section {
+      padding: 38px 22px 140px;
+      border-top: 1px solid var(--rule);
+      background: var(--paper);
+      position: relative;
+      min-height: 824px;
+    }
+
+    .portal-section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 8px;
+    }
+
+    .portal-section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .portal-section-tag {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      color: var(--cardinal);
+      letter-spacing: 0.08em;
+    }
+
+    /* STYLE 01: EDITORIAL CHAPTER TILES */
+    .chapter-tiles {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chapter-tile {
+      background: var(--paper-2);
+      border: 1px solid rgba(31, 26, 20, 0.12);
+      border-radius: 10px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .chapter-tile-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chapter-n {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--cardinal);
+      background: rgba(138, 28, 28, 0.08);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .chapter-arrow {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--cardinal);
+    }
+
+    .chapter-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .chapter-desc {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    /* Embedded Preview inside Projects Tile */
+    .tile-preview-shelf {
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px dashed rgba(31, 26, 20, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .shelf-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--cardinal);
+      letter-spacing: 0.06em;
+    }
+
+    .shelf-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.6);
+      padding: 5px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(31, 26, 20, 0.06);
+    }
+
+    .shelf-tag {
+      font-size: 0.6rem;
+      color: #3b5030;
+      font-weight: 600;
+    }
+
+    /* STYLE 02: TYPOGRAPHIC BROADSIDE LEDGER */
+    .ledger-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ledger-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 18px 4px;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .ledger-left {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .ledger-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--cardinal);
+    }
+
+    .ledger-title {
+      font-size: 1.28rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .ledger-sub {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--ink-soft);
+      margin-top: 3px;
+    }
+
+    .ledger-arrow {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--cardinal);
+    }
+
+    /* STYLE 03: TACTILE BENTO PORTAL */
+    .bento-portal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .bento-card-full {
+      grid-column: span 2;
+      background: var(--paper-2);
+      border: 1px solid rgba(31, 26, 20, 0.12);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .bento-card-half {
+      background: var(--paper-2);
+      border: 1px solid rgba(31, 26, 20, 0.12);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 120px;
+    }
+
+    .live-demo-hint {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #b0a797;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-banner">
+    <h1 class="banner-title">Decluttered Hero &amp; Scroll-Down Exploration Portal</h1>
+    <p class="banner-subtitle">
+      Header cleaned (no Index pill) &bull; Centered text simplified (no student kicker, no Los Angeles/Vol 1 tags) &bull; Scroll down presents intuitive options to explore Projects, About, Writing, and Contact
+    </p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchView('journey')">Master Scroll Journey (Hero &rarr; Options)</button>
+      <button class="tab-btn" onclick="switchView('style-1')">Option 01: Editorial Chapter Tiles</button>
+      <button class="tab-btn" onclick="switchView('style-2')">Option 02: Typographic Ledger</button>
+      <button class="tab-btn" onclick="switchView('style-3')">Option 03: Tactile Bento Deck</button>
+      <button class="tab-btn" onclick="switchView('all')">Compare All 3 Options Below</button>
+    </div>
+  </div>
+
+  <div class="showcase-stage" id="showcase-stage">
+
+    <!-- MASTER JOURNEY: Clean Hero on Left, Revealed Navigation Options on Right -->
+    <div class="phone-container" id="container-journey" style="display: flex; flex-direction: row; gap: 40px; flex-wrap: wrap; justify-content: center;">
+      
+      <!-- Phone 1: Cleaned Minimalist Hero -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div class="phone-badge" style="background: var(--ink); color: #fff;">1. INITIAL HERO &bull; 100% DECLUTTERED WRITING</div>
+        <div class="iphone-frame" id="frame-clean-hero">
+          <div class="iphone-island"></div>
+          <div class="iphone-scrollview" id="scroll-clean-hero">
+            
+            <!-- Top Bar: Clean "Aaron Nguyen" ONLY -->
+            <div class="mobile-nav-bar-clean">
+              <span class="brand-mark">Aaron Nguyen</span>
+            </div>
+
+            <!-- Optical Center: ONLY headline and sub-lede -->
+            <div class="minimal-hero">
+              <div class="hero-centered-content">
+                <h2 class="headline">
+                  Exploring where <span class="hl-gold">economic incentives</span> meet machine intelligence.
+                </h2>
+                <p class="sub-lede">
+                  Studying resource allocation by day, training neural networks by night, and capturing the stories behind complex systems.
+                </p>
+              </div>
+
+              <!-- Animated Ink Droplet Cue -->
+              <div class="scroll-cue">
+                <span class="scroll-label">Scroll to explore</span>
+                <div class="ink-thread">
+                  <div class="ink-droplet"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="live-demo-hint">Pure typography &bull; No index button &bull; No kicker tags</div>
+      </div>
+
+      <!-- Arrow Indicator -->
+      <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;">
+        <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--gold); font-weight: 600; text-align: center; background: #26211b; padding: 8px 14px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1);">
+          USER SCROLLS &darr;
+        </div>
+      </div>
+
+      <!-- Phone 2: Options Revealed Below -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div class="phone-badge" style="background: var(--cardinal); color: #fff;">2. REVEALED BELOW &bull; DESTINATIONS &amp; PROJECTS</div>
+        <div class="iphone-frame" id="frame-clean-reveal">
+          <div class="iphone-island"></div>
+          <div class="iphone-scrollview" id="scroll-clean-reveal">
+            
+            <div class="mobile-nav-bar-clean">
+              <span class="brand-mark">Aaron Nguyen</span>
+            </div>
+
+            <div style="height: 110px;"></div>
+
+            <div class="revealed-section" style="border-top: none; padding-top: 10px;">
+              <div class="portal-section-header">
+                <h3 class="portal-section-title">Directory</h3>
+                <span class="portal-section-tag">EXPLORE WORK</span>
+              </div>
+
+              <div class="chapter-tiles">
+                <!-- 01 Projects -->
+                <div class="chapter-tile">
+                  <div class="chapter-tile-top">
+                    <span class="chapter-n">01</span>
+                    <span class="chapter-arrow">&rarr;</span>
+                  </div>
+                  <h4 class="chapter-title">Projects &amp; Systems</h4>
+                  <p class="chapter-desc">Machine learning models, algorithms, and interactive tools.</p>
+                  
+                  <div class="tile-preview-shelf">
+                    <span class="shelf-label">RECENT EXPLORATIONS</span>
+                    <div class="shelf-item">
+                      <span>Wildfire Image Detection</span>
+                      <span class="shelf-tag">CV &bull; MPS</span>
+                    </div>
+                    <div class="shelf-item">
+                      <span>EPL Match Predictor</span>
+                      <span class="shelf-tag">58.2% ACC</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 02 About -->
+                <div class="chapter-tile">
+                  <div class="chapter-tile-top">
+                    <span class="chapter-n">02</span>
+                    <span class="chapter-arrow">&rarr;</span>
+                  </div>
+                  <h4 class="chapter-title">About &amp; Story</h4>
+                  <p class="chapter-desc">Personal background, origin memories, and craft philosophy.</p>
+                  <p style="font-family: var(--font-hand); font-size: 1.15rem; color: var(--navy); margin-top: 4px;">
+                    &ldquo;craft over noise, learning by doing&rdquo;
+                  </p>
+                </div>
+
+                <!-- 03 Writing -->
+                <div class="chapter-tile">
+                  <div class="chapter-tile-top">
+                    <span class="chapter-n">03</span>
+                    <span class="chapter-arrow">&rarr;</span>
+                  </div>
+                  <h4 class="chapter-title">Writing &amp; Notes</h4>
+                  <p class="chapter-desc">Working essays on markets, network models, and technology.</p>
+                </div>
+
+                <!-- 04 Contact -->
+                <div class="chapter-tile">
+                  <div class="chapter-tile-top">
+                    <span class="chapter-n">04</span>
+                    <span class="chapter-arrow">&rarr;</span>
+                  </div>
+                  <h4 class="chapter-title">Get in Touch</h4>
+                  <p class="chapter-desc">Reach out for collaborations, questions, or just to say hello.</p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="live-demo-hint">Options to explore Projects, About, Writing &amp; Contact</div>
+      </div>
+
+    </div>
+
+    <!-- OPTION 01 FULL INTERACTIVE PHONE -->
+    <div class="phone-container" id="container-style-1" style="display: none;">
+      <div class="phone-badge">OPTION 01: EDITORIAL CHAPTER TILES (INTERACTIVE SCROLL)</div>
+      <div class="iphone-frame" id="frame-opt-1">
+        <div class="iphone-island"></div>
+        <div class="iphone-scrollview" id="scroll-opt-1">
+          
+          <div class="mobile-nav-bar-clean">
+            <span class="brand-mark">Aaron Nguyen</span>
+          </div>
+
+          <div class="minimal-hero" id="hero-opt-1">
+            <div class="hero-centered-content">
+              <h2 class="headline">
+                Exploring where <span class="hl-gold">economic incentives</span> meet machine intelligence.
+              </h2>
+              <p class="sub-lede">
+                Studying resource allocation by day, training neural networks by night, and capturing the stories behind complex systems.
+              </p>
+            </div>
+
+            <a href="javascript:void(0)" class="scroll-cue" onclick="scrollToElement('scroll-opt-1', 'reveal-opt-1')">
+              <span class="scroll-label">Scroll to explore</span>
+              <div class="ink-thread">
+                <div class="ink-droplet"></div>
+              </div>
+            </a>
+          </div>
+
+          <div class="revealed-section" id="reveal-opt-1">
+            <div class="portal-section-header">
+              <h3 class="portal-section-title">Directory</h3>
+              <span class="portal-section-tag">CHAPTER INDEX</span>
+            </div>
+
+            <div class="chapter-tiles">
+              <div class="chapter-tile">
+                <div class="chapter-tile-top">
+                  <span class="chapter-n">01</span>
+                  <span class="chapter-arrow">&rarr;</span>
+                </div>
+                <h4 class="chapter-title">Projects &amp; Systems</h4>
+                <p class="chapter-desc">Machine learning models, algorithms, and interactive tools.</p>
+                
+                <div class="tile-preview-shelf">
+                  <span class="shelf-label">RECENT EXPLORATIONS</span>
+                  <div class="shelf-item">
+                    <span>Wildfire Image Detection</span>
+                    <span class="shelf-tag">FLAGSHIP</span>
+                  </div>
+                  <div class="shelf-item">
+                    <span>EPL Match Outcome Predictor</span>
+                    <span class="shelf-tag">58.2% ACC</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="chapter-tile">
+                <div class="chapter-tile-top">
+                  <span class="chapter-n">02</span>
+                  <span class="chapter-arrow">&rarr;</span>
+                </div>
+                <h4 class="chapter-title">About &amp; Story</h4>
+                <p class="chapter-desc">Personal background, origin memories, and craft philosophy.</p>
+                <p style="font-family: var(--font-hand); font-size: 1.15rem; color: var(--navy); margin-top: 4px;">
+                  &ldquo;craft over noise, learning by doing&rdquo;
+                </p>
+              </div>
+
+              <div class="chapter-tile">
+                <div class="chapter-tile-top">
+                  <span class="chapter-n">03</span>
+                  <span class="chapter-arrow">&rarr;</span>
+                </div>
+                <h4 class="chapter-title">Writing &amp; Notes</h4>
+                <p class="chapter-desc">Working essays on markets, network models, and technology.</p>
+              </div>
+
+              <div class="chapter-tile">
+                <div class="chapter-tile-top">
+                  <span class="chapter-n">04</span>
+                  <span class="chapter-arrow">&rarr;</span>
+                </div>
+                <h4 class="chapter-title">Get in Touch</h4>
+                <p class="chapter-desc">Reach out for collaborations, questions, or just to say hello.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="live-demo-hint">&uarr; Scroll inside phone or click "Scroll to explore" &darr;</div>
+    </div>
+
+    <!-- OPTION 02 FULL INTERACTIVE PHONE -->
+    <div class="phone-container" id="container-style-2" style="display: none;">
+      <div class="phone-badge">OPTION 02: TYPOGRAPHIC BROADSIDE LEDGER (INTERACTIVE SCROLL)</div>
+      <div class="iphone-frame" id="frame-opt-2">
+        <div class="iphone-island"></div>
+        <div class="iphone-scrollview" id="scroll-opt-2">
+          
+          <div class="mobile-nav-bar-clean">
+            <span class="brand-mark">Aaron Nguyen</span>
+          </div>
+
+          <div class="minimal-hero" id="hero-opt-2">
+            <div class="hero-centered-content">
+              <h2 class="headline">
+                Exploring where <span class="hl-gold">economic incentives</span> meet machine intelligence.
+              </h2>
+              <p class="sub-lede">
+                Studying resource allocation by day, training neural networks by night, and capturing the stories behind complex systems.
+              </p>
+            </div>
+
+            <a href="javascript:void(0)" class="scroll-cue" onclick="scrollToElement('scroll-opt-2', 'reveal-opt-2')">
+              <span class="scroll-label">Scroll to explore</span>
+              <div class="ink-thread">
+                <div class="ink-droplet"></div>
+              </div>
+            </a>
+          </div>
+
+          <div class="revealed-section" id="reveal-opt-2">
+            <div class="portal-section-header">
+              <h3 class="portal-section-title">Directory</h3>
+              <span class="portal-section-tag">CATALOG</span>
+            </div>
+
+            <div class="ledger-list">
+              <div class="ledger-row">
+                <div class="ledger-left">
+                  <span class="ledger-num">01</span>
+                  <div>
+                    <h4 class="ledger-title">Projects</h4>
+                    <p class="ledger-sub">Wildfire AI &bull; EPL Predictor &bull; Prototypes</p>
+                  </div>
+                </div>
+                <span class="ledger-arrow">&rarr;</span>
+              </div>
+
+              <div class="ledger-row">
+                <div class="ledger-left">
+                  <span class="ledger-num">02</span>
+                  <div>
+                    <h4 class="ledger-title">About</h4>
+                    <p class="ledger-sub">Origin story &bull; Research &bull; USC '26</p>
+                  </div>
+                </div>
+                <span class="ledger-arrow">&rarr;</span>
+              </div>
+
+              <div class="ledger-row">
+                <div class="ledger-left">
+                  <span class="ledger-num">03</span>
+                  <div>
+                    <h4 class="ledger-title">Writing</h4>
+                    <p class="ledger-sub">Field notes &bull; Essays &bull; Market models</p>
+                  </div>
+                </div>
+                <span class="ledger-arrow">&rarr;</span>
+              </div>
+
+              <div class="ledger-row">
+                <div class="ledger-left">
+                  <span class="ledger-num">04</span>
+                  <div>
+                    <h4 class="ledger-title">Contact</h4>
+                    <p class="ledger-sub">Email &bull; GitHub &bull; LinkedIn &bull; Studio</p>
+                  </div>
+                </div>
+                <span class="ledger-arrow">&rarr;</span>
+              </div>
+            </div>
+
+            <!-- Recent Explorations Shelf -->
+            <div style="margin-top: 26px; padding: 14px; background: var(--paper-2); border-radius: 8px; border: 1px solid var(--rule);">
+              <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--cardinal); font-weight: 700; margin-bottom: 8px;">
+                FEATURED EXPLORATION &bull; ACTIVE BUILD
+              </div>
+              <div style="font-size: 1.05rem; font-weight: 700; color: var(--ink);">Wildfire Image Detection</div>
+              <p style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-soft); margin-top: 4px;">Sub-15ms edge inference with PyTorch MPS</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="live-demo-hint">&uarr; Scroll inside phone or click "Scroll to explore" &darr;</div>
+    </div>
+
+    <!-- OPTION 03 FULL INTERACTIVE PHONE -->
+    <div class="phone-container" id="container-style-3" style="display: none;">
+      <div class="phone-badge">OPTION 03: TACTILE BENTO PORTAL (INTERACTIVE SCROLL)</div>
+      <div class="iphone-frame" id="frame-opt-3">
+        <div class="iphone-island"></div>
+        <div class="iphone-scrollview" id="scroll-opt-3">
+          
+          <div class="mobile-nav-bar-clean">
+            <span class="brand-mark">Aaron Nguyen</span>
+          </div>
+
+          <div class="minimal-hero" id="hero-opt-3">
+            <div class="hero-centered-content">
+              <h2 class="headline">
+                Exploring where <span class="hl-gold">economic incentives</span> meet machine intelligence.
+              </h2>
+              <p class="sub-lede">
+                Studying resource allocation by day, training neural networks by night, and capturing the stories behind complex systems.
+              </p>
+            </div>
+
+            <a href="javascript:void(0)" class="scroll-cue" onclick="scrollToElement('scroll-opt-3', 'reveal-opt-3')">
+              <span class="scroll-label">Scroll to explore</span>
+              <div class="ink-thread">
+                <div class="ink-droplet"></div>
+              </div>
+            </a>
+          </div>
+
+          <div class="revealed-section" id="reveal-opt-3">
+            <div class="portal-section-header">
+              <h3 class="portal-section-title">Directory</h3>
+              <span class="portal-section-tag">BENTO PORTAL</span>
+            </div>
+
+            <div class="bento-portal-grid">
+              <!-- Full Card: Projects -->
+              <div class="bento-card-full">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                  <span class="chapter-n">01 &bull; PROJECTS</span>
+                  <span class="chapter-arrow">&rarr;</span>
+                </div>
+                <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--ink);">Code, Models &amp; Systems</h4>
+                <p style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-soft); margin-top: 4px;">
+                  Wildfire detection, EPL sports modeling, interactive tools.
+                </p>
+              </div>
+
+              <!-- Half Card: About -->
+              <div class="bento-card-half">
+                <span class="chapter-n" style="align-self: flex-start;">02 &bull; ABOUT</span>
+                <div>
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-top: 8px;">My Story</h4>
+                  <p style="font-family: var(--font-hand); font-size: 1.1rem; color: var(--navy); line-height: 1.15; margin-top: 4px;">
+                    curiosity &amp; craft
+                  </p>
+                </div>
+                <span class="chapter-arrow" style="align-self: flex-end;">&rarr;</span>
+              </div>
+
+              <!-- Half Card: Writing -->
+              <div class="bento-card-half">
+                <span class="chapter-n" style="align-self: flex-start;">03 &bull; WRITING</span>
+                <div>
+                  <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--ink); margin-top: 8px;">Essays</h4>
+                  <p style="font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-soft); margin-top: 4px;">
+                    Systems &amp; thoughts
+                  </p>
+                </div>
+                <span class="chapter-arrow" style="align-self: flex-end;">&rarr;</span>
+              </div>
+
+              <!-- Full Card: Contact -->
+              <div class="bento-card-full" style="background: rgba(255, 204, 0, 0.08); border-color: rgba(255, 204, 0, 0.3);">
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                  <span class="chapter-n" style="background: rgba(138, 28, 28, 0.1);">04 &bull; CONTACT</span>
+                  <span class="chapter-arrow">&rarr;</span>
+                </div>
+                <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-top: 6px;">Let's Connect</h4>
+                <p style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-soft); margin-top: 4px;">
+                  Open for questions, feedback, or conversations.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="live-demo-hint">&uarr; Scroll inside phone or click "Scroll to explore" &darr;</div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchView(view) {
+      const cj = document.getElementById('container-journey');
+      const c1 = document.getElementById('container-style-1');
+      const c2 = document.getElementById('container-style-2');
+      const c3 = document.getElementById('container-style-3');
+      const btns = document.querySelectorAll('.tab-btn');
+      btns.forEach(b => b.classList.remove('active'));
+
+      cj.style.display = 'none';
+      c1.style.display = 'none';
+      c2.style.display = 'none';
+      c3.style.display = 'none';
+
+      if (view === 'journey') {
+        btns[0].classList.add('active');
+        cj.style.display = 'flex';
+      } else if (view === 'style-1') {
+        btns[1].classList.add('active');
+        c1.style.display = 'flex';
+      } else if (view === 'style-2') {
+        btns[2].classList.add('active');
+        c2.style.display = 'flex';
+      } else if (view === 'style-3') {
+        btns[3].classList.add('active');
+        c3.style.display = 'flex';
+      } else {
+        btns[4].classList.add('active');
+        c1.style.display = 'flex';
+        c2.style.display = 'flex';
+        c3.style.display = 'flex';
+      }
+    }
+
+    function scrollToElement(scrollId, elId) {
+      const scrollEl = document.getElementById(scrollId);
+      const targetEl = document.getElementById(elId);
+      if (scrollEl && targetEl) {
+        scrollEl.scrollTo({
+          top: targetEl.offsetTop - 30,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Default to Journey
+    switchView('journey');
+  </script>
+</body>
+</html>

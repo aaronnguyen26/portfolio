@@ -62,7 +62,7 @@ export default function ProjectsWorkbench() {
 
   return (
     <>
-      <span className="eyebrow mono rise">02 / Projects · Things I&rsquo;ve built</span>
+      <span className="eyebrow mono rise">03 / Projects · Things I&rsquo;ve built</span>
       <h1 className="display rise d1">
         Pages from the <em>workbench</em>.
       </h1>
@@ -126,8 +126,9 @@ export default function ProjectsWorkbench() {
                 type="button"
                 onClick={(e) => handleJourneyClick(e, p)}
                 className={`btn-view-journey ${p.featured ? "primary" : "secondary"}`}
+                aria-label={`Open project journey case study for ${p.title}`}
               >
-                <span>View Project &amp; Journey</span>
+                <span>Read Field Study &amp; Journey</span>
                 <span className="arrow">&rarr;</span>
               </button>
             ) : (
@@ -136,9 +137,10 @@ export default function ProjectsWorkbench() {
                 className={`btn-view-journey ${p.featured ? "primary" : "secondary"}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`View source code for ${p.title} on GitHub (opens in new tab)`}
               >
-                <span>View Project &amp; Journey</span>
-                <span className="arrow">&rarr;</span>
+                <span>View Source Code</span>
+                <span className="arrow" aria-hidden="true">&#x2197;</span>
               </a>
             )}
           </article>

@@ -6,8 +6,15 @@ import { nav, site } from "@/data/site";
 
 export default function Nav() {
   const pathname = usePathname();
+  const isMobileNavHidden =
+    pathname === "/" ||
+    pathname === "/about" ||
+    pathname.startsWith("/projects") ||
+    pathname === "/writing" ||
+    pathname === "/contact";
+
   return (
-    <header className="nav">
+    <header className={`nav ${isMobileNavHidden ? "nav-home-mobile-hidden" : ""}`}>
       <TurnLink href="/" className="brand" aria-current={pathname === "/" ? "page" : undefined}>
         Field Journal
       </TurnLink>

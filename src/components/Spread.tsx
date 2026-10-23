@@ -56,7 +56,7 @@ export default function Spread() {
 
             {/* Polaroid 1: Hahn Central Plaza */}
             <Polaroid
-              style={{ left: "6%", top: "12%", width: "33%", transform: "rotate(-3deg)" }}
+              style={{ left: "6%", top: "12%", width: "33%", transform: "rotate(-3deg)", ["--rot" as string]: "-3deg" }}
               caption="Hahn Central Plaza"
               tape
             >
@@ -69,7 +69,7 @@ export default function Spread() {
 
             {/* Polaroid 2: Volunteer Crew */}
             <Polaroid
-              style={{ left: "45%", top: "35%", width: "31%", transform: "rotate(1.5deg)" }}
+              style={{ left: "45%", top: "35%", width: "31%", transform: "rotate(1.5deg)", ["--rot" as string]: "1.5deg" }}
               caption="volunteer crew"
               tape
             >
@@ -82,7 +82,8 @@ export default function Spread() {
 
             {/* Architectural Diagram / Sketch notes */}
             <div style={{ position: "absolute", left: "6%", top: "76%", width: "42%", opacity: 0.9 }}>
-              <svg viewBox="0 0 220 54" fill="none" stroke="#243b6b" strokeWidth="1.3" style={{ width: "100%" }}>
+              <svg viewBox="0 0 220 54" fill="none" stroke="#243b6b" strokeWidth="1.3" style={{ width: "100%" }} role="img" aria-label="System Architecture: Data & Theory to Models to Insights">
+                <title>System Architecture: Data & Theory to Models to Insights</title>
                 <rect x="5" y="8" width="56" height="38" rx="3" strokeDasharray="2 2" />
                 <text x="33" y="27" fontFamily="JetBrains Mono, monospace" fontSize="7.5" textAnchor="middle" fill="#243b6b" stroke="none">Data &amp; Theory</text>
                 <path d="M 61 27 L 82 27" stroke="#243b6b" />
@@ -115,7 +116,7 @@ export default function Spread() {
 
             {/* Polaroid 3: Baby Aaron playing chess */}
             <Polaroid
-              style={{ left: "62%", top: "5%", width: "31%", transform: "rotate(2deg)" }}
+              style={{ left: "62%", top: "5%", width: "31%", transform: "rotate(2deg)", ["--rot" as string]: "2deg" }}
               caption="chess, 2014"
               tape
             >
@@ -127,7 +128,7 @@ export default function Spread() {
               <p className="hand" style={{ fontSize: "clamp(1.15rem, 2.4cqw, 1.55rem)", color: "#8a1c1c", fontWeight: 700, marginBottom: "6px" }}>
                 current focuses:
               </p>
-              <div className="mono" style={{ fontSize: "clamp(0.58rem, 1.1cqw, 0.72rem)", lineHeight: 1.38 }}>
+              <div className="mono" style={{ fontSize: "clamp(0.72rem, 1.25cqw, 0.82rem)", lineHeight: 1.38 }}>
                 <div style={{ marginBottom: "8px" }}>
                   <strong style={{ color: "var(--ink)" }}>Economic modeling:</strong> studying market dynamics &amp; quantitative incentives
                 </div>
@@ -142,7 +143,7 @@ export default function Spread() {
 
             {/* Polaroid 4: Kitesurfing */}
             <Polaroid
-              style={{ left: "62%", top: "46%", width: "31%", transform: "rotate(-1.5deg)" }}
+              style={{ left: "62%", top: "46%", width: "31%", transform: "rotate(-1.5deg)", ["--rot" as string]: "-1.5deg" }}
               caption="kitesurfing"
               tape
             >

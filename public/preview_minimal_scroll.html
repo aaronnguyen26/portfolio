@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimalist Centered Writing &amp; Scroll Animation &mdash; Design Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Geist+Mono:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #fbf7ee;
+      --paper-2: #f3ecdc;
+      --paper-card: #ffffff;
+      --ink: #26211b;
+      --ink-soft: #5b5246;
+      --cardinal: #8a1c1c;
+      --gold: #ffcc00;
+      --navy: #243b6b;
+      --rule: rgba(31, 26, 20, 0.12);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-mono: 'Geist Mono', monospace;
+      --font-hand: 'Caveat', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #181512;
+      color: var(--ink);
+      font-family: var(--font-serif);
+      padding: 32px 20px 80px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header-banner {
+      max-width: 1300px;
+      margin: 0 auto 32px;
+      padding: 24px 28px;
+      background: #231f1a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #ede6d8;
+    }
+
+    .banner-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .banner-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #b0a797;
+      line-height: 1.5;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #d6cebf;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: var(--cardinal);
+      color: #fff;
+      border-color: var(--cardinal);
+    }
+
+    /* Showcase Stage */
+    .showcase-stage {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+
+    .phone-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .phone-badge {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #d1c7b7;
+      background: #24201c;
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      letter-spacing: 0.05em;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background: var(--paper);
+      background-image: radial-gradient(rgba(31, 26, 20, 0.12) 1px, transparent 1.2px);
+      background-size: 20px 20px;
+      border-radius: 46px;
+      border: 10px solid #2f2a24;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island */
+    .iphone-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 108px;
+      height: 28px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    /* Scrollable viewport */
+    .iphone-scrollview {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hide scrollbars but keep functionality */
+    .iphone-scrollview::-webkit-scrollbar {
+      width: 4px;
+    }
+    .iphone-scrollview::-webkit-scrollbar-thumb {
+      background: rgba(31, 26, 20, 0.15);
+      border-radius: 2px;
+    }
+
+    /* Top Bar */
+    .mobile-nav-bar {
+      height: 48px;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: absolute;
+      top: 44px;
+      left: 0;
+      right: 0;
+      z-index: 20;
+    }
+
+    .brand-mark {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .menu-pill {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      padding: 4px 10px;
+      background: rgba(31, 26, 20, 0.05);
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .menu-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cardinal);
+    }
+
+    /* HERO: Minimalist Centered Screen (100% of visible viewport height) */
+    .minimal-hero {
+      min-height: 824px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 70px 24px 40px;
+      position: relative;
+    }
+
+    .hero-centered-content {
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: auto 0;
+    }
+
+    .kicker {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cardinal);
+      margin-bottom: 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .headline {
+      font-size: 2.15rem;
+      line-height: 1.22;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .headline em {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hl-gold {
+      background-image: linear-gradient(var(--gold), var(--gold));
+      background-size: 100% 38%;
+      background-position: 0 92%;
+      background-repeat: no-repeat;
+      display: inline;
+    }
+
+    .sub-lede {
+      font-family: var(--font-serif);
+      font-size: 1.02rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    .identity-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* SCROLL ANIMATION CUE (Bottom of Hero) */
+    .scroll-cue {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ink-soft);
+      transition: opacity 0.25s ease;
+      z-index: 10;
+    }
+
+    .scroll-cue:hover {
+      opacity: 0.8;
+    }
+
+    .scroll-label {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+    }
+
+    /* Animation 1: Vertical Ink Thread with Sliding Droplet */
+    .ink-thread {
+      width: 1.5px;
+      height: 42px;
+      background: rgba(31, 26, 20, 0.18);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
+    .ink-droplet {
+      width: 3.5px;
+      height: 10px;
+      background: var(--cardinal);
+      position: absolute;
+      left: -1px;
+      top: -10px;
+      border-radius: 3px;
+      animation: inkDrop 2.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+    }
+
+    @keyframes inkDrop {
+      0% { top: -10px; opacity: 0; }
+      20% { opacity: 1; }
+      75% { top: 32px; opacity: 1; }
+      100% { top: 42px; opacity: 0; }
+    }
+
+    /* Animation 2: Bouncing Pill Capsule */
+    .capsule-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      padding: 6px 14px;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(31, 26, 20, 0.06);
+      animation: subtleBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes subtleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(5px); }
+    }
+
+    .capsule-arrow {
+      font-size: 0.85rem;
+      color: var(--cardinal);
+      line-height: 1;
+    }
+
+    /* Animation 3: Cascading Chevrons */
+    .chevron-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .chevron-line {
+      width: 10px;
+      height: 10px;
+      border-right: 1.8px solid var(--ink);
+      border-bottom: 1.8px solid var(--ink);
+      transform: rotate(45deg);
+      opacity: 0.2;
+    }
+
+    .ch-1 { animation: chevronPulse 1.8s infinite 0s; }
+    .ch-2 { animation: chevronPulse 1.8s infinite 0.25s; }
+
+    @keyframes chevronPulse {
+      0% { opacity: 0.2; transform: rotate(45deg) scale(0.9); }
+      40% { opacity: 0.85; transform: rotate(45deg) scale(1.1); color: var(--cardinal); border-color: var(--cardinal); }
+      80%, 100% { opacity: 0.2; transform: rotate(45deg) scale(0.9); }
+    }
+
+    /* REVEALED CONTENT BELOW (What appears when you scroll down) */
+    .revealed-section {
+      padding: 36px 20px 48px;
+      border-top: 1px solid var(--rule);
+      background: var(--paper);
+      position: relative;
+    }
+
+    /* Creative Personality Bridge */
+    .creative-bridge {
+      margin-bottom: 34px;
+    }
+
+    .bridge-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .bridge-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--cardinal);
+      letter-spacing: 0.08em;
+    }
+
+    .bridge-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--ink-soft);
+    }
+
+    /* 3-Pillar Creative Breakdown */
+    .creative-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pillar-card {
+      background: var(--paper-2);
+      border: 1px solid rgba(31, 26, 20, 0.1);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .pillar-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--cardinal);
+      background: rgba(138, 28, 28, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .pillar-content h4 {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .pillar-content p {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+
+    /* Handwritten About Hook */
+    .about-hook-box {
+      margin: 20px 0 32px;
+      padding: 14px 16px;
+      background: rgba(255, 204, 0, 0.08);
+      border-left: 3px solid var(--cardinal);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .about-hook-text {
+      font-family: var(--font-hand);
+      font-size: 1.18rem;
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .about-hook-link {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--cardinal);
+      text-decoration: underline;
+      display: inline-block;
+    }
+
+    /* Recent Explorations Section */
+    .explorations-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 8px;
+    }
+
+    .explorations-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .explorations-chapter {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--cardinal);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    .project-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .project-card {
+      background: var(--paper-2);
+      border: 1px solid rgba(31, 26, 20, 0.12);
+      border-radius: 8px;
+      padding: 16px;
+      display: block;
+      color: inherit;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .project-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .project-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--cardinal);
+    }
+
+    .project-badge {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: #3b5030;
+      background: rgba(85, 120, 60, 0.12);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .project-name {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .project-meta {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed rgba(31, 26, 20, 0.1);
+    }
+
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      color: var(--ink-soft);
+    }
+
+    .project-arrow {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--cardinal);
+    }
+
+    .all-projects-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 18px;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+
+    /* Style Specific Variants */
+    /* Variant 02: Inquiry Lede */
+    .variant-inquiry .headline {
+      font-size: 1.95rem;
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.3;
+    }
+    .variant-inquiry .stamp-box {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      color: var(--cardinal);
+      border: 1px dashed var(--cardinal);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    /* Variant 03: Modernist Index */
+    .variant-modernist .headline {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      text-transform: none;
+    }
+    .variant-modernist .discipline-strip {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 14px;
+    }
+    .variant-modernist .strip-pill {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 600;
+      background: rgba(31, 26, 20, 0.06);
+      border: 1px solid var(--rule);
+      padding: 3px 8px;
+      border-radius: 12px;
+      color: var(--ink);
+    }
+
+    /* Scroll prompt notification banner */
+    .live-demo-hint {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #b0a797;
+      margin-top: 8px;
+    }
+
+    /* Side-by-side mode */
+    .side-by-side-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 390px);
+      gap: 28px;
+      justify-content: center;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-banner">
+    <h1 class="banner-title">Minimalist Centered Writing &amp; Scroll Down Reveal</h1>
+    <p class="banner-subtitle">
+      Zero polaroid clutter &bull; Elegant centered typographic lede &bull; Smooth animated scroll cue &bull; Unfolds creative depth &amp; Recent Explorations below
+    </p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchView('journey')">Scroll Journey (Hero &rarr; Reveal)</button>
+      <button class="tab-btn" onclick="switchView('style-1')">Option 01: The Editorial Monograph</button>
+      <button class="tab-btn" onclick="switchView('style-2')">Option 02: The Inquiry Lede</button>
+      <button class="tab-btn" onclick="switchView('style-3')">Option 03: The Modernist Index</button>
+      <button class="tab-btn" onclick="switchView('all')">View All 3 Variations</button>
+    </div>
+  </div>
+
+  <div class="showcase-stage" id="showcase-stage">
+
+    <!-- JOURNEY VIEW: Two phones side by side showing Before Scroll and After Scroll -->
+    <div class="phone-container" id="container-journey" style="display: flex; flex-direction: row; gap: 40px; flex-wrap: wrap; justify-content: center;">
+      <!-- Phone 1: Hero State -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div class="phone-badge" style="background: var(--ink); color: #fff;">1. INITIAL HERO &bull; WRITING CENTERED IN VIEWPORT</div>
+        <div class="iphone-frame" id="frame-journey-1">
+          <div class="iphone-island"></div>
+          <div class="iphone-scrollview" id="scroll-j1">
+            <div class="mobile-nav-bar">
+              <span class="brand-mark">Aaron Nguyen</span>
+              <div class="menu-pill">
+                <span class="menu-dot"></span>
+                <span>INDEX</span>
+              </div>
+            </div>
+            <div class="minimal-hero">
+              <div class="hero-centered-content">
+                <span class="kicker">STUDENT &amp; BUILDER &bull; USC '26</span>
+                <h2 class="headline">
+                  Exploring where <span class="hl-gold">economic incentives</span> meet machine intelligence.
+                </h2>
+                <p class="sub-lede">
+                  Studying resource allocation by day, training neural networks by night, and capturing the stories behind complex systems.
+                </p>
+                <div class="identity-tag">
+                  <span>LOS ANGELES, CA</span>
+                  <span>&bull;</span>
+                  <span style="color: var(--cardinal); font-weight: 600;">VOL. 01</span>
+                </div>
+              </div>
+              <div class="scroll-cue">
+                <span class="scroll-label">Scroll to explore</span>
+                <div class="ink-thread">
+                  <div class="ink-droplet"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="live-demo-hint">Optical center &bull; Zero clutter &bull; Ink thread prompt</div>
+      </div>
+
+      <!-- Arrow indicator between phones -->
+      <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px;">
+        <div style="font-family: var(--font-mono); font-size: 0.76rem; color: var(--gold); font-weight: 600; text-align: center; background: #26211b; padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1);">
+          USER SCROLLS &darr;
+        </div>
+      </div>
+
+      <!-- Phone 2: Scrolled State -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div class="phone-badge" style="background: var(--cardinal); color: #fff;">2. REVEALED BELOW &bull; CREATIVE CORE &amp; EXPLORATIONS</div>
+        <div class="iphone-frame" id="frame-journey-2">
+          <div class="iphone-island"></div>
+          <div class="iphone-scrollview" id="scroll-j2">
+            <div class="mobile-nav-bar">
+              <span class="brand-mark">Aaron Nguyen</span>
+              <div class="menu-pill">
+                <span class="menu-dot"></span>
+                <span>INDEX</span>
+              </div>
+            </div>
+            <!-- Dummy spacer to simulate scrolled down position -->
+            <div style="height: 120px;"></div>
+            <div class="revealed-section" style="border-top: none; padding-top: 10px;">
+              <div class="creative-bridge">
+                <div class="bridge-header">
+                  <span class="bridge-tag">01 &mdash; CORE DISCIPLINES</span>
+                  <span class="bridge-label">THE CRAFT</span>
+                </div>
+                <div class="creative-pillars">
+                  <div class="pillar-card">
+                    <span class="pillar-num">01</span>
+                    <div class="pillar-content">
+                      <h4>Incentives &amp; Markets</h4>
+                      <p>Quantitative microeconomic modeling, game theory, and pricing dynamics.</p>
+                    </div>
+                  </div>
+                  <div class="pillar-card">
+                    <span class="pillar-num">02</span>
+                    <div class="pillar-content">
+                      <h4>Machine Intelligence</h4>
+                      <p>PyTorch computer vision, edge AI inference, and predictive algorithms.</p>
+                    </div>
+                  </div>
+                  <div class="pillar-card">
+                    <span class="pillar-num">03</span>
+                    <div class="pillar-content">
+                      <h4>Tactile Software</h4>
+                      <p>Interactive web interfaces, full-stack prototypes, and reproducible research.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="about-hook-box">
+                <div class="about-hook-text">
+                  &ldquo;Curiosity drives the work. For personal backstories, origin memories, and life outside code &mdash;&rdquo;
+                </div>
+                <span class="about-hook-link">Read my story on the About page &rarr;</span>
+              </div>
+
+              <div class="explorations-header">
+                <h3 class="explorations-title">Recent Explorations</h3>
+                <span class="explorations-chapter">CHAPTER 02</span>
+              </div>
+
+              <div class="project-cards">
+                <div class="project-card">
+                  <div class="project-top-row">
+                    <span class="project-num">EXPLORATION 01</span>
+                    <span class="project-badge">FLAGSHIP</span>
+                  </div>
+                  <h4 class="project-name">Wildfire Image Detection</h4>
+                  <p class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</p>
+                  <div class="project-footer">
+                    <span class="project-tag">Sub-15ms inference on edge devices</span>
+                    <span class="project-arrow">&rarr;</span>
+                  </div>
+                </div>
+
+                <div class="project-card">
+                  <div class="project-top-row">
+                    <span class="project-num">EXPLORATION 02</span>
+                    <span class="project-badge" style="color: #6a421b; background: rgba(122, 74, 42, 0.12);">ECONOMETRICS</span>
+                  </div>
+                  <h4 class="project-name">EPL 2025 Match Predictor</h4>
+                  <p class="project-meta">Sports Econometrics &bull; XGBoost &bull; Poisson Model</p>
+                  <div class="project-footer">
+                    <span class="project-tag">58.2% Accuracy vs 44% bookmaker baseline</span>
+                    <span class="project-arrow">&rarr;</span>
+                  </div>
+                </div>
+              </div>
+
+              <span class="all-projects-btn">View All Projects (5) &rarr;</span>
+            </div>
+          </div>
+        </div>
+        <div class="live-demo-hint">Reveals creative focus + project discovery below</div>
+      </div>
+    </div>
+
+    <!-- OPTION 01: The Editorial Monograph -->
+    <div class="phone-container" id="container-style-1">
+      <div class="phone-badge">OPTION 01: THE EDITORIAL MONOGRAPH &bull; INK DROP CUE</div>
+      <div class="iphone-frame" id="frame-style-1">
+        <div class="iphone-island"></div>
+        <div class="iphone-scrollview" id="scroll-1">
+          
+          <!-- Top Bar -->
+          <div class="mobile-nav-bar">
+            <span class="brand-mark">Aaron Nguyen</span>
+            <div class="menu-pill">
+              <span class="menu-dot"></span>
+              <span>INDEX</span>
+            </div>
+          </div>
+
+          <!-- Centered Minimal Hero Viewport (100svh) -->
+          <div class="minimal-hero" id="hero-1">
+            <div class="hero-centered-content">
+              <span class="kicker">STUDENT &amp; BUILDER &bull; USC '26</span>
+              <h2 class="headline">
+                Exploring where <span class="hl-gold">economic incentives</span> meet machine intelligence.
+              </h2>
+              <p class="sub-lede">
+                Studying resource allocation by day, training neural networks by night, and capturing the stories behind complex systems.
+              </p>
+              <div class="identity-tag">
+                <span>LOS ANGELES, CA</span>
+                <span>&bull;</span>
+                <span style="color: var(--cardinal); font-weight: 600;">VOL. 01</span>
+              </div>
+            </div>
+
+            <!-- Scroll Indicator: Living Ink Thread -->
+            <a href="javascript:void(0)" class="scroll-cue" onclick="scrollToReveal('scroll-1', 'reveal-1')">
+              <span class="scroll-label">Scroll to explore</span>
+              <div class="ink-thread">
+                <div class="ink-droplet"></div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Revealed Below: Creative Personality + Recent Explorations -->
+          <div class="revealed-section" id="reveal-1">
+            <div class="creative-bridge">
+              <div class="bridge-header">
+                <span class="bridge-tag">01 &mdash; CORE DISCIPLINES</span>
+                <span class="bridge-label">THE CRAFT</span>
+              </div>
+              <div class="creative-pillars">
+                <div class="pillar-card">
+                  <span class="pillar-num">01</span>
+                  <div class="pillar-content">
+                    <h4>Incentives &amp; Markets</h4>
+                    <p>Quantitative microeconomic modeling, game theory, and pricing dynamics.</p>
+                  </div>
+                </div>
+                <div class="pillar-card">
+                  <span class="pillar-num">02</span>
+                  <div class="pillar-content">
+                    <h4>Machine Intelligence</h4>
+                    <p>PyTorch computer vision, edge AI inference, and predictive algorithms.</p>
+                  </div>
+                </div>
+                <div class="pillar-card">
+                  <span class="pillar-num">03</span>
+                  <div class="pillar-content">
+                    <h4>Tactile Software</h4>
+                    <p>Interactive web interfaces, full-stack prototypes, and reproducible research.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Authentic Hook to About Page -->
+            <div class="about-hook-box">
+              <div class="about-hook-text">
+                &ldquo;Curiosity drives the work. For personal backstories, origin memories, and life outside code &mdash;&rdquo;
+              </div>
+              <a href="javascript:void(0)" class="about-hook-link">Read my story on the About page &rarr;</a>
+            </div>
+
+            <!-- Recent Explorations Section -->
+            <div class="explorations-header">
+              <h3 class="explorations-title">Recent Explorations</h3>
+              <span class="explorations-chapter">CHAPTER 02</span>
+            </div>
+
+            <div class="project-cards">
+              <!-- Project 01 -->
+              <div class="project-card">
+                <div class="project-top-row">
+                  <span class="project-num">EXPLORATION 01</span>
+                  <span class="project-badge">FLAGSHIP</span>
+                </div>
+                <h4 class="project-name">Wildfire Image Detection</h4>
+                <p class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</p>
+                <div class="project-footer">
+                  <span class="project-tag">Sub-15ms inference on edge devices</span>
+                  <span class="project-arrow">&rarr;</span>
+                </div>
+              </div>
+
+              <!-- Project 02 -->
+              <div class="project-card">
+                <div class="project-top-row">
+                  <span class="project-num">EXPLORATION 02</span>
+                  <span class="project-badge" style="color: #6a421b; background: rgba(122, 74, 42, 0.12);">ECONOMETRICS</span>
+                </div>
+                <h4 class="project-name">EPL 2025 Match Predictor</h4>
+                <p class="project-meta">Sports Econometrics &bull; XGBoost &bull; Poisson Model</p>
+                <div class="project-footer">
+                  <span class="project-tag">58.2% Accuracy vs 44% bookmaker baseline</span>
+                  <span class="project-arrow">&rarr;</span>
+                </div>
+              </div>
+            </div>
+
+            <a href="javascript:void(0)" class="all-projects-btn">View All Projects (5) &rarr;</a>
+          </div>
+
+        </div>
+      </div>
+      <div class="live-demo-hint">&uarr; Scroll inside phone or click "Scroll to explore" &darr;</div>
+    </div>
+
+    <!-- OPTION 02: The Inquiry Lede -->
+    <div class="phone-container" id="container-style-2">
+      <div class="phone-badge">OPTION 02: THE INQUIRY LEDE &bull; FLOATING BOUNCE CUE</div>
+      <div class="iphone-frame variant-inquiry" id="frame-style-2">
+        <div class="iphone-island"></div>
+        <div class="iphone-scrollview" id="scroll-2">
+          
+          <!-- Top Bar -->
+          <div class="mobile-nav-bar">
+            <span class="brand-mark">AN</span>
+            <div class="menu-pill">
+              <span class="menu-dot" style="background: var(--gold);"></span>
+              <span>MENU</span>
+            </div>
+          </div>
+
+          <!-- Centered Minimal Hero Viewport (100svh) -->
+          <div class="minimal-hero" id="hero-2">
+            <div class="hero-centered-content">
+              <div class="stamp-box">USC &bull; ECON &amp; DATA SCIENCE</div>
+              <h2 class="headline">
+                &ldquo;What makes complex human systems tick, and how can code explain them?&rdquo;
+              </h2>
+              <p class="sub-lede" style="font-style: normal; font-size: 0.95rem; color: var(--ink);">
+                I&rsquo;m Aaron Nguyen &mdash; crafting models, tools, and written field notes across economics and machine learning.
+              </p>
+              <div class="identity-tag" style="margin-top: 14px;">
+                <span style="font-family: var(--font-hand); font-size: 1.15rem; color: var(--navy);">&mdash; craft over noise</span>
+              </div>
+            </div>
+
+            <!-- Scroll Indicator: Bouncing Capsule Pill -->
+            <a href="javascript:void(0)" class="scroll-cue" onclick="scrollToReveal('scroll-2', 'reveal-2')">
+              <div class="capsule-pill">
+                <span class="capsule-arrow">&darr;</span>
+                <span class="scroll-label" style="margin: 0; color: var(--ink);">explore work</span>
+              </div>
+            </a>
+          </div>
+
+          <!-- Revealed Below -->
+          <div class="revealed-section" id="reveal-2">
+            <div class="creative-bridge">
+              <div class="bridge-header">
+                <span class="bridge-tag">RESEARCH NOTES &bull; NOW</span>
+                <span class="bridge-label">SPRING 2026</span>
+              </div>
+              <div class="creative-pillars">
+                <div class="pillar-card">
+                  <span class="pillar-num" style="color: var(--ink); background: rgba(38, 33, 27, 0.08);">A</span>
+                  <div class="pillar-content">
+                    <h4>Incentive Design</h4>
+                    <p>Simulating counterparty decisions and auction dynamics under asymmetric info.</p>
+                  </div>
+                </div>
+                <div class="pillar-card">
+                  <span class="pillar-num" style="color: var(--ink); background: rgba(38, 33, 27, 0.08);">B</span>
+                  <div class="pillar-content">
+                    <h4>Visual Deep Learning</h4>
+                    <p>Lightweight convolutional architectures tuned for real-time edge deployment.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- About Hook -->
+            <div class="about-hook-box">
+              <div class="about-hook-text">
+                &ldquo;Behind every algorithm is a story of why it matters.&rdquo;
+              </div>
+              <a href="javascript:void(0)" class="about-hook-link">Read the personal story in About &rarr;</a>
+            </div>
+
+            <!-- Recent Explorations Section -->
+            <div class="explorations-header">
+              <h3 class="explorations-title">Recent Explorations</h3>
+              <span class="explorations-chapter">CHAPTER 02</span>
+            </div>
+
+            <div class="project-cards">
+              <div class="project-card">
+                <div class="project-top-row">
+                  <span class="project-num">01 / COMPUTER VISION</span>
+                  <span class="project-badge">FLAGSHIP</span>
+                </div>
+                <h4 class="project-name">Wildfire Image Detection</h4>
+                <p class="project-meta">Autonomous early alert pipeline via PyTorch MPS.</p>
+                <div class="project-footer">
+                  <span class="project-tag">Sub-15ms edge inference</span>
+                  <span class="project-arrow">&rarr;</span>
+                </div>
+              </div>
+
+              <div class="project-card">
+                <div class="project-top-row">
+                  <span class="project-num">02 / ECONOMETRICS</span>
+                  <span class="project-badge" style="color: #6a421b; background: rgba(122, 74, 42, 0.12);">XGBOOST</span>
+                </div>
+                <h4 class="project-name">EPL Match Outcome Predictor</h4>
+                <p class="project-meta">Empirical Poisson regression and gradient boosting.</p>
+                <div class="project-footer">
+                  <span class="project-tag">58.2% Out-of-sample accuracy</span>
+                  <span class="project-arrow">&rarr;</span>
+                </div>
+              </div>
+            </div>
+
+            <a href="javascript:void(0)" class="all-projects-btn">Explore All Projects &rarr;</a>
+          </div>
+
+        </div>
+      </div>
+      <div class="live-demo-hint">&uarr; Scroll inside phone or click "explore work" &darr;</div>
+    </div>
+
+    <!-- OPTION 03: The Modernist Index -->
+    <div class="phone-container" id="container-style-3">
+      <div class="phone-badge">OPTION 03: THE MODERNIST INDEX &bull; CASCADING CHEVRONS</div>
+      <div class="iphone-frame variant-modernist" id="frame-style-3">
+        <div class="iphone-island"></div>
+        <div class="iphone-scrollview" id="scroll-3">
+          
+          <!-- Top Bar -->
+          <div class="mobile-nav-bar">
+            <span class="brand-mark" style="font-family: var(--font-mono); font-size: 0.95rem; font-weight: 700;">AARON NGUYEN</span>
+            <div class="menu-pill">
+              <span style="font-weight: 700;">00</span>
+            </div>
+          </div>
+
+          <!-- Centered Minimal Hero Viewport (100svh) -->
+          <div class="minimal-hero" id="hero-3">
+            <div class="hero-centered-content">
+              <span class="kicker" style="color: var(--ink-soft); font-size: 0.65rem;">PORTFOLIO &bull; FIELD JOURNAL</span>
+              <h2 class="headline">
+                Turning complex systems into clear software.
+              </h2>
+              <p class="sub-lede" style="font-family: var(--font-mono); font-size: 0.8rem; font-style: normal; color: var(--ink-soft); line-height: 1.6;">
+                Economics &amp; Data Science at USC. Building models that forecast, interfaces that clarify, and tools that endure.
+              </p>
+              <div class="discipline-strip">
+                <span class="strip-pill">ECONOMICS</span>
+                <span class="strip-pill">MACHINE LEARNING</span>
+                <span class="strip-pill">PROTOTYPES</span>
+              </div>
+            </div>
+
+            <!-- Scroll Indicator: Cascading Chevrons -->
+            <a href="javascript:void(0)" class="scroll-cue" onclick="scrollToReveal('scroll-3', 'reveal-3')">
+              <span class="scroll-label" style="font-size: 0.6rem;">SCROLL DOWN</span>
+              <div class="chevron-stack">
+                <div class="chevron-line ch-1"></div>
+                <div class="chevron-line ch-2"></div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Revealed Below -->
+          <div class="revealed-section" id="reveal-3">
+            <div class="creative-bridge">
+              <div class="bridge-header">
+                <span class="bridge-tag">01 &bull; PERSPECTIVE</span>
+                <span class="bridge-label">ABOUT AARON</span>
+              </div>
+              <p style="font-size: 0.96rem; line-height: 1.55; color: var(--ink); margin-bottom: 12px;">
+                I believe the most compelling engineering happens when mathematical rigor meets intuitive human interfaces.
+              </p>
+              <a href="javascript:void(0)" class="about-hook-link" style="font-family: var(--font-mono); font-size: 0.72rem;">
+                Read full background &amp; influences in About &rarr;
+              </a>
+            </div>
+
+            <!-- Recent Explorations Section -->
+            <div class="explorations-header" style="margin-top: 24px;">
+              <h3 class="explorations-title">Recent Explorations</h3>
+              <span class="explorations-chapter">CHAPTER 02</span>
+            </div>
+
+            <div class="project-cards">
+              <div class="project-card">
+                <div class="project-top-row">
+                  <span class="project-num">01</span>
+                  <span class="project-badge">FLAGSHIP</span>
+                </div>
+                <h4 class="project-name">Wildfire Image Detection</h4>
+                <p class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</p>
+                <div class="project-footer">
+                  <span class="project-tag">Sub-15ms edge inference</span>
+                  <span class="project-arrow">&rarr;</span>
+                </div>
+              </div>
+
+              <div class="project-card">
+                <div class="project-top-row">
+                  <span class="project-num">02</span>
+                  <span class="project-badge" style="color: #6a421b; background: rgba(122, 74, 42, 0.12);">ECONOMETRICS</span>
+                </div>
+                <h4 class="project-name">EPL Match Outcome Predictor</h4>
+                <p class="project-meta">Sports Econometrics &bull; XGBoost &bull; Poisson Model</p>
+                <div class="project-footer">
+                  <span class="project-tag">58.2% Out-of-sample accuracy</span>
+                  <span class="project-arrow">&rarr;</span>
+                </div>
+              </div>
+            </div>
+
+            <a href="javascript:void(0)" class="all-projects-btn">View All Projects &rarr;</a>
+          </div>
+
+        </div>
+      </div>
+      <div class="live-demo-hint">&uarr; Scroll inside phone or click "SCROLL DOWN" &darr;</div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchView(view) {
+      const cj = document.getElementById('container-journey');
+      const c1 = document.getElementById('container-style-1');
+      const c2 = document.getElementById('container-style-2');
+      const c3 = document.getElementById('container-style-3');
+      const btns = document.querySelectorAll('.tab-btn');
+      btns.forEach(b => b.classList.remove('active'));
+
+      cj.style.display = 'none';
+      c1.style.display = 'none';
+      c2.style.display = 'none';
+      c3.style.display = 'none';
+
+      if (view === 'journey') {
+        btns[0].classList.add('active');
+        cj.style.display = 'flex';
+      } else if (view === 'style-1') {
+        btns[1].classList.add('active');
+        c1.style.display = 'flex';
+      } else if (view === 'style-2') {
+        btns[2].classList.add('active');
+        c2.style.display = 'flex';
+      } else if (view === 'style-3') {
+        btns[3].classList.add('active');
+        c3.style.display = 'flex';
+      } else {
+        btns[4].classList.add('active');
+        c1.style.display = 'flex';
+        c2.style.display = 'flex';
+        c3.style.display = 'flex';
+      }
+    }
+
+    function scrollToReveal(scrollId, revealId) {
+      const scrollEl = document.getElementById(scrollId);
+      const revealEl = document.getElementById(revealId);
+      if (scrollEl && revealEl) {
+        scrollEl.scrollTo({
+          top: revealEl.offsetTop - 30,
+          behavior: 'smooth'
+        });
+      }
+    }
+
+    // Default to journey view
+    switchView('journey');
+  </script>
+</body>
+</html>

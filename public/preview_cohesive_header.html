@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unified Cohesive Header Across All Pages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Geist+Mono:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #fbf7ee;
+      --paper-2: #f3ecdc;
+      --paper-card: #ffffff;
+      --ink: #26211b;
+      --ink-soft: #5b5246;
+      --cardinal: #8a1c1c;
+      --gold: #ffcc00;
+      --navy: #243b6b;
+      --rule: rgba(31, 26, 20, 0.12);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-mono: 'Geist Mono', monospace;
+      --font-hand: 'Caveat', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #181512;
+      color: var(--ink);
+      font-family: var(--font-serif);
+      padding: 32px 24px 80px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header-banner {
+      max-width: 1320px;
+      margin: 0 auto 32px;
+      padding: 24px 28px;
+      background: #231f1a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #ede6d8;
+    }
+
+    .banner-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .banner-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #b0a797;
+      line-height: 1.5;
+    }
+
+    .showcase-stage {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .solution-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .col-header {
+      width: 100%;
+      text-align: left;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .col-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #e09f3e;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .col-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f5efe6;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .col-desc {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #a89f91;
+      line-height: 1.4;
+    }
+
+    /* Device frame */
+    .phone-frame {
+      width: 390px;
+      height: 844px;
+      background: var(--paper);
+      border-radius: 46px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 0 12px #26211b, 0 0 0 14px rgba(255, 255, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 32px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 100;
+    }
+
+    .phone-screen {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      scrollbar-width: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-screen::-webkit-scrollbar { display: none; }
+
+    .bg-grid {
+      background-image: radial-gradient(circle, rgba(38, 33, 27, 0.16) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+
+    .mono { font-family: var(--font-mono); }
+    .hand { font-family: var(--font-hand); }
+
+    /* UNIFIED TOPBAR: IDENTICAL ON ALL PAGES */
+    .unified-topbar {
+      padding: 54px 20px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(251, 247, 238, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(38, 33, 27, 0.08);
+    }
+
+    .unified-brand-name {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .unified-brand-name:hover {
+      opacity: 0.8;
+    }
+
+    /* Screen 1: Home Page */
+    .home-hero-content {
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin: auto 0;
+    }
+
+    .headline {
+      font-size: 2.15rem;
+      line-height: 1.22;
+      font-weight: 600;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .hl-gold {
+      background-image: linear-gradient(var(--gold), var(--gold));
+      background-size: 100% 38%;
+      background-position: 0 92%;
+      background-repeat: no-repeat;
+      display: inline;
+    }
+
+    .sub-lede {
+      font-size: 1.05rem;
+      line-height: 1.54;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    /* Screen 2: Projects Page with UNIFIED "Aaron Nguyen" */
+    .projects-content {
+      padding: 24px 20px 60px;
+    }
+
+    .projects-hero-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .projects-hero-title span {
+      background-image: linear-gradient(var(--gold), var(--gold));
+      background-size: 100% 40%;
+      background-position: 0 90%;
+      background-repeat: no-repeat;
+    }
+
+    .project-card {
+      background: #ffffff;
+      border: 1px solid rgba(38, 33, 27, 0.14);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 14px;
+      box-shadow: 0 2px 8px rgba(38, 33, 27, 0.05);
+    }
+
+    .project-tag-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .project-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .project-card-desc {
+      font-size: 0.85rem;
+      line-height: 1.45;
+      color: var(--ink-soft);
+    }
+
+    /* Screen 3: Navigation Drawer Open when "Aaron Nguyen" is tapped */
+    .drawer-popover {
+      position: absolute;
+      top: 96px;
+      left: 18px;
+      width: 220px;
+      background: #fbf7ee;
+      border: 1.5px solid rgba(38, 33, 27, 0.2);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: 0 12px 30px rgba(38, 33, 27, 0.18);
+      z-index: 80;
+    }
+
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(38, 33, 27, 0.12);
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .drawer-item.active {
+      color: var(--cardinal);
+    }
+
+    .drawer-n {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--cardinal);
+      font-weight: 700;
+    }
+
+    .backdrop-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(25, 12, 5, 0.18);
+      backdrop-filter: blur(2px);
+      z-index: 70;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header-banner">
+    <h1 class="banner-title">Unified Cohesive Navigation: "Aaron Nguyen" Everywhere</h1>
+    <p class="banner-subtitle">Eliminates the abrupt shift from "Aaron Nguyen" on Home to the circular "A" button on Projects. Every page now shares the exact same elegant editorial brand mark.</p>
+  </header>
+
+  <main class="showcase-stage" id="showcase-stage">
+
+    <!-- SCREEN 1: HOME PAGE -->
+    <section class="solution-col">
+      <div class="col-header">
+        <div class="col-tag">01 • Home &amp; About Flow</div>
+        <div class="col-title">Home Page Topbar</div>
+        <div class="col-desc">"Aaron Nguyen" sits cleanly at the top-left in serif typography.</div>
+      </div>
+
+      <div class="phone-frame" id="frame-home">
+        <div class="dynamic-island"></div>
+        <div class="phone-screen bg-grid">
+          
+          <!-- Unified Header -->
+          <div class="unified-topbar">
+            <div class="unified-brand-name">Aaron Nguyen</div>
+          </div>
+
+          <!-- Hero Content -->
+          <div class="home-hero-content">
+            <h1 class="headline">
+              Exploring where <span class="hl-gold">economic incentives</span> meet machine intelligence.
+            </h1>
+            <p class="sub-lede">
+              Studying resource allocation by day, training neural networks by night, and capturing the stories behind complex systems.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: PROJECTS PAGE (AFTER CLICKING VIEW PROJECTS) -->
+    <section class="solution-col">
+      <div class="col-header">
+        <div class="col-tag">02 • Projects Page</div>
+        <div class="col-title">Projects Page Topbar</div>
+        <div class="col-desc">Identical "Aaron Nguyen" brand mark—zero visual shift or jarring change.</div>
+      </div>
+
+      <div class="phone-frame" id="frame-projects">
+        <div class="dynamic-island"></div>
+        <div class="phone-screen bg-grid">
+
+          <!-- Unified Header -->
+          <div class="unified-topbar">
+            <div class="unified-brand-name">Aaron Nguyen</div>
+          </div>
+
+          <!-- Projects Content -->
+          <div class="projects-content">
+            <div class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 700; margin-bottom: 4px;">CHAPTER 02 &bull; WORKBENCH</div>
+            <h1 class="projects-hero-title">
+              Pages from the <span>workbench</span>.
+            </h1>
+            <p class="mono" style="font-size: 0.78rem; color: var(--ink-soft); margin-top: 4px;">
+              Systems, models &amp; interactive tools.
+            </p>
+
+            <!-- FireCNN Card -->
+            <div class="project-card">
+              <div class="project-tag-row">
+                <span class="mono" style="font-size: 0.65rem; color: var(--cardinal); font-weight: 700;">01 &bull; WILDFIRE AI</span>
+                <span class="mono" style="font-size: 0.65rem; color: var(--ink-soft);">2024</span>
+              </div>
+              <div class="project-card-title">FireCNN: Wildfire Image Detection</div>
+              <p class="project-card-desc">
+                Sub-15ms edge inference with PyTorch MPS. 92.4% validation accuracy across smoke and flame signatures.
+              </p>
+            </div>
+
+            <!-- EPL Predictor Card -->
+            <div class="project-card">
+              <div class="project-tag-row">
+                <span class="mono" style="font-size: 0.65rem; color: var(--cardinal); font-weight: 700;">02 &bull; SPORTS MODELING</span>
+                <span class="mono" style="font-size: 0.65rem; color: var(--ink-soft);">2024</span>
+              </div>
+              <div class="project-card-title">EPL Match Outcome Predictor</div>
+              <p class="project-card-desc">
+                Machine learning forecast engine analyzing 10 years of English Premier League match statistics.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: MENU DRAWER OPEN (SEAMLESS NAVIGATION) -->
+    <section class="solution-col">
+      <div class="col-header">
+        <div class="col-tag">03 • Tap Interaction</div>
+        <div class="col-title">Drawer Menu on Tap</div>
+        <div class="col-desc">Tapping "Aaron Nguyen" on any page opens the directory drawer.</div>
+      </div>
+
+      <div class="phone-frame" id="frame-drawer">
+        <div class="dynamic-island"></div>
+        <div class="phone-screen bg-grid">
+
+          <!-- Unified Header -->
+          <div class="unified-topbar">
+            <div class="unified-brand-name">Aaron Nguyen</div>
+          </div>
+
+          <!-- Dim backdrop -->
+          <div class="backdrop-dim"></div>
+
+          <!-- Popover Menu -->
+          <div class="drawer-popover">
+            <div class="drawer-item">
+              <span class="drawer-n">01</span>
+              <span>Home</span>
+            </div>
+            <div class="drawer-item">
+              <span class="drawer-n">02</span>
+              <span>About</span>
+            </div>
+            <div class="drawer-item active">
+              <span class="drawer-n">03</span>
+              <span>Projects</span>
+            </div>
+            <div class="drawer-item">
+              <span class="drawer-n">04</span>
+              <span>Writing</span>
+            </div>
+            <div class="drawer-item" style="border-bottom: none;">
+              <span class="drawer-n">05</span>
+              <span>Contact</span>
+            </div>
+          </div>
+
+          <!-- Background blurred content -->
+          <div class="projects-content" style="filter: blur(1.5px);">
+            <h1 class="projects-hero-title">Pages from the workbench.</h1>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

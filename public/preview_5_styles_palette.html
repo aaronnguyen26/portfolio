@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 Home Page Styles — Preserving Site Palette</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #fbf7ee;
+      --paper-2: #f3ecdc;
+      --paper-3: #eee6d3;
+      --ink: #26211b;
+      --ink-soft: #5b5246;
+      --ink-faint: #8a7e70;
+      --cardinal: #8a1c1c;
+      --gold: #ffcc00;
+      --leather: #7a4a2a;
+      --navy: #243b6b;
+      --rule: rgba(31, 26, 20, 0.14);
+      --font-serif: Georgia, 'Instrument Serif', serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-grotesk: 'Space Grotesk', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #211c18;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      padding: 30px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .meta-bar {
+      max-width: 1400px;
+      width: 100%;
+      background: #171310;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 16px 24px;
+      color: #e6dfd5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 0.82rem;
+    }
+    .meta-badge {
+      background: rgba(138, 28, 28, 0.3);
+      border: 1px solid var(--cardinal);
+      color: #ff9b9b;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 0.72rem;
+    }
+
+    /* Multi-Phone Grid Container - Clean 5-Column Horizontal Row */
+    .showcase-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 30px;
+      width: max-content;
+      justify-content: flex-start;
+      padding: 10px 40px;
+    }
+
+    /* Individual Phone Mockup Device Frame */
+    .phone-device {
+      width: 390px;
+      height: 844px;
+      background-color: var(--paper);
+      background-image: radial-gradient(rgba(31, 26, 20, 0.12) 1px, transparent 1.2px);
+      background-size: 20px 20px;
+      border-radius: 44px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 10px #1c1815, 0 0 0 12px #36302a;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid rgba(31, 26, 20, 0.08);
+    }
+
+    /* Phone Speaker / Dynamic Island Header */
+    .phone-island {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 36px;
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 20px 0 20px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      z-index: 50;
+      border-bottom: 1px solid rgba(31, 26, 20, 0.05);
+    }
+    .phone-island-pill {
+      width: 90px;
+      height: 18px;
+      background: #110e0c;
+      border-radius: 12px;
+      margin: 0 auto;
+    }
+
+    .mono { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.04em; }
+    .serif { font-family: var(--font-serif); }
+    .grotesk { font-family: var(--font-grotesk); }
+    .cardinal { color: var(--cardinal); }
+    .hl {
+      background: linear-gradient(120deg, rgba(255, 204, 0, 0.35) 0%, rgba(255, 204, 0, 0.5) 100%);
+      padding: 0 3px;
+      border-radius: 2px;
+    }
+
+    /* Phone Scrollbar */
+    .phone-device::-webkit-scrollbar { width: 4px; }
+    .phone-device::-webkit-scrollbar-thumb { background: rgba(31, 26, 20, 0.2); border-radius: 2px; }
+
+    /* Label Banner above phone */
+    .phone-label {
+      text-align: center;
+      margin-bottom: 12px;
+      color: #e6dfd5;
+    }
+    .phone-label h3 { font-size: 1.05rem; font-weight: 700; color: #fff; }
+    .phone-label p { font-size: 0.75rem; color: #a89f91; font-family: var(--font-mono); margin-top: 2px; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Informational Bar -->
+  <div class="meta-bar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <span class="meta-badge">100% SITE PALETTE PRESERVED</span>
+      <strong>5 Radical Home Page Styles &bull; Aaron Nguyen Portfolio</strong>
+    </div>
+    <div style="font-family: var(--font-mono); color: #c4b9a8; font-size: 0.75rem;">
+      WARM PAPER (#FBF7EE) &bull; INK (#26211B) &bull; CARDINAL (#8A1C1C) &bull; ZERO CARDS &bull; NO CTA BUTTONS
+    </div>
+  </div>
+
+  <div class="showcase-grid">
+
+    <!-- ========================================================================= -->
+    <!-- STYLE A: THE MINIMALIST TYPOGRAPHIC BROADSIDE (INDEX NO. 01)              -->
+    <!-- ========================================================================= -->
+    <div>
+      <div class="phone-label">
+        <h3>Style A: The Typographic Broadside</h3>
+        <p>Pure Editorial Index &bull; Ruled Tabular Lines &bull; Zero Cards</p>
+      </div>
+      <div class="phone-device" id="screen-a">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="phone-island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 22px 20px 32px 20px;">
+          <!-- Top Minimal Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--rule); padding-bottom: 10px; margin-bottom: 24px;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; border: 1.2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; font-size: 0.95rem;">
+              A
+            </span>
+            <span class="mono" style="color: var(--cardinal); font-weight: 600;">
+              01 // INDEX
+            </span>
+          </div>
+
+          <!-- Hero Masthead -->
+          <div style="margin-bottom: 26px;">
+            <span class="mono" style="color: var(--cardinal); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 4px;">
+              SYSTEMS ARCHITECT &bull; QUANTITATIVE MODELER
+            </span>
+            <h1 class="serif" style="font-size: 2.5rem; line-height: 1.05; font-weight: 700; color: var(--ink); margin-bottom: 8px;">
+              Aaron Nguyen
+            </h1>
+            <div class="mono" style="color: var(--ink-soft); font-size: 0.72rem; margin-bottom: 14px;">
+              USC ECONOMICS &amp; DATA SCIENCE &bull; LOS ANGELES
+            </div>
+            <p style="font-size: 0.88rem; line-height: 1.5; color: var(--ink-soft);">
+              Bridging stochastic <span class="hl">economic incentives</span> with production-grade <span class="hl">edge machine learning</span> systems.
+            </p>
+          </div>
+
+          <!-- The Core: Ruled Editorial Table Ledger (Zero Cards) -->
+          <div style="margin-top: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid var(--ink); padding-bottom: 6px; margin-bottom: 12px;">
+              <span class="mono" style="font-weight: 700; font-size: 0.72rem; text-transform: uppercase; color: var(--ink);">
+                CHRONOLOGICAL WORK INDEX
+              </span>
+              <span class="mono" style="font-size: 0.68rem; color: var(--ink-faint);">
+                2025–2026
+              </span>
+            </div>
+
+            <!-- Ledger Row 01 -->
+            <div style="border-bottom: 1px solid var(--rule); padding: 12px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.75rem; width: 22px;">01</span>
+              <div style="flex: 1;">
+                <div style="font-size: 0.92rem; font-weight: 600; color: var(--ink); font-family: var(--font-serif);">
+                  FireCNN &bull; Wildfire Image Detection
+                </div>
+                <div class="mono" style="color: var(--ink-faint); font-size: 0.68rem; margin-top: 2px;">
+                  Computer Vision &bull; PyTorch MPS &bull; Sub-15ms
+                </div>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.85rem;">&rarr;</span>
+            </div>
+
+            <!-- Ledger Row 02 -->
+            <div style="border-bottom: 1px solid var(--rule); padding: 12px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.75rem; width: 22px;">02</span>
+              <div style="flex: 1;">
+                <div style="font-size: 0.92rem; font-weight: 600; color: var(--ink); font-family: var(--font-serif);">
+                  EPL 2025 Match Outcome Predictor
+                </div>
+                <div class="mono" style="color: var(--ink-faint); font-size: 0.68rem; margin-top: 2px;">
+                  Sports Econometrics &bull; Poisson + XGBoost (58.2%)
+                </div>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.85rem;">&rarr;</span>
+            </div>
+
+            <!-- Ledger Row 03 -->
+            <div style="border-bottom: 1px solid var(--rule); padding: 12px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.75rem; width: 22px;">03</span>
+              <div style="flex: 1;">
+                <div style="font-size: 0.92rem; font-weight: 600; color: var(--ink); font-family: var(--font-serif);">
+                  Market Liquidity Cascades
+                </div>
+                <div class="mono" style="color: var(--ink-faint); font-size: 0.68rem; margin-top: 2px;">
+                  Macro Simulation &bull; Agent-Based Network Contagion
+                </div>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.85rem;">&rarr;</span>
+            </div>
+
+            <!-- Ledger Row 04 -->
+            <div style="border-bottom: 1px solid var(--rule); padding: 12px 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.75rem; width: 22px;">04</span>
+              <div style="flex: 1;">
+                <div style="font-size: 0.92rem; font-weight: 600; color: var(--ink); font-family: var(--font-serif);">
+                  Real-Time Audio Canvas
+                </div>
+                <div class="mono" style="color: var(--ink-faint); font-size: 0.68rem; margin-top: 2px;">
+                  WebAudio DSP Synthesis &bull; Fast Canvas Rendering
+                </div>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.85rem;">&rarr;</span>
+            </div>
+          </div>
+
+          <!-- Bottom Coordinates Sign-off -->
+          <div style="margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center;" class="mono">
+            <span style="color: var(--ink-faint); font-size: 0.68rem;">LA &bull; 34.0224° N</span>
+            <div style="display: flex; gap: 10px; font-size: 0.68rem;">
+              <span style="color: var(--cardinal); font-weight: 600;">EMAIL DISPATCH &rarr;</span>
+              <span style="color: var(--ink-soft);">GITHUB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- STYLE B: THE FIELD DISPATCH / CHRONOLOGICAL TIMELINE (INDEX NO. 02)       -->
+    <!-- ========================================================================= -->
+    <div>
+      <div class="phone-label">
+        <h3>Style B: The Chronological Field Log</h3>
+        <p>Continuous Research Timeline &bull; Dated Dispatches &bull; Dynamic Stream</p>
+      </div>
+      <div class="phone-device" id="screen-b">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="phone-island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 22px 20px 32px 20px;">
+          <!-- Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--rule); padding-bottom: 10px; margin-bottom: 20px;">
+            <span class="mono" style="color: var(--ink); font-weight: 700;">AARON NGUYEN</span>
+            <span class="mono" style="color: var(--cardinal); font-weight: 600;">DISPATCH LOG &bull; 2026</span>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <h1 class="serif" style="font-size: 1.85rem; line-height: 1.15; font-weight: 700; color: var(--ink); margin-bottom: 4px;">
+              Live Research Stream
+            </h1>
+            <p class="mono" style="color: var(--ink-soft); font-size: 0.7rem;">
+              CHRONOLOGICAL LOG OF MODELS, DISCOVERIES &amp; DEPLOYMENTS
+            </p>
+          </div>
+
+          <!-- Vertical Spine Timeline -->
+          <div style="border-left: 2px solid var(--cardinal); padding-left: 16px; margin-left: 6px; display: flex; flex-direction: column; gap: 24px;">
+            
+            <!-- Dispatch 01 -->
+            <div style="position: relative;">
+              <!-- Circle Dot on Spine -->
+              <div style="position: absolute; left: -22px; top: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--cardinal); border: 2px solid var(--paper);"></div>
+              <div class="mono" style="color: var(--cardinal); font-size: 0.68rem; font-weight: 700; margin-bottom: 2px;">
+                OCTOBER 2026 &bull; DISPATCH 01
+              </div>
+              <h2 class="serif" style="font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 4px;">
+                FireCNN: Sub-15ms Smoke Detection
+              </h2>
+              <p style="font-size: 0.8rem; line-height: 1.45; color: var(--ink-soft); margin-bottom: 8px;">
+                Achieved 14.2ms edge inference on Apple Silicon MPS with 94.6% smoke localization accuracy under low-altitude occlusion.
+              </p>
+              <div style="display: flex; gap: 6px;" class="mono">
+                <span style="background: var(--paper-2); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem; border: 1px solid var(--rule);">PyTorch MPS</span>
+                <span style="background: var(--paper-2); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem; border: 1px solid var(--rule); color: var(--cardinal); font-weight: 600;">94.6% ACC</span>
+              </div>
+            </div>
+
+            <!-- Dispatch 02 -->
+            <div style="position: relative;">
+              <!-- Circle Dot on Spine -->
+              <div style="position: absolute; left: -22px; top: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--cardinal); border: 2px solid var(--paper);"></div>
+              <div class="mono" style="color: var(--cardinal); font-size: 0.68rem; font-weight: 700; margin-bottom: 2px;">
+                SEPTEMBER 2026 &bull; DISPATCH 02
+              </div>
+              <h2 class="serif" style="font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 4px;">
+                EPL 2025 Match Probability Engine
+              </h2>
+              <p style="font-size: 0.8rem; line-height: 1.45; color: var(--ink-soft); margin-bottom: 8px;">
+                Coupled bivariate Poisson goal distributions with gradient boosting across 10 seasons of match metrics. Out-of-sample calibration: 58.2%.
+              </p>
+              <div style="display: flex; gap: 6px;" class="mono">
+                <span style="background: var(--paper-2); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem; border: 1px solid var(--rule);">Poisson + XGB</span>
+                <span style="background: var(--paper-2); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem; border: 1px solid var(--rule); color: var(--cardinal); font-weight: 600;">58.2% ACC</span>
+              </div>
+            </div>
+
+            <!-- Dispatch 03 -->
+            <div style="position: relative;">
+              <!-- Circle Dot on Spine -->
+              <div style="position: absolute; left: -22px; top: 2px; width: 10px; height: 10px; border-radius: 50%; background: var(--ink-soft); border: 2px solid var(--paper);"></div>
+              <div class="mono" style="color: var(--ink-soft); font-size: 0.68rem; font-weight: 700; margin-bottom: 2px;">
+                AUGUST 2026 &bull; DISPATCH 03
+              </div>
+              <h2 class="serif" style="font-size: 1.1rem; font-weight: 700; color: var(--ink); margin-bottom: 4px;">
+                Financial Market Liquidity Cascades
+              </h2>
+              <p style="font-size: 0.8rem; line-height: 1.45; color: var(--ink-soft); margin-bottom: 8px;">
+                Drafting simulation framework for multi-agent liquidity shocks and inter-bank network contagion dynamics.
+              </p>
+              <div style="display: flex; gap: 6px;" class="mono">
+                <span style="background: var(--paper-2); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem; border: 1px solid var(--rule);">Game Theory</span>
+                <span style="background: var(--paper-2); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem; border: 1px solid var(--rule);">Simulation</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Field Status -->
+          <div style="margin-top: 36px; padding: 12px; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 6px;" class="mono">
+            <div style="display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--ink-soft);">
+              <span>STATUS: IN THE FIELD</span>
+              <span style="color: var(--cardinal); font-weight: 700;">USC DORNSIFE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- STYLE C: THE ARCHITECTURAL SCHEMATIC & SYSTEMS FLOW (INDEX NO. 03)        -->
+    <!-- ========================================================================= -->
+    <div>
+      <div class="phone-label">
+        <h3>Style C: The Systems Blueprint</h3>
+        <p>Technical Vector Flow &bull; Engineering Title Block &bull; Interconnected Nodes</p>
+      </div>
+      <div class="phone-device" id="screen-c">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="phone-island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 22px 20px 32px 20px;">
+          <!-- Engineering Title Block Header -->
+          <div style="border: 1.5px solid var(--ink); padding: 10px 12px; margin-bottom: 20px; background: var(--paper-2);">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--rule); padding-bottom: 4px; margin-bottom: 6px;" class="mono">
+              <span style="font-weight: 700; color: var(--cardinal);">DWG: AN-2026-SYS</span>
+              <span style="color: var(--ink-soft);">SCALE 1:1</span>
+            </div>
+            <h1 class="serif" style="font-size: 1.6rem; font-weight: 700; color: var(--ink); line-height: 1.1;">
+              Aaron Nguyen
+            </h1>
+            <div class="mono" style="font-size: 0.68rem; color: var(--ink-soft); margin-top: 2px;">
+              SYSTEMS ARCHITECT &bull; USC ECON &amp; DATA SCIENCE
+            </div>
+          </div>
+
+          <!-- Systems Flow Overview Diagram -->
+          <div style="margin-bottom: 16px;">
+            <div class="mono" style="font-size: 0.68rem; font-weight: 700; color: var(--cardinal); text-transform: uppercase; margin-bottom: 8px;">
+              FIG. 1.0 &mdash; THE THREE-NODE SYSTEMS SCHEMATIC
+            </div>
+            
+            <!-- SVG Flow Diagram -->
+            <div style="background: var(--paper-2); border: 1px solid var(--rule); padding: 12px 8px; border-radius: 6px; text-align: center;">
+              <svg viewBox="0 0 320 48" style="width: 100%; height: auto;" fill="none">
+                <rect x="4" y="8" width="88" height="32" rx="3" stroke="#8a1c1c" stroke-width="1.2" fill="#fbf7ee"/>
+                <text x="48" y="27" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="600" text-anchor="middle" fill="#8a1c1c">Econ Theory</text>
+                
+                <path d="M 94 24 L 114 24 M 110 20 L 114 24 L 110 28" stroke="#5b5246" stroke-width="1.2"/>
+                
+                <rect x="116" y="8" width="88" height="32" rx="3" stroke="#243b6b" stroke-width="1.2" fill="#fbf7ee"/>
+                <text x="160" y="27" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="600" text-anchor="middle" fill="#243b6b">ML Models</text>
+                
+                <path d="M 206 24 L 226 24 M 222 20 L 226 24 L 222 28" stroke="#5b5246" stroke-width="1.2"/>
+                
+                <rect x="228" y="8" width="88" height="32" rx="3" stroke="#26211b" stroke-width="1.2" fill="#fbf7ee"/>
+                <text x="272" y="27" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="600" text-anchor="middle" fill="#26211b">Edge Deploy</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Node Specifications List -->
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 18px;">
+            
+            <!-- Node 01 Specification -->
+            <div style="border: 1px solid var(--rule); padding: 12px; background: var(--paper-2); border-left: 3px solid var(--cardinal);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;" class="mono">
+                <span style="font-weight: 700; color: var(--cardinal); font-size: 0.72rem;">NODE 01 &bull; EDGE CV PIPELINE</span>
+                <span style="font-size: 0.65rem; color: var(--ink-faint);">&lt; 15MS</span>
+              </div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: var(--ink); font-family: var(--font-serif);">
+                FireCNN Wildfire Detection
+              </div>
+              <p style="font-size: 0.78rem; line-height: 1.4; color: var(--ink-soft); margin-top: 4px;">
+                Autonomous aerial smoke localization compiled for Apple Silicon MPS metal shaders.
+              </p>
+            </div>
+
+            <!-- Node 02 Specification -->
+            <div style="border: 1px solid var(--rule); padding: 12px; background: var(--paper-2); border-left: 3px solid var(--navy);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;" class="mono">
+                <span style="font-weight: 700; color: var(--navy); font-size: 0.72rem;">NODE 02 &bull; SPORTS ECONOMETRICS</span>
+                <span style="font-size: 0.65rem; color: var(--ink-faint);">58.2% ACC</span>
+              </div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: var(--ink); font-family: var(--font-serif);">
+                EPL 2025 Match Outcome Predictor
+              </div>
+              <p style="font-size: 0.78rem; line-height: 1.4; color: var(--ink-soft); margin-top: 4px;">
+                Bivariate Poisson scoring distributions coupled with XGBoost gradient boosting.
+              </p>
+            </div>
+
+            <!-- Node 03 Specification -->
+            <div style="border: 1px solid var(--rule); padding: 12px; background: var(--paper-2); border-left: 3px solid var(--ink);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;" class="mono">
+                <span style="font-weight: 700; color: var(--ink); font-size: 0.72rem;">NODE 03 &bull; NETWORK CONTAGION</span>
+                <span style="font-size: 0.65rem; color: var(--ink-faint);">SIMULATION</span>
+              </div>
+              <div style="font-size: 0.95rem; font-weight: 700; color: var(--ink); font-family: var(--font-serif);">
+                Financial Market Liquidity Cascades
+              </div>
+              <p style="font-size: 0.78rem; line-height: 1.4; color: var(--ink-soft); margin-top: 4px;">
+                Agent-based graph modeling of bank balance sheet interdependencies under stress.
+              </p>
+            </div>
+
+          </div>
+
+          <div style="margin-top: 24px; text-align: center;" class="mono">
+            <span style="font-size: 0.68rem; color: var(--ink-faint);">CAD SPEC &bull; AARON NGUYEN &bull; ALL RIGHTS RESERVED</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- STYLE D: THE LITERARY FRONTISPIECE / ESSAYISTIC TRIPTYCH (INDEX NO. 04)   -->
+    <!-- ========================================================================= -->
+    <div>
+      <div class="phone-label">
+        <h3>Style D: The Literary Frontispiece</h3>
+        <p>Drop-Cap Essay &bull; Prose In-Line Links &bull; Scholarly Sidenotes</p>
+      </div>
+      <div class="phone-device" id="screen-d">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="phone-island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 24px 20px 32px 20px;">
+          <!-- Scholarly Header -->
+          <div style="text-align: center; border-bottom: 1.5px solid var(--ink); padding-bottom: 14px; margin-bottom: 22px;">
+            <div class="mono" style="color: var(--cardinal); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;">
+              THE SCHOLARLY DISPATCH &bull; NO. 01
+            </div>
+            <h1 class="serif" style="font-size: 2.1rem; font-weight: 700; color: var(--ink); margin-top: 4px;">
+              Aaron Nguyen
+            </h1>
+            <div class="serif" style="font-style: italic; color: var(--ink-soft); font-size: 0.85rem; margin-top: 2px;">
+              &ldquo;In search of signal amidst stochastic noise and real-world market friction.&rdquo;
+            </div>
+          </div>
+
+          <!-- Essay Body with Drop-Cap -->
+          <div style="font-size: 0.88rem; line-height: 1.6; color: var(--ink); margin-bottom: 24px;">
+            <p style="margin-bottom: 14px;">
+              <span class="serif" style="float: left; font-size: 3.2rem; line-height: 0.85; padding-top: 4px; padding-right: 8px; color: var(--cardinal); font-weight: 700;">I</span>n the empirical study of complex systems, correlation is frequently mistaken for structural causation. At the University of Southern California, my work investigates where economic incentives meet real-time machine intelligence.
+            </p>
+            <p style="color: var(--ink-soft);">
+              Rather than building speculative wrappers, I build grounded systems: models calibrated against physical constraints and empirical market realities.
+            </p>
+          </div>
+
+          <!-- Scholarly In-Prose Artifact Callout 01 -->
+          <div style="margin-bottom: 18px; padding: 12px 14px; background: var(--paper-2); border-left: 3px solid var(--cardinal); border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);">
+            <div class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 700; margin-bottom: 2px;">
+              PRIMARY ARTIFACT &bull; EDGE MACHINE LEARNING
+            </div>
+            <div class="serif" style="font-size: 0.98rem; font-weight: 700; color: var(--ink);">
+              FireCNN: Wildfire Image Detection
+            </div>
+            <p style="font-size: 0.78rem; line-height: 1.45; color: var(--ink-soft); margin-top: 4px;">
+              A sub-15ms edge computer vision pipeline engineered to localize early wildfire smoke directly on aerial hardware.
+            </p>
+            <div style="margin-top: 8px;" class="serif">
+              <a href="#" style="color: var(--cardinal); font-weight: 600; font-size: 0.82rem; font-style: italic;">
+                Read the technical dossier &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Scholarly In-Prose Artifact Callout 02 -->
+          <div style="margin-bottom: 24px; padding: 12px 14px; background: var(--paper-2); border-left: 3px solid var(--navy); border-top: 1px solid var(--rule); border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);">
+            <div class="mono" style="font-size: 0.68rem; color: var(--navy); font-weight: 700; margin-bottom: 2px;">
+              SECONDARY ARTIFACT &bull; SPORTS ECONOMETRICS
+            </div>
+            <div class="serif" style="font-size: 0.98rem; font-weight: 700; color: var(--ink);">
+              EPL 2025 Match Outcome Forecaster
+            </div>
+            <p style="font-size: 0.78rem; line-height: 1.45; color: var(--ink-soft); margin-top: 4px;">
+              Dual-stage econometric pipeline combining Poisson goal expectations with gradient-boosted form indicators across 10 seasons.
+            </p>
+            <div style="margin-top: 8px;" class="serif">
+              <a href="#" style="color: var(--navy); font-weight: 600; font-size: 0.82rem; font-style: italic;">
+                Inspect model calibration &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- Colophon Footer -->
+          <div style="text-align: center; border-top: 1px solid var(--rule); padding-top: 14px;" class="mono">
+            <span style="font-size: 0.68rem; color: var(--ink-faint);">LOS ANGELES &bull; AUTUMN 2026 EDITION</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- STYLE E: THE TACTILE BENTO DOCKET / MINIMAL DESK GRID (INDEX NO. 05)      -->
+    <!-- ========================================================================= -->
+    <div>
+      <div class="phone-label">
+        <h3>Style E: The Tactile Bento Docket</h3>
+        <p>Modular Desk Grid &bull; Live Telemetry Badges &bull; Clean Symmetrical Layout</p>
+      </div>
+      <div class="phone-device" id="screen-e">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="phone-island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 22px 18px 32px 18px;">
+          <!-- Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="width: 26px; height: 26px; border-radius: 6px; background: var(--cardinal); color: var(--paper); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; font-size: 0.85rem;">
+                AN
+              </span>
+              <span class="mono" style="font-size: 0.7rem; font-weight: 700; color: var(--ink);">AARON NGUYEN</span>
+            </div>
+            <span class="mono" style="background: rgba(138, 28, 28, 0.1); color: var(--cardinal); border: 1px solid rgba(138, 28, 28, 0.25); padding: 2px 7px; border-radius: 12px; font-size: 0.65rem; font-weight: 600;">
+              USC DOCKET
+            </span>
+          </div>
+
+          <!-- Bento Grid Container -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            
+            <!-- Box 1: Profile & Thesis (Spans 2 columns) -->
+            <div style="grid-column: span 2; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px;">
+              <span class="mono" style="color: var(--cardinal); font-size: 0.68rem; font-weight: 700; display: block; margin-bottom: 4px;">
+                STUDIO OVERVIEW
+              </span>
+              <h1 class="serif" style="font-size: 1.55rem; font-weight: 700; color: var(--ink); line-height: 1.15; margin-bottom: 6px;">
+                Economics &bull; Data Science &bull; Applied ML
+              </h1>
+              <p style="font-size: 0.8rem; line-height: 1.45; color: var(--ink-soft);">
+                Undergraduate at USC designing quantitative models and edge systems that connect economic theory with machine intelligence.
+              </p>
+            </div>
+
+            <!-- Box 2: Metric Tile - FireCNN -->
+            <div style="background: var(--paper-2); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <span class="mono" style="color: var(--cardinal); font-size: 0.65rem; font-weight: 700; display: block; margin-bottom: 2px;">
+                  EDGE CV INFERENCE
+                </span>
+                <div class="mono" style="font-size: 1.7rem; font-weight: 800; color: var(--ink); line-height: 1;">
+                  14.2<span style="font-size: 0.9rem; color: var(--cardinal); font-weight: 600;">ms</span>
+                </div>
+              </div>
+              <div class="mono" style="font-size: 0.68rem; color: var(--ink-soft); margin-top: 8px;">
+                FireCNN &bull; 94.6% Acc
+              </div>
+            </div>
+
+            <!-- Box 3: Metric Tile - EPL Predictor -->
+            <div style="background: var(--paper-2); border: 1px solid var(--rule); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <span class="mono" style="color: var(--navy); font-size: 0.65rem; font-weight: 700; display: block; margin-bottom: 2px;">
+                  PREDICTIVE ACCURACY
+                </span>
+                <div class="mono" style="font-size: 1.7rem; font-weight: 800; color: var(--ink); line-height: 1;">
+                  58.2<span style="font-size: 0.9rem; color: var(--navy); font-weight: 600;">%</span>
+                </div>
+              </div>
+              <div class="mono" style="font-size: 0.68rem; color: var(--ink-soft); margin-top: 8px;">
+                EPL Poisson Model
+              </div>
+            </div>
+
+            <!-- Box 4: Project Showcase Tile - FireCNN (Spans 2 columns) -->
+            <div style="grid-column: span 2; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; border-left: 3px solid var(--cardinal);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+                <span class="mono" style="color: var(--cardinal); font-weight: 700; font-size: 0.68rem;">FLAGSHIP 01</span>
+                <span class="mono" style="color: var(--ink-faint); font-size: 0.68rem;">PyTorch MPS</span>
+              </div>
+              <div class="serif" style="font-size: 1.05rem; font-weight: 700; color: var(--ink);">
+                Wildfire Image Detection Pipeline
+              </div>
+              <p style="font-size: 0.78rem; line-height: 1.4; color: var(--ink-soft); margin-top: 4px;">
+                Real-time optical smoke classification optimized for low-power edge surveillance drones.
+              </p>
+            </div>
+
+            <!-- Box 5: Direct Action Docket Tile (Spans 2 columns) -->
+            <div style="grid-column: span 2; background: var(--paper-3); border: 1px solid var(--rule); border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="mono" style="font-size: 0.68rem; color: var(--ink-soft); display: block;">DIRECT TRANSMIT</span>
+                <span class="mono" style="font-size: 0.78rem; font-weight: 700; color: var(--ink);">aaron@usc.edu</span>
+              </div>
+              <span class="mono" style="font-size: 0.72rem; color: var(--cardinal); font-weight: 700; border: 1px solid var(--cardinal); padding: 3px 8px; border-radius: 4px; background: var(--paper);">
+                COPY DISPATCH &rarr;
+              </span>
+            </div>
+
+          </div>
+
+          <div style="margin-top: 24px; text-align: center;" class="mono">
+            <span style="font-size: 0.68rem; color: var(--ink-faint);">DOCKET VOL. 01 &bull; USC 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

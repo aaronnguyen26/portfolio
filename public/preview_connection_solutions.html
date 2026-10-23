@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connecting Home to Projects &amp; Writing — 3 Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Geist+Mono:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #fbf7ee;
+      --paper-2: #f3ecdc;
+      --paper-card: #ffffff;
+      --ink: #26211b;
+      --ink-soft: #5b5246;
+      --cardinal: #8a1c1c;
+      --gold: #ffcc00;
+      --navy: #243b6b;
+      --rule: rgba(31, 26, 20, 0.12);
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-mono: 'Geist Mono', monospace;
+      --font-hand: 'Caveat', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #181512;
+      color: var(--ink);
+      font-family: var(--font-serif);
+      padding: 32px 24px 80px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header-banner {
+      max-width: 1320px;
+      margin: 0 auto 32px;
+      padding: 24px 28px;
+      background: #231f1a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: #ede6d8;
+    }
+
+    .banner-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .banner-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #b0a797;
+      line-height: 1.5;
+    }
+
+    .tab-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #d6cebf;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover, .tab-btn.active {
+      background: var(--cardinal);
+      color: #fff;
+      border-color: var(--cardinal);
+    }
+
+    .showcase-stage {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .solution-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .col-header {
+      width: 100%;
+      text-align: left;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .col-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #e09f3e;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .col-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f5efe6;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .col-desc {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #a89f91;
+      line-height: 1.4;
+    }
+
+    /* Device frame */
+    .phone-frame {
+      width: 390px;
+      height: 844px;
+      background: var(--paper);
+      border-radius: 46px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 0 12px #26211b, 0 0 0 14px rgba(255, 255, 255, 0.15);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 32px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 100;
+    }
+
+    .phone-screen {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      scrollbar-width: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-screen::-webkit-scrollbar { display: none; }
+
+    /* Dot grid texture */
+    .bg-grid {
+      background-image: radial-gradient(circle, rgba(38, 33, 27, 0.16) 1px, transparent 1px);
+      background-size: 18px 18px;
+    }
+
+    /* Typography utils */
+    .mono { font-family: var(--font-mono); }
+    .hand { font-family: var(--font-hand); }
+
+    /* ========================================================
+       SOLUTION 1: STICKY CHAPTER BAR + IN-FLOW WORK CARDS
+       ======================================================== */
+    .s1-sticky-header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: rgba(251, 247, 238, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(38, 33, 27, 0.12);
+      padding: 54px 18px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-mark-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #eae1cf;
+      border: 1px solid #d8cdb8;
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chapter-segmented-pill {
+      display: flex;
+      background: #eae2cf;
+      padding: 3px;
+      border-radius: 20px;
+      border: 1px solid rgba(38, 33, 27, 0.14);
+      gap: 2px;
+    }
+
+    .seg-tab {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 14px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .seg-tab.active {
+      background: #ffffff;
+      color: var(--cardinal);
+      box-shadow: 0 1px 3px rgba(38, 33, 27, 0.12);
+    }
+
+    .s1-content {
+      padding: 20px 20px 60px;
+    }
+
+    .s1-backstory-card {
+      background: #ffffff;
+      border: 1px solid rgba(38, 33, 27, 0.15);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 22px;
+      box-shadow: 0 2px 8px rgba(38, 33, 27, 0.05);
+    }
+
+    .section-kicker {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--cardinal);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .section-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .s1-gateway-box {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .gateway-card {
+      background: #fdfbf7;
+      border: 1.5px solid rgba(38, 33, 27, 0.16);
+      border-radius: 12px;
+      padding: 14px 16px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .gateway-card:hover {
+      border-color: var(--cardinal);
+      transform: translateY(-2px);
+    }
+
+    .gateway-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .gateway-n {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--cardinal);
+      background: #f4ecdc;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .gateway-arrow {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--cardinal);
+      font-weight: 700;
+    }
+
+    .gateway-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .gateway-desc {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      line-height: 1.4;
+      font-family: var(--font-mono);
+    }
+
+    .gateway-preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--cardinal);
+      background: rgba(138, 28, 28, 0.08);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      align-self: flex-start;
+    }
+
+    /* ========================================================
+       SOLUTION 2: QUICK JUMP FORK BELOW HERO + ENHANCED A-MENU
+       ======================================================== */
+    .s2-topbar {
+      padding: 54px 18px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .a-menu-badge-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eae2cf;
+      border: 1px solid rgba(38, 33, 27, 0.18);
+      border-radius: 20px;
+      padding: 4px 12px 4px 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .a-badge-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      color: var(--cardinal);
+      font-size: 0.8rem;
+    }
+
+    .s2-fork-wrapper {
+      padding: 20px 18px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .s2-headline-mini {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-top: 10px;
+    }
+
+    .s2-headline-mini span {
+      background-image: linear-gradient(var(--gold), var(--gold));
+      background-size: 100% 40%;
+      background-position: 0 90%;
+      background-repeat: no-repeat;
+    }
+
+    .s2-prompt-bar {
+      margin-top: 10px;
+      background: #f4ecdc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 3px solid var(--cardinal);
+    }
+
+    .s2-jump-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .jump-tile {
+      background: #ffffff;
+      border: 1.5px solid rgba(38, 33, 27, 0.14);
+      border-radius: 12px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(38, 33, 27, 0.04);
+    }
+
+    .jump-tile.active-down {
+      border-color: var(--cardinal);
+      background: #fffdfa;
+    }
+
+    .jump-n {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--cardinal);
+    }
+
+    .jump-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .jump-action {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--ink-soft);
+      margin-top: 2px;
+    }
+
+    .s2-story-preview {
+      margin-top: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(38, 33, 27, 0.12);
+      border-radius: 14px;
+      padding: 18px 16px;
+    }
+
+    /* ========================================================
+       SOLUTION 3: FLOATING TACTILE BOTTOM DOCK
+       ======================================================== */
+    .s3-topbar {
+      padding: 54px 18px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .s3-content {
+      padding: 20px 18px 100px;
+    }
+
+    .bottom-floating-dock {
+      position: absolute;
+      bottom: 24px;
+      left: 18px;
+      right: 18px;
+      z-index: 60;
+      background: rgba(38, 33, 27, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 28px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .dock-brand {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--cardinal);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .dock-items {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dock-btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 18px;
+      color: #dfd8cb;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .dock-btn.active {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    .dock-btn:hover {
+      color: #fff;
+    }
+
+    .dock-menu-icon {
+      color: #d6cebf;
+      padding: 6px 8px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header-banner">
+    <h1 class="banner-title">Architectural Solutions: Connecting Home to Projects &amp; Writing</h1>
+    <p class="banner-subtitle">Solving the disconnect between the minimal hero, the About flow, and discovering Projects and Writing without relying solely on an obscure "A" button.</p>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchView('all')">View All 3 Solutions Side-by-Side</button>
+      <button class="tab-btn" onclick="switchView('s1')">01. Sticky Chapter Bar + In-Flow Cards (Recommended)</button>
+      <button class="tab-btn" onclick="switchView('s2')">02. Quick Jump Fork Below Hero</button>
+      <button class="tab-btn" onclick="switchView('s3')">03. Floating Tactile Bottom Dock</button>
+    </div>
+  </header>
+
+  <main class="showcase-stage" id="showcase-stage">
+
+    <!-- SOLUTION 1 -->
+    <section class="solution-col" id="col-s1">
+      <div class="col-header">
+        <div class="col-tag">Solution 01 • Recommended</div>
+        <div class="col-title">Sticky Chapter Header + In-Flow Work Gateway</div>
+        <div class="col-desc">Sticky 3-tab chapter capsule at top + rich interactive project &amp; writing cards right below the backstory.</div>
+      </div>
+
+      <div class="phone-frame" id="frame-s1">
+        <div class="dynamic-island"></div>
+        <div class="phone-screen bg-grid">
+          
+          <!-- Sticky Header -->
+          <div class="s1-sticky-header">
+            <div class="brand-mark-circle">A</div>
+            <div class="chapter-segmented-pill">
+              <span class="seg-tab active">01 Story</span>
+              <span class="seg-tab">02 Projects</span>
+              <span class="seg-tab">03 Writing</span>
+            </div>
+          </div>
+
+          <!-- Content Flow -->
+          <div class="s1-content">
+            <div class="section-kicker">
+              <span>Chapter 01 &bull; Origin</span>
+              <span>USC '26</span>
+            </div>
+            <h2 class="section-heading">A little backstory.</h2>
+
+            <div class="s1-backstory-card">
+              <p style="font-size: 0.9rem; line-height: 1.5; color: var(--ink-soft);">
+                <strong>I</strong> am currently at USC studying Economics &amp; Data Science. Building predictive statistics pipelines, modeling economic systems, and turning complex questions into interactive tools.
+              </p>
+            </div>
+
+            <!-- In-Flow Gateway to Next Chapters -->
+            <div class="section-kicker" style="margin-top: 18px;">
+              <span>Next Chapters &bull; The Work</span>
+              <span>Explore &rarr;</span>
+            </div>
+
+            <div class="s1-gateway-box">
+              <!-- Projects Gateway Card -->
+              <div class="gateway-card">
+                <div class="gateway-card-top">
+                  <span class="gateway-n">02 // PROJECTS</span>
+                  <span class="gateway-arrow">&rarr;</span>
+                </div>
+                <div class="gateway-title">Engineering &amp; ML Systems</div>
+                <div class="gateway-desc">FireCNN Wildfire Detection, EPL Predictor &amp; Real-Time Audio Canvas.</div>
+                <div class="gateway-preview-badge">
+                  <span>&bull;</span> 6 Live Case Studies &amp; Demos
+                </div>
+              </div>
+
+              <!-- Writing Gateway Card -->
+              <div class="gateway-card">
+                <div class="gateway-card-top">
+                  <span class="gateway-n">03 // WRITING</span>
+                  <span class="gateway-arrow">&rarr;</span>
+                </div>
+                <div class="gateway-title">Field Notes &amp; Working Papers</div>
+                <div class="gateway-desc">Essays on prediction markets, network economics, and machine intelligence.</div>
+                <div class="gateway-preview-badge" style="color: var(--navy); background: rgba(36, 59, 107, 0.08);">
+                  <span>&bull;</span> 4 Published Notebooks
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTION 2 -->
+    <section class="solution-col" id="col-s2">
+      <div class="col-header">
+        <div class="col-tag">Solution 02</div>
+        <div class="col-title">Quick Jump Fork Below Hero + Menu Badge</div>
+        <div class="col-desc">Explicit "A • Menu ▾" button at top-left + a 3-way decision fork immediately visible upon scrolling.</div>
+      </div>
+
+      <div class="phone-frame" id="frame-s2">
+        <div class="dynamic-island"></div>
+        <div class="phone-screen bg-grid">
+
+          <!-- Topbar with explicit menu affordance -->
+          <div class="s2-topbar">
+            <div class="a-menu-badge-btn">
+              <div class="a-badge-circle">A</div>
+              <span>Directory &bull; 3</span>
+              <span style="font-size: 0.65rem;">&#9662;</span>
+            </div>
+            <span class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 700;">VOL. 01</span>
+          </div>
+
+          <!-- Hero & Fork -->
+          <div class="s2-fork-wrapper">
+            <div class="s2-headline-mini">
+              Exploring where <span>economic incentives</span> meet machine intelligence.
+            </div>
+
+            <div class="s2-prompt-bar">
+              <span>&darr;</span> Select where you want to begin:
+            </div>
+
+            <!-- 3-Way Choice Fork -->
+            <div class="s2-jump-grid">
+              <div class="jump-tile active-down">
+                <span class="jump-n">01</span>
+                <span class="jump-label">Backstory</span>
+                <span class="jump-action">&darr; Read</span>
+              </div>
+              <div class="jump-tile">
+                <span class="jump-n">02</span>
+                <span class="jump-label">Projects</span>
+                <span class="jump-action">&rarr; View (6)</span>
+              </div>
+              <div class="jump-tile">
+                <span class="jump-n">03</span>
+                <span class="jump-label">Writing</span>
+                <span class="jump-action">&rarr; Notes (4)</span>
+              </div>
+            </div>
+
+            <!-- Continues into Story -->
+            <div class="s2-story-preview">
+              <div class="section-kicker">
+                <span>01 &bull; Personal Backstory</span>
+              </div>
+              <p style="font-size: 0.88rem; line-height: 1.5; color: var(--ink-soft); margin-top: 6px;">
+                <strong>USC Economics &amp; Data Science</strong>. Curious builder exploring systems behind data.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTION 3 -->
+    <section class="solution-col" id="col-s3">
+      <div class="col-header">
+        <div class="col-tag">Solution 03</div>
+        <div class="col-title">Floating Tactile Bottom Dock (Thumb Zone)</div>
+        <div class="col-desc">Decluttered hero with an ergonomic floating capsule docked at bottom of the thumb zone.</div>
+      </div>
+
+      <div class="phone-frame" id="frame-s3">
+        <div class="dynamic-island"></div>
+        <div class="phone-screen bg-grid">
+
+          <!-- Clean Minimal Topbar -->
+          <div class="s3-topbar">
+            <span style="font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; color: var(--ink);">Aaron Nguyen</span>
+            <span class="mono" style="font-size: 0.65rem; color: var(--cardinal); font-weight: 700;">CHAPTER 01</span>
+          </div>
+
+          <!-- Content Area -->
+          <div class="s3-content">
+            <div class="section-kicker">
+              <span>Personal Journey</span>
+              <span>Southern CA</span>
+            </div>
+            <h2 class="section-heading">A little backstory.</h2>
+
+            <div class="s1-backstory-card" style="margin-top: 14px;">
+              <p style="font-size: 0.88rem; line-height: 1.5; color: var(--ink-soft);">
+                Studying resource allocation by day, training neural networks by night, and capturing stories behind complex quantitative systems.
+              </p>
+            </div>
+
+            <div style="background: #f4ecdc; border-radius: 12px; padding: 14px; margin-top: 16px; border: 1px dashed rgba(38,33,27,0.2);">
+              <span class="mono" style="font-size: 0.68rem; font-weight: 700; color: var(--cardinal);">TIMELINE HIGHLIGHT</span>
+              <div style="font-size: 0.95rem; font-weight: 700; margin-top: 4px;">2024 &mdash; Present: Economics &amp; Data Science</div>
+              <div class="mono" style="font-size: 0.72rem; color: var(--ink-soft); margin-top: 4px;">Building sub-15ms edge CV pipelines (FireCNN)</div>
+            </div>
+          </div>
+
+          <!-- FLOATING BOTTOM DOCK -->
+          <div class="bottom-floating-dock">
+            <div class="dock-brand">A</div>
+            <div class="dock-items">
+              <span class="dock-btn active">Story</span>
+              <span class="dock-btn">Projects</span>
+              <span class="dock-btn">Writing</span>
+            </div>
+            <span class="dock-menu-icon">&#9776;</span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    function switchView(mode) {
+      const colS1 = document.getElementById('col-s1');
+      const colS2 = document.getElementById('col-s2');
+      const colS3 = document.getElementById('col-s3');
+      const stage = document.getElementById('showcase-stage');
+      const buttons = document.querySelectorAll('.tab-btn');
+
+      buttons.forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+
+      if (mode === 'all') {
+        stage.style.gridTemplateColumns = 'repeat(3, 1fr)';
+        colS1.style.display = 'flex';
+        colS2.style.display = 'flex';
+        colS3.style.display = 'flex';
+      } else if (mode === 's1') {
+        stage.style.gridTemplateColumns = '1fr';
+        colS1.style.display = 'flex';
+        colS2.style.display = 'none';
+        colS3.style.display = 'none';
+      } else if (mode === 's2') {
+        stage.style.gridTemplateColumns = '1fr';
+        colS1.style.display = 'none';
+        colS2.style.display = 'flex';
+        colS3.style.display = 'none';
+      } else if (mode === 's3') {
+        stage.style.gridTemplateColumns = '1fr';
+        colS1.style.display = 'none';
+        colS2.style.display = 'none';
+        colS3.style.display = 'flex';
+      }
+    }
+  </script>
+</body>
+</html>

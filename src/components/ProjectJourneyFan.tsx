@@ -1063,11 +1063,11 @@ export default function ProjectJourneyFan({
 
     let animClass = "";
     if (opts.isFolding) {
-      animClass = "anim-fold-into-deck";
+      animClass = "is-folding-to-deck";
     } else if (opts.isOutgoing) {
-      animClass = opts.dir === "next" ? "anim-fold-slide-out-next" : "anim-fold-slide-out-prev";
+      animClass = opts.dir === "prev" ? "is-folding-out dir-prev" : "is-folding-out dir-next";
     } else if (opts.isIncoming) {
-      animClass = opts.dir === "next" ? "anim-fan-slide-in-next" : "anim-fan-slide-in-prev";
+      animClass = opts.dir === "prev" ? "is-fanning-in dir-prev" : "is-fanning-in dir-next";
     }
 
     const key = opts.isOutgoing

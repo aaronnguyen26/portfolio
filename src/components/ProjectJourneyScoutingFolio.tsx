@@ -62,7 +62,7 @@ const folioPhases: FolioPhase[] = [
     visualType: "pitch",
     handNote:
       "Field-tilt % dominates raw shot volume when isolating high-turnover sequences within 40m.",
-    authorSign: "— M. Vance, Chief Analyst (24/05)",
+    authorSign: "— Aaron Nguyen, Quantitative Research (USC '28)",
   },
   {
     id: "tab-failure",
@@ -98,7 +98,7 @@ const folioPhases: FolioPhase[] = [
     visualType: "equation",
     handNote:
       "Unadjusted Poisson models bleed value by chronically underpricing tactical stalemates.",
-    authorSign: "— M. Vance, Chief Analyst (24/05)",
+    authorSign: "— Aaron Nguyen, Quantitative Research (USC '28)",
   },
   {
     id: "tab-tradeoffs",
@@ -134,7 +134,7 @@ const folioPhases: FolioPhase[] = [
     visualType: "tradeoffs",
     handNote:
       "Interpretability is not a concession—it is the prerequisite for detecting regime drift.",
-    authorSign: "— M. Vance, Chief Analyst (24/05)",
+    authorSign: "— Aaron Nguyen, Quantitative Research (USC '28)",
   },
   {
     id: "tab-pipeline",
@@ -174,7 +174,7 @@ const folioPhases: FolioPhase[] = [
     visualType: "pipeline",
     handNote:
       "10,000 Monte Carlo runs projected Aston Villa's 4th-place Champions League finish within 1.2 points.",
-    authorSign: "— M. Vance, Chief Analyst (24/05)",
+    authorSign: "— Aaron Nguyen, Quantitative Research (USC '28)",
   },
   {
     id: "tab-holdout",
@@ -210,7 +210,7 @@ const folioPhases: FolioPhase[] = [
     visualType: "plots",
     handNote:
       "True quantitative sports modeling requires beating the closing line, not just picking heavy home favorites.",
-    authorSign: "— M. Vance, Chief Analyst (24/05)",
+    authorSign: "— Aaron Nguyen, Quantitative Research (USC '28)",
   },
 ];
 

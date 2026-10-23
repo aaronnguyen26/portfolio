@@ -1,4 +1,3 @@
-// All content below is PLACEHOLDER text. Replace with real information.
 export const site = {
   name: "Aaron Nguyen",
   tagline: "a student, a notebook, and exploring the questions behind the data.",
@@ -10,22 +9,22 @@ export const site = {
   links: [
     { label: "GitHub", href: "https://github.com/aaronnguyen26" },
     { label: "LinkedIn", href: "https://linkedin.com/in/aaronnguyen26" },
-    { label: "Instagram", href: "https://instagram.com/" },
+    { label: "Instagram", href: "https://instagram.com/aaronnguyen26" },
     { label: "Resume", href: "/resume.pdf" },
   ],
 };
 
 export const nav = [
-  { href: "/", label: "Home", n: "00" },
-  { href: "/about", label: "About", n: "01" },
-  { href: "/projects", label: "Projects", n: "02" },
-  { href: "/writing", label: "Writing", n: "03" },
-  { href: "/contact", label: "Contact", n: "04" },
+  { href: "/", label: "Home", n: "01" },
+  { href: "/about", label: "About", n: "02" },
+  { href: "/projects", label: "Projects", n: "03" },
+  { href: "/writing", label: "Writing", n: "04" },
+  { href: "/contact", label: "Contact", n: "05" },
 ];
 
 export const glance = [
-  { k: "studying", v: "Computer Science" },
-  { k: "year", v: "Freshman, Class of 2030" },
+  { k: "studying", v: "Economics & Data Science" },
+  { k: "year", v: "Sophomore, Class of 2028" },
   { k: "looking for", v: "Summer 2027 internships" },
   { k: "based in", v: "Los Angeles, CA" },
 ];
@@ -33,9 +32,9 @@ export const glance = [
 export const projects = [
   {
     n: "01",
-    slug: "placeholder-01",
+    slug: "audio-canvas",
     category: "Audio Software",
-    title: "Placeholder: Real-Time Audio Canvas",
+    title: "Real-Time Audio Canvas",
     year: "2024",
     blurb: "In-browser collaborative audio playground with low-latency DSP synthesis and WebSockets synchronization.",
     role: "Systems & Frontend Architect",
@@ -45,7 +44,8 @@ export const projects = [
     art: "code",
     badge: "Audio DSP · WebGL",
     featured: false,
-    href: "https://github.com/aaronnguyen26",
+    hasJourney: false,
+    href: "https://github.com/aaronnguyen26/audio-canvas",
   },
   {
     n: "02",
@@ -62,7 +62,7 @@ export const projects = [
     badge: "Premier League · UK",
     featured: true,
     hasJourney: true,
-    href: "https://github.com/aaronnguyen26",
+    href: "https://github.com/aaronnguyen26/epl-predictor",
   },
   {
     n: "03",
@@ -70,7 +70,7 @@ export const projects = [
     category: "Computer Vision",
     title: "Wildfire Image Detection",
     year: "Summer 2024",
-    blurb: "A lightweight deep learning computer vision pipeline that classifies early-stage wildfire ignitions from multi-spectral imagery in under 15ms.",
+    blurb: "A lightweight deep learning computer vision pipeline that classifies early-stage wildfire ignitions from aerial imagery in under 15ms.",
     role: "Solo ML Engineer & Researcher",
     outcome: "33.9 MB edge model · sub-15ms inference",
     tags: ["PyTorch", "Torchvision", "CNN", "MPS GPU", "Scikit-Learn"],
@@ -83,9 +83,9 @@ export const projects = [
   },
   {
     n: "04",
-    slug: "placeholder-04",
+    slug: "ats-engine",
     category: "NLP & Systems",
-    title: "Placeholder: Intelligent ATS Alignment Engine",
+    title: "Intelligent ATS Alignment Engine",
     year: "2024",
     blurb: "Semantic document parsing pipeline matching applicant qualifications against enterprise job descriptions with vector similarity.",
     role: "Full-Stack Developer",
@@ -96,13 +96,13 @@ export const projects = [
     badge: "NLP · Document Parser",
     featured: false,
     hasJourney: false,
-    href: "https://github.com/aaronnguyen26",
+    href: "https://github.com/aaronnguyen26/ats-alignment",
   },
   {
     n: "05",
-    slug: "placeholder-05",
+    slug: "campus-kitchen",
     category: "iOS & Marketplace",
-    title: "Placeholder: Campus Micro-Kitchen Marketplace",
+    title: "Campus Micro-Kitchen Marketplace",
     year: "2024",
     blurb: "Peer-to-peer campus food marketplace connecting student home cooks with local peers with real-time order tracking.",
     role: "Mobile & Backend Lead",
@@ -113,13 +113,13 @@ export const projects = [
     badge: "Native iOS · SwiftUI",
     featured: false,
     hasJourney: false,
-    href: "https://github.com/aaronnguyen26",
+    href: "https://github.com/aaronnguyen26/campus-kitchen",
   },
   {
     n: "06",
-    slug: "placeholder-06",
+    slug: "robotics-sandbox",
     category: "Embodied AI",
-    title: "Placeholder: Action-Cloning Robotics Sandbox",
+    title: "Action-Cloning Robotics Sandbox",
     year: "2024",
     blurb: "Desktop telemetry recorder capturing demonstration trajectories to train behavioral cloning policy checkpoints.",
     role: "Robotics Researcher",
@@ -130,7 +130,7 @@ export const projects = [
     badge: "Behavioral Cloning · 60Hz",
     featured: false,
     hasJourney: false,
-    href: "https://github.com/aaronnguyen26",
+    href: "https://github.com/aaronnguyen26/action-cloning",
   },
 ];
 
@@ -171,45 +171,81 @@ export const toolkits = [
   {
     category: "Quantitative & Modeling",
     n: "01",
-    tools: ["Python", "R", "Econometrics", "Linear Algebra", "Game Theory", "Optimization"],
+    tools: ["Python", "R", "SciPy", "statsmodels", "Econometrics", "Optimization"],
   },
   {
     category: "Data & Computing",
     n: "02",
-    tools: ["SQL", "Pandas", "NumPy", "Scikit-Learn", "Time Series", "Git & GitHub"],
+    tools: ["SQL", "PyTorch", "XGBoost", "Pandas", "NumPy", "Scikit-Learn", "Git"],
   },
   {
     category: "Prototyping & Interface",
     n: "03",
-    tools: ["TypeScript", "Next.js", "React", "Tailwind CSS", "Figma", "LaTeX"],
+    tools: ["TypeScript", "Next.js", "React", "Tailwind CSS", "FastAPI", "Figma", "LaTeX"],
   },
 ];
 
 export const essays = [
   {
+    id: "college-first-month",
+    slug: "college-first-month",
+    category: "reflections",
     date: "Oct 2026",
     title: "What I learned in my first month away from home",
-    excerpt: "Placeholder excerpt. Laundry is harder than linear algebra, and nobody warns you about it.",
+    excerpt: "Laundry is harder than linear algebra, and nobody warns you about it.",
     mins: 5,
+    tags: ["College", "USC", "Reflections"],
+    body: [
+      "In high school, structure is handed to you on an engineered platter. The bells ring, the assignments are bounded, and success is defined by coloring neatly within the lines. At university, the lines vanish completely.",
+      "The hardest part of college isn't the multivariable calculus or economic modeling — it's learning how to budget your curiosity when every door is suddenly open and time is finite.",
+      "You find yourself having coffee at midnight debating mechanism design, sketching drone computer vision architectures until 3 AM, and realizing that the most critical skill isn't speed — it's discernment. Learning what to say no to is the only way your best work survives.",
+    ],
   },
   {
+    id: "paper-notebook",
+    slug: "paper-notebook",
+    category: "craft",
     date: "Sep 2026",
     title: "Why I keep a paper notebook in a digital world",
-    excerpt: "Placeholder excerpt. Some ideas only survive when they are written by hand.",
+    excerpt: "Some ideas only survive when they are written by hand.",
     mins: 4,
+    tags: ["Notebooks", "Craft", "Focus"],
+    body: [
+      "Physical paper has no notifications, no backspace, and no undo. When you write ink into paper, you are forced to commit to the shape of the thought before your pen moves.",
+      "That friction is precisely what clarifies it. Digital canvases offer infinite space, but infinite space usually produces infinite noise. A pocket notebook forces prioritization.",
+      "Every architecture diagram in my projects began as a loose ballpoint pen sketch on grid paper. It's where intuition has room to fail quietly without git commit anxiety.",
+    ],
   },
   {
+    id: "first-hackathon",
+    slug: "first-hackathon",
+    category: "craft",
     date: "Aug 2026",
     title: "Notes from my first hackathon",
-    excerpt: "Placeholder excerpt. We built a robot that mostly worked, which felt like winning.",
+    excerpt: "We built a robot that mostly worked, which felt like winning.",
     mins: 6,
+    tags: ["Hackathons", "Hardware", "Robotics"],
+    body: [
+      "What nobody tells you about 36-hour hackathons is that clarity beats complexity every single time. Teams that spend 12 hours architecting microservices get stranded in deployment hell at 6 AM.",
+      "Our team built a physical telemetry wand that streamed 60Hz gyroscope data over local WebSockets into an action-cloning policy network. It was held together with zip ties and hot glue.",
+      "At 4 AM, the serial driver dropped packets. Instead of rewriting the buffer in C++, we downsampled the motor frequency to 30Hz and added an exponential moving average. The robot arm tracked smoothly, and we learned that engineering in production is 80% trade-offs.",
+    ],
   },
   {
+    id: "high-school-advice",
+    slug: "high-school-advice",
+    category: "reflections",
     date: "Jun 2026",
     title: "Things I would tell my high school self",
-    excerpt: "Placeholder excerpt. Start the project before you feel ready.",
+    excerpt: "Start the project before you feel ready.",
     mins: 3,
+    tags: ["Advice", "Growth", "Origins"],
+    body: [
+      "You do not need permission from a syllabus to start building things. The gap between someone who knows theory and someone who builds tools is simply the tolerance for being confused in public.",
+      "Read the primary documentation instead of three layers of tutorials. Write the python script to parse the messy dataset yourself instead of waiting for a clean Kaggle CSV.",
+      "And most importantly: competitive chess and sports analytics aren't distractions from your career — they are the very foundation of how you understand strategy, incentives, and poise under pressure.",
+    ],
   },
 ];
 
-export const skills = ["Python", "TypeScript", "React", "Next.js", "C++", "Git", "Figma"];
+export const skills = ["Python", "PyTorch", "TypeScript", "Next.js", "React", "SQL", "Pandas", "Scikit-Learn", "Git", "Figma"];

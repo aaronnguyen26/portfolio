@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 Creative Home Page Redesigns — Aaron Nguyen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #fbf7ee;
+      --paper-2: #f3ecdc;
+      --paper-3: #eee6d3;
+      --ink: #26211b;
+      --ink-soft: #5b5246;
+      --ink-faint: #8a7e70;
+      --cardinal: #8a1c1c;
+      --gold: #ffcc00;
+      --leather: #7a4a2a;
+      --navy: #243b6b;
+      --rule: rgba(31, 26, 20, 0.14);
+      --font-serif: Georgia, 'Instrument Serif', serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-hand: 'Reenie Beanie', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #1a1613;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .header-banner {
+      max-width: 1600px;
+      width: 100%;
+      background: #241f1b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      padding: 18px 24px;
+      color: #ede6dc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .header-banner h1 { font-size: 1.15rem; font-weight: 700; color: #fff; }
+    .header-banner p { font-size: 0.8rem; color: #b8ad9e; font-family: var(--font-mono); }
+    .badge {
+      background: rgba(138, 28, 28, 0.35);
+      border: 1px solid var(--cardinal);
+      color: #ff9e9e;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    .phones-row {
+      display: flex;
+      flex-direction: row;
+      gap: 36px;
+      width: max-content;
+      justify-content: flex-start;
+      padding: 10px 20px;
+    }
+
+    .phone-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .phone-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+    }
+    .phone-subtitle {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      color: #9e9382;
+      text-align: center;
+    }
+
+    /* Native iPhone 15 frame */
+    .phone-device {
+      width: 390px;
+      height: 960px;
+      background-color: var(--paper);
+      background-image: radial-gradient(rgba(31, 26, 20, 0.12) 1px, transparent 1.2px);
+      background-size: 20px 20px;
+      border-radius: 46px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 0 10px #1c1815, 0 0 0 12px #36302a;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: relative;
+      border: 1px solid rgba(31, 26, 20, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+    .phone-device::-webkit-scrollbar { width: 4px; }
+    .phone-device::-webkit-scrollbar-thumb { background: rgba(31, 26, 20, 0.2); border-radius: 2px; }
+
+    .phone-island {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 38px;
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 20px 0 20px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      z-index: 50;
+      border-bottom: 1px solid rgba(31, 26, 20, 0.05);
+    }
+    .island-pill {
+      width: 90px;
+      height: 18px;
+      background: #110e0c;
+      border-radius: 12px;
+    }
+
+    .mono { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.04em; }
+    .serif { font-family: var(--font-serif); }
+    .hand { font-family: var(--font-hand); font-size: 1.15rem; color: var(--navy); line-height: 1.1; }
+    .cardinal { color: var(--cardinal); }
+    .hl {
+      background: linear-gradient(120deg, rgba(255, 204, 0, 0.35) 0%, rgba(255, 204, 0, 0.5) 100%);
+      padding: 0 3px;
+      border-radius: 2px;
+    }
+
+    /* Recent Explorations shared style */
+    .recent-feed {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px dashed var(--rule);
+    }
+    .recent-feed-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .recent-feed-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .project-card {
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .project-card.featured {
+      border-left: 3px solid var(--cardinal);
+    }
+    .project-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 4px;
+      background: var(--paper-3);
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      flex-shrink: 0;
+    }
+    .project-name {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .project-meta {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--ink-faint);
+      margin-top: 2px;
+    }
+    .tag-cardinal {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--cardinal);
+      background: rgba(138, 28, 28, 0.08);
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Informational Bar -->
+  <div class="header-banner">
+    <div>
+      <span class="badge">PICTURE-FIRST &bull; 5 CREATIVE REDESIGNS</span>
+      <h1 style="margin-top: 4px;">Home Page Redesigns: Showing Aaron's Personality &amp; Creativity</h1>
+    </div>
+    <p>
+      NO CARDS WITH POLAROIDS &bull; NO CTA BUTTONS &bull; PRESERVES RECENT EXPLORATIONS &bull; 100% SITE PALETTE
+    </p>
+  </div>
+
+  <div class="phones-row">
+
+    <!-- ========================================================================= -->
+    <!-- CONCEPT 01: THE CURATOR'S STUDIO DESK                                     -->
+    <!-- ========================================================================= -->
+    <div class="phone-col">
+      <div class="phone-title">01. The Studio Workspace</div>
+      <div class="phone-subtitle">Tactile Desk Objects &bull; Pen Sketch &bull; USC Pass</div>
+      <div class="phone-device" id="screen-creative-1">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 20px 18px 30px 18px;">
+          <!-- Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; border: 1.2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700;">A</span>
+            <span class="mono" style="color: var(--cardinal); font-weight: 600;">01 // STUDIO</span>
+          </div>
+
+          <!-- Hero Headline -->
+          <div style="margin-bottom: 18px;">
+            <h1 class="serif" style="font-size: 2.2rem; font-weight: 700; line-height: 1.05; color: var(--ink); margin-bottom: 6px;">
+              Aaron Nguyen
+            </h1>
+            <p style="font-size: 0.88rem; line-height: 1.45; color: var(--ink-soft);">
+              student &amp; <span class="hl">curious builder</span>, capturing the <span class="hl">stories &amp; systems</span> behind what I create.
+            </p>
+          </div>
+
+          <!-- Creative Centerpiece: The Curator's Studio Desk -->
+          <div style="position: relative; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 12px; padding: 16px 14px; overflow: hidden;">
+            <!-- Brass Paperclip Pin at top -->
+            <div style="position: absolute; top: -4px; right: 28px; width: 14px; height: 28px; border: 2px solid #b8860b; border-radius: 10px; z-index: 10;"></div>
+
+            <!-- Mini USC Pass / Dispatch Badge -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--rule); padding-bottom: 8px; margin-bottom: 10px;">
+              <div class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 700;">
+                USC DORNSIFE &bull; CLASS OF 2028
+              </div>
+              <span class="mono" style="font-size: 0.65rem; color: var(--ink-faint); background: var(--paper); padding: 2px 6px; border-radius: 3px; border: 1px solid var(--rule);">
+                ECON + DATA SCI
+              </span>
+            </div>
+
+            <!-- Hand-drawn vector notebook thought -->
+            <div style="background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px;">
+              <div class="hand" style="font-size: 1.25rem; color: var(--navy); margin-bottom: 6px;">
+                &ldquo;Economic models are just stories told with rigor.&rdquo;
+              </div>
+              <!-- Mini SVG Doodle of a supply-demand curve meeting a neural layer -->
+              <svg viewBox="0 0 240 34" style="width: 100%; height: auto;" fill="none" stroke="#243b6b" stroke-width="1.2">
+                <path d="M 10 26 Q 40 6 70 26" stroke-dasharray="2 2" />
+                <path d="M 10 8 Q 40 28 70 8" />
+                <text x="75" y="20" font-family="'JetBrains Mono', monospace" font-size="7" fill="#8a1c1c" stroke="none">Equilibrium</text>
+                <path d="M 130 18 L 155 18 M 150 14 L 155 18 L 150 22" />
+                <circle cx="175" cy="18" r="5" fill="#f3ecdc" />
+                <circle cx="195" cy="12" r="5" fill="#f3ecdc" />
+                <circle cx="195" cy="24" r="5" fill="#f3ecdc" />
+                <circle cx="215" cy="18" r="5" fill="#8a1c1c" stroke="#8a1c1c" />
+                <text x="175" y="32" font-family="'JetBrains Mono', monospace" font-size="6" fill="#5b5246" stroke="none" text-anchor="middle">Inference</text>
+              </svg>
+            </div>
+
+            <!-- Curiosity Tags Bar -->
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;" class="mono">
+              <span style="font-size: 0.65rem; background: var(--paper-3); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--rule);">PyTorch MPS</span>
+              <span style="font-size: 0.65rem; background: var(--paper-3); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--rule);">Econometrics</span>
+              <span style="font-size: 0.65rem; background: var(--paper-3); padding: 3px 8px; border-radius: 4px; border: 1px solid var(--rule);">Kitesurfing Winds</span>
+            </div>
+          </div>
+
+          <!-- Preserved: Recent Explorations -->
+          <div class="recent-feed">
+            <div class="recent-feed-header">
+              <h2 class="recent-feed-title">Recent Explorations</h2>
+              <span class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 600;">CHAPTER 03</span>
+            </div>
+
+            <!-- Project 01 -->
+            <div class="project-card featured">
+              <div class="project-thumb">01</div>
+              <div style="flex: 1;">
+                <div class="project-name">Wildfire Image Detection</div>
+                <div class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</div>
+                <span class="tag-cardinal">FLAGSHIP &bull; &lt;15ms</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+
+            <!-- Project 02 -->
+            <div class="project-card">
+              <div class="project-thumb">02</div>
+              <div style="flex: 1;">
+                <div class="project-name">EPL 2025 Match Predictor</div>
+                <div class="project-meta">Sports Econometrics &bull; Poisson + XGBoost</div>
+                <span class="tag-cardinal">58.2% ACCURACY</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 18px;" class="mono">
+            <span style="font-size: 0.65rem; color: var(--ink-faint);">AARON NGUYEN &bull; FIELD JOURNAL VOL. 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- CONCEPT 02: THE DUAL-LENS VIEWFINDER (ECONOMICS X DATA SCIENCE)           -->
+    <!-- ========================================================================= -->
+    <div class="phone-col">
+      <div class="phone-title">02. The Dual-Lens Viewfinder</div>
+      <div class="phone-subtitle">Human Lens &bull; Machine Lens &bull; Creative Intersection</div>
+      <div class="phone-device" id="screen-creative-2">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 20px 18px 30px 18px;">
+          <!-- Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; border: 1.2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700;">A</span>
+            <span class="mono" style="color: var(--cardinal); font-weight: 600;">01 // VIEW</span>
+          </div>
+
+          <!-- Hero Headline -->
+          <div style="margin-bottom: 16px;">
+            <h1 class="serif" style="font-size: 2.2rem; font-weight: 700; line-height: 1.05; color: var(--ink); margin-bottom: 6px;">
+              Aaron Nguyen
+            </h1>
+            <p style="font-size: 0.88rem; line-height: 1.45; color: var(--ink-soft);">
+              student &amp; <span class="hl">curious builder</span>, capturing the <span class="hl">stories &amp; systems</span> behind what I create.
+            </p>
+          </div>
+
+          <!-- Creative Centerpiece: Dual-Lens Viewfinder Graphic -->
+          <div style="background: var(--paper-2); border: 1px solid var(--rule); border-radius: 12px; padding: 14px;">
+            <div class="mono" style="text-align: center; font-size: 0.68rem; color: var(--cardinal); font-weight: 700; margin-bottom: 10px; letter-spacing: 0.06em;">
+              THE DUAL-LENS FRAMEWORK
+            </div>
+
+            <!-- Two Overlapping Lenses -->
+            <div style="display: flex; gap: 8px;">
+              <!-- Left Lens: Economics -->
+              <div style="flex: 1; background: var(--paper); border: 1.5px solid var(--cardinal); border-radius: 8px; padding: 10px;">
+                <span class="mono" style="font-size: 0.65rem; color: var(--cardinal); font-weight: 700; display: block; margin-bottom: 2px;">LENS A &bull; HUMAN</span>
+                <div class="serif" style="font-size: 1rem; font-weight: 700; color: var(--ink);">Economics</div>
+                <p style="font-size: 0.72rem; color: var(--ink-soft); line-height: 1.35; margin-top: 4px;">
+                  Incentive structures, game theory, and market behavior.
+                </p>
+              </div>
+
+              <!-- Right Lens: Data Science -->
+              <div style="flex: 1; background: var(--paper); border: 1.5px solid var(--navy); border-radius: 8px; padding: 10px;">
+                <span class="mono" style="font-size: 0.65rem; color: var(--navy); font-weight: 700; display: block; margin-bottom: 2px;">LENS B &bull; MACHINE</span>
+                <div class="serif" style="font-size: 1rem; font-weight: 700; color: var(--ink);">Data Science</div>
+                <p style="font-size: 0.72rem; color: var(--ink-soft); line-height: 1.35; margin-top: 4px;">
+                  PyTorch edge vision, probabilistic modeling, and algorithms.
+                </p>
+              </div>
+            </div>
+
+            <!-- Overlapping Intersection Tag -->
+            <div style="margin-top: 8px; background: rgba(255, 204, 0, 0.25); border: 1px solid rgba(218, 165, 32, 0.4); border-radius: 6px; padding: 6px 10px; text-align: center;">
+              <span class="mono" style="font-size: 0.68rem; font-weight: 700; color: var(--ink);">
+                THE APEX: Intelligent tools calibrated against empirical market realities.
+              </span>
+            </div>
+          </div>
+
+          <!-- Preserved: Recent Explorations -->
+          <div class="recent-feed">
+            <div class="recent-feed-header">
+              <h2 class="recent-feed-title">Recent Explorations</h2>
+              <span class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 600;">CHAPTER 03</span>
+            </div>
+
+            <!-- Project 01 -->
+            <div class="project-card featured">
+              <div class="project-thumb">01</div>
+              <div style="flex: 1;">
+                <div class="project-name">Wildfire Image Detection</div>
+                <div class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</div>
+                <span class="tag-cardinal">FLAGSHIP &bull; &lt;15ms</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+
+            <!-- Project 02 -->
+            <div class="project-card">
+              <div class="project-thumb">02</div>
+              <div style="flex: 1;">
+                <div class="project-name">EPL 2025 Match Predictor</div>
+                <div class="project-meta">Sports Econometrics &bull; Poisson + XGBoost</div>
+                <span class="tag-cardinal">58.2% ACCURACY</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 18px;" class="mono">
+            <span style="font-size: 0.65rem; color: var(--ink-faint);">AARON NGUYEN &bull; FIELD JOURNAL VOL. 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- CONCEPT 03: THE TABBED CARD CATALOG / INDEX FILE                          -->
+    <!-- ========================================================================= -->
+    <div class="phone-col">
+      <div class="phone-title">03. The Tabbed Index Archive</div>
+      <div class="phone-subtitle">Staggered Archive Tabs &bull; Identity &bull; Obsessions</div>
+      <div class="phone-device" id="screen-creative-3">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 20px 18px 30px 18px;">
+          <!-- Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; border: 1.2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700;">A</span>
+            <span class="mono" style="color: var(--cardinal); font-weight: 600;">01 // DOSSIER</span>
+          </div>
+
+          <!-- Hero Headline -->
+          <div style="margin-bottom: 16px;">
+            <h1 class="serif" style="font-size: 2.2rem; font-weight: 700; line-height: 1.05; color: var(--ink); margin-bottom: 6px;">
+              Aaron Nguyen
+            </h1>
+            <p style="font-size: 0.88rem; line-height: 1.45; color: var(--ink-soft);">
+              student &amp; <span class="hl">curious builder</span>, capturing the <span class="hl">stories &amp; systems</span> behind what I create.
+            </p>
+          </div>
+
+          <!-- Creative Centerpiece: 3 Staggered Manila Index Tabs -->
+          <div style="position: relative; margin-top: 10px;">
+            <!-- Tab Heads sticking out at top -->
+            <div style="display: flex; gap: 4px; padding-left: 10px; margin-bottom: -1px; z-index: 2; position: relative;">
+              <span class="mono" style="background: var(--paper-2); border: 1px solid var(--rule); border-bottom: none; border-radius: 6px 6px 0 0; padding: 4px 10px; font-size: 0.65rem; font-weight: 700; color: var(--cardinal);">
+                TAB 01 &bull; IDENTITY
+              </span>
+              <span class="mono" style="background: var(--paper-3); border: 1px solid var(--rule); border-bottom: none; border-radius: 6px 6px 0 0; padding: 4px 10px; font-size: 0.65rem; color: var(--ink-soft);">
+                TAB 02 &bull; FOCUS
+              </span>
+              <span class="mono" style="background: var(--paper-3); border: 1px solid var(--rule); border-bottom: none; border-radius: 6px 6px 0 0; padding: 4px 10px; font-size: 0.65rem; color: var(--ink-soft);">
+                TAB 03 &bull; NOW
+              </span>
+            </div>
+
+            <!-- Tab Manila Card Content Body -->
+            <div style="background: var(--paper-2); border: 1px solid var(--rule); border-radius: 0 8px 8px 8px; padding: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.03);">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <span class="mono" style="font-size: 0.65rem; color: var(--ink-faint);">FILE REF: AN-USC-2026</span>
+                <span class="mono" style="font-size: 0.65rem; color: var(--cardinal); font-weight: 600;">ACTIVE ARCHIVE</span>
+              </div>
+              <p style="font-size: 0.82rem; line-height: 1.45; color: var(--ink); margin-bottom: 10px;">
+                Studying Economics &amp; Data Science at USC. Exploring incentive theory, computer vision edge models, and building software that feels like craft.
+              </p>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;" class="mono">
+                <span style="background: var(--paper); border: 1px solid var(--rule); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem;">USC Dornsife</span>
+                <span style="background: var(--paper); border: 1px solid var(--rule); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem;">PyTorch MPS</span>
+                <span style="background: var(--paper); border: 1px solid var(--rule); padding: 2px 7px; border-radius: 3px; font-size: 0.65rem;">Sports Econometrics</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preserved: Recent Explorations -->
+          <div class="recent-feed">
+            <div class="recent-feed-header">
+              <h2 class="recent-feed-title">Recent Explorations</h2>
+              <span class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 600;">CHAPTER 03</span>
+            </div>
+
+            <!-- Project 01 -->
+            <div class="project-card featured">
+              <div class="project-thumb">01</div>
+              <div style="flex: 1;">
+                <div class="project-name">Wildfire Image Detection</div>
+                <div class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</div>
+                <span class="tag-cardinal">FLAGSHIP &bull; &lt;15ms</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+
+            <!-- Project 02 -->
+            <div class="project-card">
+              <div class="project-thumb">02</div>
+              <div style="flex: 1;">
+                <div class="project-name">EPL 2025 Match Predictor</div>
+                <div class="project-meta">Sports Econometrics &bull; Poisson + XGBoost</div>
+                <span class="tag-cardinal">58.2% ACCURACY</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 18px;" class="mono">
+            <span style="font-size: 0.65rem; color: var(--ink-faint);">AARON NGUYEN &bull; FIELD JOURNAL VOL. 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- CONCEPT 04: THE LETTERPRESS SEAL & MONOGRAM FRONTISPIECE                  -->
+    <!-- ========================================================================= -->
+    <div class="phone-col">
+      <div class="phone-title">04. The Letterpress Seal</div>
+      <div class="phone-subtitle">Embossed Cardinal Stamp &bull; Compass Rose &bull; Pure Craft</div>
+      <div class="phone-device" id="screen-creative-4">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 20px 18px 30px 18px;">
+          <!-- Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; border: 1.2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700;">A</span>
+            <span class="mono" style="color: var(--cardinal); font-weight: 600;">01 // MONOGRAM</span>
+          </div>
+
+          <!-- Hero Headline -->
+          <div style="margin-bottom: 16px;">
+            <h1 class="serif" style="font-size: 2.2rem; font-weight: 700; line-height: 1.05; color: var(--ink); margin-bottom: 6px;">
+              Aaron Nguyen
+            </h1>
+            <p style="font-size: 0.88rem; line-height: 1.45; color: var(--ink-soft);">
+              student &amp; <span class="hl">curious builder</span>, capturing the <span class="hl">stories &amp; systems</span> behind what I create.
+            </p>
+          </div>
+
+          <!-- Creative Centerpiece: Letterpress Seal & Monogram Vignette -->
+          <div style="border: 1px solid var(--rule); border-radius: 12px; padding: 14px; background: var(--paper-2); display: flex; gap: 14px; align-items: center;">
+            <!-- Circular Embossed Cardinal Seal -->
+            <div style="width: 68px; height: 68px; border-radius: 50%; border: 2px dashed var(--cardinal); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; background: var(--paper); box-shadow: 0 2px 6px rgba(138, 28, 28, 0.1);">
+              <span class="serif" style="font-size: 1.15rem; font-weight: 700; color: var(--cardinal); line-height: 1;">AN</span>
+              <span class="mono" style="font-size: 0.5rem; color: var(--cardinal); font-weight: 700; letter-spacing: 0.05em; margin-top: 2px;">USC &bull; 2026</span>
+            </div>
+
+            <!-- Letterpress Vignette Text -->
+            <div style="flex: 1;">
+              <span class="mono" style="font-size: 0.65rem; color: var(--cardinal); font-weight: 700; text-transform: uppercase;">
+                ORIGINS &amp; CRAFT
+              </span>
+              <p style="font-size: 0.8rem; line-height: 1.4; color: var(--ink); margin-top: 2px;">
+                Studying the mechanics of markets while building real-time edge computer vision tools in Southern California.
+              </p>
+              <div class="mono" style="font-size: 0.65rem; color: var(--ink-faint); margin-top: 4px;">
+                LOS ANGELES &bull; 34.0224° N, 118.2851° W
+              </div>
+            </div>
+          </div>
+
+          <!-- Preserved: Recent Explorations -->
+          <div class="recent-feed">
+            <div class="recent-feed-header">
+              <h2 class="recent-feed-title">Recent Explorations</h2>
+              <span class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 600;">CHAPTER 03</span>
+            </div>
+
+            <!-- Project 01 -->
+            <div class="project-card featured">
+              <div class="project-thumb">01</div>
+              <div style="flex: 1;">
+                <div class="project-name">Wildfire Image Detection</div>
+                <div class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</div>
+                <span class="tag-cardinal">FLAGSHIP &bull; &lt;15ms</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+
+            <!-- Project 02 -->
+            <div class="project-card">
+              <div class="project-thumb">02</div>
+              <div style="flex: 1;">
+                <div class="project-name">EPL 2025 Match Predictor</div>
+                <div class="project-meta">Sports Econometrics &bull; Poisson + XGBoost</div>
+                <span class="tag-cardinal">58.2% ACCURACY</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 18px;" class="mono">
+            <span style="font-size: 0.65rem; color: var(--ink-faint);">AARON NGUYEN &bull; FIELD JOURNAL VOL. 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- CONCEPT 05: THE CREATIVE AUDIO CASSETTE / BUILDER'S REEL                  -->
+    <!-- ========================================================================= -->
+    <div class="phone-col">
+      <div class="phone-title">05. The Analog Audio Reel</div>
+      <div class="phone-subtitle">Cassette Tape Metaphor &bull; Curious Spools &bull; Tracks</div>
+      <div class="phone-device" id="screen-creative-5">
+        <div class="phone-island">
+          <span>9:41</span>
+          <div class="island-pill"></div>
+          <span>5G &bull; 100%</span>
+        </div>
+
+        <div style="padding: 20px 18px 30px 18px;">
+          <!-- Top Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; border: 1.2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700;">A</span>
+            <span class="mono" style="color: var(--cardinal); font-weight: 600;">01 // REEL</span>
+          </div>
+
+          <!-- Hero Headline -->
+          <div style="margin-bottom: 16px;">
+            <h1 class="serif" style="font-size: 2.2rem; font-weight: 700; line-height: 1.05; color: var(--ink); margin-bottom: 6px;">
+              Aaron Nguyen
+            </h1>
+            <p style="font-size: 0.88rem; line-height: 1.45; color: var(--ink-soft);">
+              student &amp; <span class="hl">curious builder</span>, capturing the <span class="hl">stories &amp; systems</span> behind what I create.
+            </p>
+          </div>
+
+          <!-- Creative Centerpiece: Analog Cassette / Tape Reel Label -->
+          <div style="background: var(--paper-2); border: 1.5px solid var(--ink); border-radius: 10px; padding: 12px; position: relative;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--ink); padding-bottom: 4px; margin-bottom: 8px;">
+              <span class="mono" style="font-weight: 700; font-size: 0.68rem; color: var(--cardinal);">SIDE A &bull; STEREO</span>
+              <span class="mono" style="font-size: 0.65rem; color: var(--ink-soft);">USC FIELD TAPE</span>
+            </div>
+
+            <!-- Tape Window with Dual Spools -->
+            <div style="background: var(--paper-3); border: 1px solid var(--rule); border-radius: 6px; padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <!-- Left Spool -->
+              <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px dashed var(--ink-soft); display: flex; align-items: center; justify-content: center;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--cardinal);"></div>
+              </div>
+              <div class="mono" style="font-size: 0.65rem; color: var(--ink-soft); letter-spacing: 0.08em;">
+                &bull; &bull; &bull; STORIES &amp; SYSTEMS &bull; &bull; &bull;
+              </div>
+              <!-- Right Spool -->
+              <div style="width: 22px; height: 22px; border-radius: 50%; border: 2px dashed var(--ink-soft); display: flex; align-items: center; justify-content: center;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: var(--cardinal);"></div>
+              </div>
+            </div>
+
+            <!-- Handwritten note below spools -->
+            <div class="hand" style="font-size: 1.2rem; color: var(--navy); text-align: center; margin-bottom: 4px;">
+              &ldquo;Learning by building prototypes in public.&rdquo;
+            </div>
+            <div class="mono" style="font-size: 0.62rem; color: var(--ink-faint); text-align: center;">
+              TRACK 01: WILDFIRE CV &bull; TRACK 02: SPORTS ECONOMETRICS
+            </div>
+          </div>
+
+          <!-- Preserved: Recent Explorations -->
+          <div class="recent-feed">
+            <div class="recent-feed-header">
+              <h2 class="recent-feed-title">Recent Explorations</h2>
+              <span class="mono" style="font-size: 0.68rem; color: var(--cardinal); font-weight: 600;">CHAPTER 03</span>
+            </div>
+
+            <!-- Project 01 -->
+            <div class="project-card featured">
+              <div class="project-thumb">01</div>
+              <div style="flex: 1;">
+                <div class="project-name">Wildfire Image Detection</div>
+                <div class="project-meta">Computer Vision &bull; PyTorch MPS &bull; Edge AI</div>
+                <span class="tag-cardinal">FLAGSHIP &bull; &lt;15ms</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+
+            <!-- Project 02 -->
+            <div class="project-card">
+              <div class="project-thumb">02</div>
+              <div style="flex: 1;">
+                <div class="project-name">EPL 2025 Match Predictor</div>
+                <div class="project-meta">Sports Econometrics &bull; Poisson + XGBoost</div>
+                <span class="tag-cardinal">58.2% ACCURACY</span>
+              </div>
+              <span class="mono" style="color: var(--cardinal); font-weight: 700;">&rarr;</span>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 18px;" class="mono">
+            <span style="font-size: 0.65rem; color: var(--ink-faint);">AARON NGUYEN &bull; FIELD JOURNAL VOL. 01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

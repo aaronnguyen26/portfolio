@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Project Detail — Phase 01: Problem & Origin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: #EDE6D8;
+    background-image: 
+      radial-gradient(#D5CBBA 1px, transparent 1px),
+      linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 20px 20px;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #26211B;
+    padding: 36px 20px 48px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .header-presentation {
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+
+  .header-presentation .folio-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #8A1C1C;
+    background: #FFFDF9;
+    border: 1px solid #E4DCCF;
+    padding: 4px 14px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(38,33,27,0.04);
+  }
+
+  .header-presentation h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #26211B;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+
+  .header-presentation p {
+    font-size: 13.5px;
+    color: #6B6257;
+    line-height: 1.45;
+  }
+
+  /* Single centered phone frame */
+  .phone-frame {
+    width: 410px;
+    height: 870px;
+    background: #18181B;
+    border-radius: 50px;
+    padding: 11px;
+    box-shadow: 
+      0 0 0 1px rgba(255,255,255,0.1),
+      0 25px 60px -15px rgba(38, 33, 27, 0.35),
+      0 12px 24px -8px rgba(38, 33, 27, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: 100%;
+    background-color: #FBF7EE;
+    background-image: radial-gradient(#E2D9C8 1px, transparent 1px);
+    background-size: 16px 16px;
+    border-radius: 40px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Status Bar */
+  .phone-status-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 22px 4px;
+    background: rgba(251, 247, 238, 0.94);
+    backdrop-filter: blur(8px);
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #26211B;
+  }
+
+  .status-island {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 9px;
+    width: 106px;
+    height: 25px;
+    background: #000000;
+    border-radius: 20px;
+  }
+
+  .status-icons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+  }
+
+  /* Top Navigation Bar */
+  .dossier-nav-bar {
+    position: sticky;
+    top: 36px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px 10px;
+    background: rgba(251, 247, 238, 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #EAE3D2;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5A524A;
+    background: #FFFDF9;
+    border: 1px solid #DED6C7;
+    padding: 5px 11px;
+    border-radius: 999px;
+    box-shadow: 0 1px 2px rgba(38,33,27,0.04);
+  }
+
+  .folio-chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #8A1C1C;
+    text-transform: uppercase;
+  }
+
+  .close-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #FFFDF9;
+    border: 1px solid #DED6C7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #5A524A;
+    box-shadow: 0 1px 2px rgba(38,33,27,0.04);
+  }
+
+  /* Content Leaf */
+  .dossier-scroll-content {
+    flex: 1;
+    overflow-y: hidden;
+    padding: 14px 14px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dossier-leaf {
+    background: #FFFDF9;
+    border: 1px solid #E4DCCF;
+    border-radius: 14px;
+    padding: 16px;
+    position: relative;
+    box-shadow: 
+      0 1px 2px rgba(38, 33, 27, 0.04),
+      0 4px 12px rgba(38, 33, 27, 0.03);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Washi Tape Header Decor */
+  .washi-tape-strip {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 18px;
+    background: rgba(227, 216, 192, 0.85);
+    border: 1px dashed rgba(184, 169, 142, 0.5);
+    box-shadow: 0 1px 3px rgba(38, 33, 27, 0.05);
+  }
+
+  /* Header Meta */
+  .dossier-header-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .category-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #8A1C1C;
+    text-transform: uppercase;
+  }
+
+  .year-stamp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #877E72;
+  }
+
+  .dossier-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: #26211B;
+    margin-bottom: 5px;
+  }
+
+  .dossier-subtitle {
+    font-size: 12px;
+    line-height: 1.45;
+    color: #5A524A;
+    margin-bottom: 12px;
+  }
+
+  /* Metric Quad Grid */
+  .metrics-quad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+
+  .metric-cell {
+    background: #FBF7EE;
+    border: 1px solid #EAE3D2;
+    border-radius: 7px;
+    padding: 7px 9px;
+  }
+
+  .metric-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: #26211B;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .metric-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.05em;
+    color: #7A7062;
+    text-transform: uppercase;
+  }
+
+  /* Hero Media */
+  .hero-media-wrap {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #DED6C7;
+    margin-bottom: 6px;
+    background: #26211B;
+  }
+
+  .hero-media-img {
+    width: 100%;
+    height: 135px;
+    object-fit: cover;
+    display: block;
+    filter: contrast(1.05);
+  }
+
+  .media-badge-tag {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    background: rgba(38, 33, 27, 0.85);
+    backdrop-filter: blur(4px);
+    color: #FBF7EE;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    font-weight: 500;
+    padding: 3px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .media-caption-text {
+    font-size: 10.5px;
+    color: #7A7062;
+    line-height: 1.35;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+
+  /* Section Divider */
+  .section-divider-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0 10px;
+  }
+
+  .section-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #EAE3D2;
+  }
+
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #8A1C1C;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+  }
+  .section-tag::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: #8A1C1C;
+    border-radius: 50%;
+  }
+
+  .section-heading {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: #26211B;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .narrative-p {
+    font-size: 11.5px;
+    line-height: 1.45;
+    color: #4A4239;
+    margin-bottom: 10px;
+  }
+
+  /* Concise Crisis Stat Grid */
+  .stat-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .stat-card-mini {
+    background: #FBF7EE;
+    border: 1px solid #EAE3D2;
+    border-radius: 6px;
+    padding: 7px 6px;
+    text-align: center;
+  }
+
+  .stat-num-mini {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8A1C1C;
+    line-height: 1.1;
+    margin-bottom: 2px;
+  }
+
+  .stat-desc-mini {
+    font-size: 9px;
+    color: #5A524A;
+    line-height: 1.25;
+  }
+
+  /* Handwritten Note */
+  .handwritten-box {
+    background: #F8F4EA;
+    border: 1px dashed #D5CAB5;
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-top: 4px;
+  }
+
+  .handwritten-text {
+    font-family: 'Caveat', cursive;
+    font-size: 15.5px;
+    line-height: 1.35;
+    color: #1A365D; /* Navy fountain pen ink */
+  }
+
+  .design-note-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: #7A7062;
+    background: #FFFDF9;
+    border: 1px solid #DED6C7;
+    padding: 5px 12px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(38,33,27,0.05);
+    margin-top: 14px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <header class="header-presentation">
+    <div class="folio-badge">
+      <span>PHASE 01 SPECIFICATION</span>
+      <span>•</span>
+      <span>FIELD JOURNAL VIEW</span>
+    </div>
+    <h1>Phase 01 · Problem & Origin</h1>
+    <p>Focused view of Phase 01: California's crisis catalyst, reconnaissance imagery, and early ignition field reflection.</p>
+  </header>
+
+  <!-- Centered Single Phone Frame -->
+  <div class="phone-frame">
+    <div class="phone-screen">
+
+      <!-- Status Bar -->
+      <div class="phone-status-bar">
+        <span>9:41</span>
+        <div class="status-island"></div>
+        <div class="status-icons">
+          <span>5G</span>
+          <span>100%</span>
+        </div>
+      </div>
+
+      <!-- Top Nav Bar -->
+      <div class="dossier-nav-bar">
+        <div class="back-btn">
+          <span>←</span>
+          <span>Workbench</span>
+        </div>
+        <div class="folio-chip">
+          PHASE 01 · PROBLEM & ORIGIN
+        </div>
+        <div class="close-circle">✕</div>
+      </div>
+
+      <!-- Content Leaf -->
+      <div class="dossier-scroll-content">
+        <div class="dossier-leaf">
+          <div class="washi-tape-strip"></div>
+
+          <div class="dossier-header-meta">
+            <span class="category-pill">COMPUTER VISION · EDGE AI</span>
+            <span class="year-stamp">SUMMER 2024</span>
+          </div>
+
+          <h2 class="dossier-title">Wildfire Image Detection</h2>
+          <p class="dossier-subtitle">
+            A lightweight deep learning computer vision pipeline that classifies early-stage wildfire ignitions from aerial imagery in under 15ms.
+          </p>
+
+          <!-- Metrics Matrix -->
+          <div class="metrics-quad">
+            <div class="metric-cell">
+              <div class="metric-val">33.9 MB</div>
+              <div class="metric-label">Model Size</div>
+            </div>
+            <div class="metric-cell">
+              <div class="metric-val">14.8 ms</div>
+              <div class="metric-label">Inference Latency</div>
+            </div>
+            <div class="metric-cell">
+              <div class="metric-val">PyTorch MPS</div>
+              <div class="metric-label">Target Hardware</div>
+            </div>
+            <div class="metric-cell">
+              <div class="metric-val">94.2%</div>
+              <div class="metric-label">Ignition Precision</div>
+            </div>
+          </div>
+
+          <!-- Hero Reconnaissance Media -->
+          <div class="hero-media-wrap">
+            <img src="/palisades_recon_smoke.jpg" alt="Palisades Fire Reconnaissance" class="hero-media-img" onerror="this.src='/palisades_fire_real.jpg'">
+            <div class="media-badge-tag">RECONNAISSANCE AERIAL FRAME • TOPANGA CANYON</div>
+          </div>
+          <div class="media-caption-text">
+            Figure 01: Low-altitude smoke plume cresting the ridge line during early ignition.
+          </div>
+
+          <!-- Phase 01 Section -->
+          <div class="section-divider-bar">
+            <div class="section-tag">01 · PROBLEM & ORIGIN</div>
+            <div class="section-divider-line"></div>
+          </div>
+
+          <h3 class="section-heading">California's Wildfire Crisis & The Palisades Origin</h3>
+          <p class="narrative-p">
+            Watching the Pacific Palisades wildfire ignite over the Santa Monica Mountains from Los Angeles was my personal turning point. I watched a small canyon plume explode into a fast-moving front while emergency crews lacked real-time ridge visibility.
+          </p>
+
+          <!-- 3-Column Concise Stat Cards -->
+          <div class="stat-grid-3">
+            <div class="stat-card-mini">
+              <div class="stat-num-mini">2.5M+</div>
+              <div class="stat-desc-mini">Acres burned annually</div>
+            </div>
+            <div class="stat-card-mini">
+              <div class="stat-num-mini">1,200+</div>
+              <div class="stat-desc-mini">Acres in Palisades</div>
+            </div>
+            <div class="stat-card-mini">
+              <div class="stat-num-mini">10,000+</div>
+              <div class="stat-desc-mini">Residents evacuated</div>
+            </div>
+          </div>
+
+          <!-- Fountain Pen Handwritten Note -->
+          <div class="handwritten-box">
+            <p class="handwritten-text">
+              "↳ What I realized: We cannot rely on delayed satellites or blocked engines. Drones need sub-15ms on-device vision to alert commanders within 60 seconds of ignition."
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="design-note-tag">
+    Phase 01 · Authentic field journal card · Zero slashes
+  </div>
+
+</body>
+</html>

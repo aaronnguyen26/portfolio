@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Direct Visual Comparison: Current Card vs 5 New Options</title>
+  <style>
+    :root {
+      --paper: #fbf7ee;
+      --paper-2: #f3ecdc;
+      --ink: #26211b;
+      --ink-soft: #5b5246;
+      --cardinal: #8a1c1c;
+      --rule: rgba(31, 26, 20, 0.14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: #1c1815;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .compare-card {
+      background: #2a241f;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      width: 900px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .compare-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+    }
+
+    .compare-body {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pane {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pane-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: monospace;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
+    }
+    .tag-old {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid #ef4444;
+    }
+    .tag-new {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid #10b981;
+    }
+
+    .img-old {
+      width: 380px;
+      height: 480px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: var(--paper);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .img-new {
+      width: 380px;
+      height: 480px;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .arrow-divider {
+      font-size: 2rem;
+      color: #a89f91;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Comparison 1 -->
+  <div class="compare-card" id="comp-a">
+    <div class="compare-header">
+      <span>OPTION 01: THE TYPOGRAPHIC BROADSIDE</span>
+      <span style="font-size: 0.8rem; font-family: monospace; color: #6ee7b7;">ZERO CARDS &bull; RULED INDEX</span>
+    </div>
+    <div class="compare-body">
+      <div class="pane">
+        <span class="pane-tag tag-old">&#10005; CURRENT (Card You Dislike)</span>
+        <img class="img-old" src="/current_home_card_to_replace.png" alt="Current card">
+      </div>
+      <div class="arrow-divider">&rarr;</div>
+      <div class="pane">
+        <span class="pane-tag tag-new">&#10003; NEW REPLACEMENT (Style A)</span>
+        <img class="img-new" src="/style_a_typographic_broadside.png" alt="Style A">
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison 2 -->
+  <div class="compare-card" id="comp-b">
+    <div class="compare-header">
+      <span>OPTION 02: THE CHRONOLOGICAL FIELD LOG</span>
+      <span style="font-size: 0.8rem; font-family: monospace; color: #6ee7b7;">ZERO CARDS &bull; RESEARCH TIMELINE</span>
+    </div>
+    <div class="compare-body">
+      <div class="pane">
+        <span class="pane-tag tag-old">&#10005; CURRENT (Card You Dislike)</span>
+        <img class="img-old" src="/current_home_card_to_replace.png" alt="Current card">
+      </div>
+      <div class="arrow-divider">&rarr;</div>
+      <div class="pane">
+        <span class="pane-tag tag-new">&#10003; NEW REPLACEMENT (Style B)</span>
+        <img class="img-new" src="/style_b_chronological_field_log.png" alt="Style B">
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison 3 -->
+  <div class="compare-card" id="comp-c">
+    <div class="compare-header">
+      <span>OPTION 03: THE SYSTEMS BLUEPRINT</span>
+      <span style="font-size: 0.8rem; font-family: monospace; color: #6ee7b7;">ZERO CARDS &bull; SCHEMATIC FLOW</span>
+    </div>
+    <div class="compare-body">
+      <div class="pane">
+        <span class="pane-tag tag-old">&#10005; CURRENT (Card You Dislike)</span>
+        <img class="img-old" src="/current_home_card_to_replace.png" alt="Current card">
+      </div>
+      <div class="arrow-divider">&rarr;</div>
+      <div class="pane">
+        <span class="pane-tag tag-new">&#10003; NEW REPLACEMENT (Style C)</span>
+        <img class="img-new" src="/style_c_systems_blueprint.png" alt="Style C">
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison 4 -->
+  <div class="compare-card" id="comp-d">
+    <div class="compare-header">
+      <span>OPTION 04: THE LITERARY FRONTISPIECE</span>
+      <span style="font-size: 0.8rem; font-family: monospace; color: #6ee7b7;">ZERO CARDS &bull; DROP-CAP ESSAY</span>
+    </div>
+    <div class="compare-body">
+      <div class="pane">
+        <span class="pane-tag tag-old">&#10005; CURRENT (Card You Dislike)</span>
+        <img class="img-old" src="/current_home_card_to_replace.png" alt="Current card">
+      </div>
+      <div class="arrow-divider">&rarr;</div>
+      <div class="pane">
+        <span class="pane-tag tag-new">&#10003; NEW REPLACEMENT (Style D)</span>
+        <img class="img-new" src="/style_d_literary_frontispiece.png" alt="Style D">
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison 5 -->
+  <div class="compare-card" id="comp-e">
+    <div class="compare-header">
+      <span>OPTION 05: THE TACTILE BENTO DOCKET</span>
+      <span style="font-size: 0.8rem; font-family: monospace; color: #6ee7b7;">ZERO CARDS &bull; MODULAR DOCKET</span>
+    </div>
+    <div class="compare-body">
+      <div class="pane">
+        <span class="pane-tag tag-old">&#10005; CURRENT (Card You Dislike)</span>
+        <img class="img-old" src="/current_home_card_to_replace.png" alt="Current card">
+      </div>
+      <div class="arrow-divider">&rarr;</div>
+      <div class="pane">
+        <span class="pane-tag tag-new">&#10003; NEW REPLACEMENT (Style E)</span>
+        <img class="img-new" src="/style_e_tactile_bento_docket.png" alt="Style E">
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

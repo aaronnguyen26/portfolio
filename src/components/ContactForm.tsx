@@ -69,14 +69,54 @@ export default function ContactForm() {
     }
   };
 
+  if (status === "success") {
+    return (
+      <div
+        role="status"
+        aria-live="polite"
+        style={{
+          padding: "28px 20px",
+          backgroundColor: "rgba(24, 99, 40, 0.08)",
+          border: "1px solid rgba(24, 99, 40, 0.28)",
+          borderRadius: 6,
+          textAlign: "center",
+          display: "grid",
+          gap: 12,
+          marginTop: 10,
+        }}
+      >
+        <div style={{ fontSize: "1.8rem" }}>✉️</div>
+        <h3 style={{ margin: 0, fontSize: "1.15rem", color: "#134e23", fontFamily: "var(--font-serif)" }}>
+          Note received &amp; dispatched!
+        </h3>
+        <p className="body" style={{ margin: 0, fontSize: "0.92rem" }}>
+          {feedback || "Thanks for reaching out. I read every note and will get back to you soon."}
+        </p>
+        <button
+          type="button"
+          onClick={() => {
+            setStatus("idle");
+            setFeedback("");
+          }}
+          className="btn mono"
+          style={{ justifySelf: "center", marginTop: 8, cursor: "pointer", padding: "6px 14px" }}
+        >
+          Send another note &rarr;
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <form className="form" onSubmit={handleSubmit}>
+    <form className="form" onSubmit={handleSubmit} noValidate={false}>
       <label>
         <span className="mono">Your name</span>
         <input
           name="name"
           type="text"
           placeholder="Ada Lovelace"
+          autoComplete="name"
+          autoCapitalize="words"
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -89,6 +129,9 @@ export default function ContactForm() {
         <input
           name="email"
           type="email"
+          inputMode="email"
+          autoComplete="email"
+          autoCapitalize="none"
           placeholder="ada@example.com"
           required
           value={email}
@@ -103,6 +146,7 @@ export default function ContactForm() {
           name="subject"
           type="text"
           placeholder="Summer 2027 Internship / Project question"
+          autoCapitalize="sentences"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
           disabled={status === "sending"}
@@ -115,20 +159,13 @@ export default function ContactForm() {
           name="message"
           rows={5}
           placeholder="Dear Aaron…"
+          autoCapitalize="sentences"
           required
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={status === "sending"}
         />
       </label>
-
-      {status === "success" && (
-        <div style={{ margin: "4px 0 0", display: "grid", gap: 4 }}>
-          <p className="mono" style={{ color: "var(--cardinal)", margin: 0 }}>
-            {feedback || "✓ Note sent! Thanks for writing, I read everything."}
-          </p>
-        </div>
-      )}
 
       {status === "error" && (
         <div style={{ margin: "2px 0 0", display: "grid", gap: 4 }}>
