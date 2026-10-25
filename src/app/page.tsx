@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Book from "@/components/Book";
 import Spread from "@/components/Spread";
 import TurnLink from "@/components/TurnLink";
-import Footer from "@/components/Footer";
 import ProjectJourneyFan from "@/components/ProjectJourneyFan";
 import MobileHomeLayout from "@/components/MobileHomeLayout";
 import { site, projects } from "@/data/site";
@@ -251,11 +250,6 @@ export default function Home() {
               </div>
             </div>
           </section>
-
-          {/* Desktop Footer */}
-          <div style={{ marginTop: 60 }}>
-            <Footer />
-          </div>
         </div>
       )}
 

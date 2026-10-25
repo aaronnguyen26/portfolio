@@ -249,35 +249,11 @@ export default function MobileAboutLayout({ hideHeader = false }: MobileAboutLay
         </div>
       </div>
 
-      {/* Guiding Principles Box */}
-      <div className="mobile-about-principles-box">
-        <div className="mobile-about-principles-label mono">
-          NOTEBOOK OBSERVATIONS &bull; GUIDING PRINCIPLES
-        </div>
-        <div className="mobile-about-principle-item">
-          <strong>01. Models are maps, not terrain:</strong> Always test theoretical assumptions against messy, empirical human reality.
-        </div>
-        <div className="mobile-about-principle-item">
-          <strong>02. Good questions beat easy answers:</strong> The most valuable breakthrough usually starts with framing the problem right.
-        </div>
-        <div className="mobile-about-principle-item">
-          <strong>03. Build prototypes early:</strong> Test intuition with code and data before curiosity fades.
-        </div>
-      </div>
-
       {/* Action Buttons */}
-      <div className="mobile-about-actions">
+      <div className="mobile-about-actions" style={{ marginTop: 24 }}>
         <TurnLink href="/projects" className="mobile-home-btn-solid">
           View projects &rarr;
         </TurnLink>
-        <button
-          type="button"
-          onClick={() => openResume("picker")}
-          className="mobile-home-btn-ghost"
-          style={{ cursor: "pointer" }}
-        >
-          Resume &darr;
-        </button>
         <TurnLink href="/contact" className="mobile-home-btn-ghost">
           Get in touch
         </TurnLink>

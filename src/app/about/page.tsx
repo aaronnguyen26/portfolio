@@ -2,7 +2,6 @@ import Book from "@/components/Book";
 import Polaroid from "@/components/Polaroid";
 import MobileAboutLayout from "@/components/MobileAboutLayout";
 import TurnLink from "@/components/TurnLink";
-import ResumeButton from "@/components/ResumeButton";
 import { timeline, toolkits } from "@/data/site";
 
 export const metadata = { title: "About — Aaron Nguyen" };
@@ -41,12 +40,6 @@ export default function About() {
               <TurnLink href="/projects" className="btn solid mono">
                 View projects &rarr;
               </TurnLink>
-              <ResumeButton
-                className="btn mono"
-                style={{ color: "var(--cardinal)", fontWeight: 600 }}
-              >
-                Download Resume (PDF) &nearr;
-              </ResumeButton>
             </div>
           </section>
 
@@ -286,32 +279,6 @@ export default function About() {
           </div>
         </div>
 
-        {/* Guiding Principles */}
-        <div
-          style={{
-            marginTop: 32,
-            background: "rgba(238, 220, 160, 0.28)",
-            border: "1.5px solid #b8860b",
-            borderRadius: 6,
-            padding: "20px 24px",
-          }}
-        >
-          <h2 className="mono" style={{ fontSize: "0.78rem", color: "var(--cardinal)", fontWeight: 700, letterSpacing: "0.08em", margin: "0 0 12px" }}>
-            NOTEBOOK OBSERVATIONS // GUIDING PRINCIPLES
-          </h2>
-          <ol style={{ display: "grid", gap: 10, fontSize: "0.98rem", lineHeight: 1.6, paddingLeft: 18, margin: 0 }}>
-            <li>
-              <strong>Models are maps, not the terrain:</strong> Always test theoretical assumptions against messy, empirical human reality.
-            </li>
-            <li>
-              <strong>Finding good questions beats easy answers:</strong> The most valuable breakthrough usually starts with framing the problem right.
-            </li>
-            <li>
-              <strong>Build the prototype early:</strong> Test intuition with code and data before the curiosity fades.
-            </li>
-          </ol>
-        </div>
-
         {/* Chapter Navigation & Recruiter Action Footer */}
         <div
           style={{
@@ -328,17 +295,9 @@ export default function About() {
           <TurnLink href="/" className="btn mono">
             &larr; Home
           </TurnLink>
-          <div style={{ display: "flex", gap: 12 }}>
-            <ResumeButton
-              className="btn mono"
-              style={{ color: "var(--cardinal)", fontWeight: 600 }}
-            >
-              Resume (PDF) ↗
-            </ResumeButton>
-            <TurnLink href="/projects" className="btn solid mono">
-              02 / Projects Workbench &rarr;
-            </TurnLink>
-          </div>
+          <TurnLink href="/projects" className="btn solid mono">
+            02 / Projects Workbench &rarr;
+          </TurnLink>
         </div>
       </div>
     </Book>
