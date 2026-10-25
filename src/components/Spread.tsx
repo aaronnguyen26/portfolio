@@ -2,6 +2,7 @@
 
 import { useRef, useCallback } from "react";
 import Polaroid from "@/components/Polaroid";
+import ResumeButton from "@/components/ResumeButton";
 
 /**
  * The hero centerpiece: an authentic 3D open field journal.
@@ -103,8 +104,29 @@ export default function Spread() {
           <div className="leaf right">
             {/* School & Studying Note */}
             <div style={{ position: "absolute", left: "6%", top: "5%", width: "48%" }}>
-              <div className="ticket-pair">
+              <div className="ticket-pair" style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div className="stub mono">FIELD NOTE // NOTEBOOK 01</div>
+                <ResumeButton
+                  className="mono spread-resume-ticket"
+                  style={{
+                    fontSize: "clamp(0.58rem, 1.1cqw, 0.72rem)",
+                    padding: "3px 8px",
+                    border: "1px dashed var(--cardinal)",
+                    borderRadius: 3,
+                    color: "var(--cardinal)",
+                    fontWeight: 700,
+                    textDecoration: "none",
+                    background: "rgba(255, 255, 255, 0.75)",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 3,
+                  }}
+                  title="View curriculum vitae & resume"
+                >
+                  CV / Resume ↗
+                </ResumeButton>
               </div>
               <div style={{ marginTop: "10px", background: "rgba(255, 248, 220, 0.6)", borderLeft: "3px solid #8a1c1c", padding: "7px 14px", borderRadius: "2px" }}>
                 <p className="hand" style={{ fontSize: "clamp(1.1rem, 2.3cqw, 1.48rem)", lineHeight: 1.35, color: "#243b6b", fontWeight: 600 }}>

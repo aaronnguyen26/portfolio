@@ -2,6 +2,7 @@ import Book from "@/components/Book";
 import Polaroid from "@/components/Polaroid";
 import MobileAboutLayout from "@/components/MobileAboutLayout";
 import TurnLink from "@/components/TurnLink";
+import ResumeButton from "@/components/ResumeButton";
 import { timeline, toolkits } from "@/data/site";
 
 export const metadata = { title: "About — Aaron Nguyen" };
@@ -16,7 +17,7 @@ export default function About() {
 
       {/* Desktop-Only Classic Two-Page Open Book Spread */}
       <div className="desktop-only-about">
-        <span className="eyebrow mono rise">02 / About · The story so far</span>
+        <span className="eyebrow mono rise">01 / About · The story so far</span>
         <h1 className="display rise d1">
           A little <em>backstory</em>.
         </h1>
@@ -40,15 +41,12 @@ export default function About() {
               <TurnLink href="/projects" className="btn solid mono">
                 View projects &rarr;
               </TurnLink>
-              <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+              <ResumeButton
                 className="btn mono"
                 style={{ color: "var(--cardinal)", fontWeight: 600 }}
               >
                 Download Resume (PDF) &nearr;
-              </a>
+              </ResumeButton>
             </div>
           </section>
 
@@ -328,20 +326,17 @@ export default function About() {
           }}
         >
           <TurnLink href="/" className="btn mono">
-            &larr; 01 / Cover &amp; Home
+            &larr; Home
           </TurnLink>
           <div style={{ display: "flex", gap: 12 }}>
-            <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+            <ResumeButton
               className="btn mono"
               style={{ color: "var(--cardinal)", fontWeight: 600 }}
             >
-              Resume (PDF) &nearr;
-            </a>
+              Resume (PDF) ↗
+            </ResumeButton>
             <TurnLink href="/projects" className="btn solid mono">
-              03 / Projects Workbench &rarr;
+              02 / Projects Workbench &rarr;
             </TurnLink>
           </div>
         </div>

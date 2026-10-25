@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import TurnLink from "@/components/TurnLink";
 import MobileWildfirePhaseModal from "@/components/MobileWildfirePhaseModal";
 import MobileEPLPhaseModal from "@/components/MobileEPLPhaseModal";
+import { useResume } from "@/components/ResumeModal";
+import { useLLM } from "@/components/LLMModal";
 import { nav, projects, site } from "@/data/site";
 
 interface MobileProjectsLayoutProps {
@@ -12,6 +14,8 @@ interface MobileProjectsLayoutProps {
 
 export default function MobileProjectsLayout({ initialOpenSlug }: MobileProjectsLayoutProps = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { openResume } = useResume();
+  const { openLLM } = useLLM();
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedJourneyProject, setSelectedJourneyProject] = useState<
     (typeof projects)[0] | null
@@ -115,16 +119,40 @@ export default function MobileProjectsLayout({ initialOpenSlug }: MobileProjects
 
   return (
     <div className="mobile-projects-container">
-      {/* Top Bar with Persistent Brand Mark */}
+      {/* Top Bar with Persistent Brand Mark and Resume Button */}
       <div className="mobile-projects-header">
         <button
           type="button"
           className="mobile-minimal-brand"
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          aria-label="Toggle navigation menu"
+          aria-label="Aaron Nguyen — Toggle navigation menu"
           aria-expanded={isMenuOpen}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44, padding: "8px 4px" }}
         >
-          {site.name}
+          <span>{site.name}</span>
+          <span style={{ fontSize: "0.75rem", opacity: 0.65 }}>▾</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => openResume("picker")}
+          className="mono"
+          aria-label="View or download Aaron Nguyen Resume"
+          style={{
+            fontSize: "0.72rem",
+            padding: "4px 10px",
+            borderRadius: 4,
+            border: "1px solid var(--cardinal)",
+            background: "transparent",
+            color: "var(--cardinal)",
+            fontWeight: 600,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            minHeight: 36,
+          }}
+        >
+          Resume ↗
         </button>
 
         {/* Floating popover menu */}
@@ -152,6 +180,58 @@ export default function MobileProjectsLayout({ initialOpenSlug }: MobileProjects
                     </li>
                   );
                 })}
+                <li>
+                  <button
+                    type="button"
+                    className="mobile-home-nav-link"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      openResume("picker");
+                    }}
+                    style={{
+                      width: "100%",
+                      minHeight: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      color: "var(--cardinal)",
+                      fontWeight: 600,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      textAlign: "left",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span className="mobile-home-nav-n">06</span>
+                    <span>Resume (Options) ↗</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className="mobile-home-nav-link"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      openLLM();
+                    }}
+                    style={{
+                      width: "100%",
+                      minHeight: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      color: "var(--ink)",
+                      fontWeight: 600,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      textAlign: "left",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span className="mobile-home-nav-n">07</span>
+                    <span>llm.txt</span>
+                  </button>
+                </li>
               </ul>
             </nav>
           </>
@@ -352,6 +432,29 @@ export default function MobileProjectsLayout({ initialOpenSlug }: MobileProjects
           Read my story
         </TurnLink>
       </div>
+
+      <footer className="mobile-home-footer" style={{ marginTop: 24, textAlign: "center", fontSize: "0.8rem", color: "var(--pencil)" }}>
+        <p className="mono" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10 }}>
+          <span>Aaron Nguyen &bull; Field Journal</span>
+          <span>&bull;</span>
+          <button
+            type="button"
+            onClick={() => openLLM()}
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
+              color: "var(--cardinal)",
+              font: "inherit",
+              cursor: "pointer",
+              textDecoration: "underline",
+              fontWeight: 600,
+            }}
+          >
+            llm.txt
+          </button>
+        </p>
+      </footer>
 
       {/* Mobile Wildfire Phase Modal */}
       <MobileWildfirePhaseModal

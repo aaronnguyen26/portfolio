@@ -86,9 +86,6 @@ export default function Home() {
             <div className="rise d3" style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: 46 }}>
               <TurnLink href="/projects" className="btn solid mono">View projects &rarr;</TurnLink>
               <TurnLink href="/about" className="btn mono">Read my story</TurnLink>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="btn mono" style={{ color: "var(--cardinal)", fontWeight: 600 }}>
-                Resume (PDF) &nearr;
-              </a>
             </div>
           </section>
 

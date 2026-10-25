@@ -62,7 +62,7 @@ export default function ProjectsWorkbench() {
 
   return (
     <>
-      <span className="eyebrow mono rise">03 / Projects · Things I&rsquo;ve built</span>
+      <span className="eyebrow mono rise">02 / Projects · Things I&rsquo;ve built</span>
       <h1 className="display rise d1">
         Pages from the <em>workbench</em>.
       </h1>

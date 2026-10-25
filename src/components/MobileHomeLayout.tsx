@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import TurnLink from "@/components/TurnLink";
+import { useResume } from "@/components/ResumeModal";
+import { useLLM } from "@/components/LLMModal";
 import { site, nav, projects } from "@/data/site";
 
 interface MobileHomeLayoutProps {
@@ -15,6 +17,8 @@ interface MobileHomeLayoutProps {
 
 export default function MobileHomeLayout({ onOpenJourney }: MobileHomeLayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { openResume } = useResume();
+  const { openLLM } = useLLM();
 
   const handleCardClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -50,23 +54,27 @@ export default function MobileHomeLayout({ onOpenJourney }: MobileHomeLayoutProp
             <span style={{ fontSize: "0.75rem", opacity: 0.65 }}>▾</span>
           </button>
 
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => openResume("picker")}
             className="mono"
+            aria-label="View or download Aaron Nguyen Resume"
             style={{
               fontSize: "0.72rem",
               padding: "4px 10px",
               borderRadius: 4,
               border: "1px solid var(--cardinal)",
+              background: "transparent",
               color: "var(--cardinal)",
               fontWeight: 600,
-              textDecoration: "none",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              minHeight: 36,
             }}
           >
             Resume ↗
-          </a>
+          </button>
 
           {/* Floating Popover Navigation Menu */}
           {isMenuOpen && (
@@ -95,17 +103,56 @@ export default function MobileHomeLayout({ onOpenJourney }: MobileHomeLayoutProp
                     );
                   })}
                   <li>
-                    <a
-                      href="/resume.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
                       className="mobile-home-nav-link"
-                      onClick={() => setIsMenuOpen(false)}
-                      style={{ minHeight: 44, display: "flex", alignItems: "center", color: "var(--cardinal)", fontWeight: 600 }}
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        openResume("picker");
+                      }}
+                      style={{
+                        width: "100%",
+                        minHeight: 44,
+                        display: "flex",
+                        alignItems: "center",
+                        color: "var(--cardinal)",
+                        fontWeight: 600,
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
                     >
                       <span className="mobile-home-nav-n">06</span>
-                      <span>Resume (PDF) ↗</span>
-                    </a>
+                      <span>Resume (Options) ↗</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      className="mobile-home-nav-link"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        openLLM();
+                      }}
+                      style={{
+                        width: "100%",
+                        minHeight: 44,
+                        display: "flex",
+                        alignItems: "center",
+                        color: "var(--ink)",
+                        fontWeight: 600,
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <span className="mobile-home-nav-n">07</span>
+                      <span>llm.txt</span>
+                    </button>
                   </li>
                 </ul>
               </nav>
@@ -265,9 +312,26 @@ export default function MobileHomeLayout({ onOpenJourney }: MobileHomeLayoutProp
           </div>
         </div>
 
-        <div style={{ textAlign: "center", marginTop: 24, paddingBottom: 16 }}>
-          <p className="mono" style={{ fontSize: "0.68rem", color: "var(--ink-soft)" }}>
-            Aaron Nguyen &bull; Field Journal &bull; 2026
+        <div style={{ textAlign: "center", marginTop: 24, paddingBottom: 24 }}>
+          <p className="mono" style={{ fontSize: "0.68rem", color: "var(--ink-soft)", display: "flex", justifyContent: "center", alignItems: "center", gap: 10 }}>
+            <span>Aaron Nguyen &bull; Field Journal</span>
+            <span>&bull;</span>
+            <button
+              type="button"
+              onClick={() => openLLM()}
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                color: "var(--cardinal)",
+                font: "inherit",
+                cursor: "pointer",
+                textDecoration: "underline",
+                fontWeight: 600,
+              }}
+            >
+              llm.txt
+            </button>
           </p>
         </div>
       </section>

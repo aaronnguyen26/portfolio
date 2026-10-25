@@ -31,7 +31,7 @@ export default function Contact() {
       {/* Desktop-Only Classic Two-Page Spread */}
       {(isMobile === false || isMobile === null) && (
         <div className="desktop-only-contact">
-          <span className="eyebrow mono rise">05 / Contact · Say hello</span>
+          <span className="eyebrow mono rise">04 / Contact · Say hello</span>
           <h1 className="display rise d1">
             Let&rsquo;s <em>talk</em>.
           </h1>

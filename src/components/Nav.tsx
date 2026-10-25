@@ -2,7 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import TurnLink from "@/components/TurnLink";
-import { nav, site } from "@/data/site";
+import ResumeButton from "@/components/ResumeButton";
+import { desktopNav, site } from "@/data/site";
 
 export default function Nav() {
   const pathname = usePathname();
@@ -20,22 +21,25 @@ export default function Nav() {
       </TurnLink>
       <nav aria-label="Primary">
         <ul>
-          {nav
-            .filter((n) => n.href !== "/")
-            .map((item) => {
-              const active = pathname.startsWith(item.href);
-              return (
-                <li key={item.href}>
-                  <TurnLink
-                    href={item.href}
-                    className="navlink mono"
-                    aria-current={active ? "page" : undefined}
-                  >
-                    {item.n} / {item.label}
-                  </TurnLink>
-                </li>
-              );
-            })}
+          {desktopNav.map((item) => {
+            const active = pathname.startsWith(item.href);
+            return (
+              <li key={item.href}>
+                <TurnLink
+                  href={item.href}
+                  className="navlink mono"
+                  aria-current={active ? "page" : undefined}
+                >
+                  {item.n} / {item.label}
+                </TurnLink>
+              </li>
+            );
+          })}
+          <li style={{ display: "inline-flex", alignItems: "center", marginLeft: 6 }}>
+            <ResumeButton className="nav-resume-btn mono">
+              Resume ↗
+            </ResumeButton>
+          </li>
         </ul>
       </nav>
       <span className="sr-only">{site.name}</span>

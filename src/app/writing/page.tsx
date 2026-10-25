@@ -31,7 +31,7 @@ export default function Writing() {
       {/* Desktop-Only Classic Open Book Spread */}
       {(isMobile === false || isMobile === null) && (
         <div className="desktop-only-writing">
-          <span className="eyebrow mono rise">04 / Writing · Notes &amp; reflections</span>
+          <span className="eyebrow mono rise">03 / Writing · Notes &amp; reflections</span>
           <h1 className="display rise d1">
             Thoughts, <em>in ink</em>.
           </h1>

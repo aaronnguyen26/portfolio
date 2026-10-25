@@ -22,6 +22,13 @@ export const nav = [
   { href: "/contact", label: "Contact", n: "05" },
 ];
 
+export const desktopNav = [
+  { href: "/about", label: "About", n: "01" },
+  { href: "/projects", label: "Projects", n: "02" },
+  { href: "/writing", label: "Writing", n: "03" },
+  { href: "/contact", label: "Contact", n: "04" },
+];
+
 export const glance = [
   { k: "studying", v: "Economics & Data Science" },
   { k: "year", v: "Sophomore, Class of 2028" },

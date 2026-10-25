@@ -3,23 +3,51 @@
 import React, { useState } from "react";
 import TurnLink from "@/components/TurnLink";
 import ContactForm from "@/components/ContactForm";
+import { useResume } from "@/components/ResumeModal";
+import { useLLM } from "@/components/LLMModal";
 import { nav, site } from "@/data/site";
 
 export default function MobileContactLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { openResume } = useResume();
+  const { openLLM } = useLLM();
 
   return (
     <div className="mobile-contact-container">
-      {/* Top Bar with Persistent Brand Mark */}
+      {/* Top Bar with Persistent Brand Mark and Resume Button */}
       <div className="mobile-contact-header">
         <button
           type="button"
           className="mobile-minimal-brand"
           onClick={() => setIsMenuOpen((prev) => !prev)}
-          aria-label="Toggle navigation menu"
+          aria-label="Aaron Nguyen — Toggle navigation menu"
           aria-expanded={isMenuOpen}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44, padding: "8px 4px" }}
         >
-          {site.name}
+          <span>{site.name}</span>
+          <span style={{ fontSize: "0.75rem", opacity: 0.65 }}>▾</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => openResume("picker")}
+          className="mono"
+          aria-label="View or download Aaron Nguyen Resume"
+          style={{
+            fontSize: "0.72rem",
+            padding: "4px 10px",
+            borderRadius: 4,
+            border: "1px solid var(--cardinal)",
+            background: "transparent",
+            color: "var(--cardinal)",
+            fontWeight: 600,
+            cursor: "pointer",
+            display: "inline-flex",
+            alignItems: "center",
+            minHeight: 36,
+          }}
+        >
+          Resume ↗
         </button>
 
         {/* Floating Popover Navigation Drawer */}
@@ -47,6 +75,58 @@ export default function MobileContactLayout() {
                     </li>
                   );
                 })}
+                <li>
+                  <button
+                    type="button"
+                    className="mobile-home-nav-link"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      openResume("picker");
+                    }}
+                    style={{
+                      width: "100%",
+                      minHeight: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      color: "var(--cardinal)",
+                      fontWeight: 600,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      textAlign: "left",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span className="mobile-home-nav-n">06</span>
+                    <span>Resume (Options) ↗</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className="mobile-home-nav-link"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      openLLM();
+                    }}
+                    style={{
+                      width: "100%",
+                      minHeight: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      color: "var(--ink)",
+                      fontWeight: 600,
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      textAlign: "left",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <span className="mobile-home-nav-n">07</span>
+                    <span>llm.txt</span>
+                  </button>
+                </li>
               </ul>
             </nav>
           </>
@@ -144,24 +224,59 @@ export default function MobileContactLayout() {
             <span className="mobile-contact-directory-arrow">↗</span>
           </a>
 
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => openResume("picker")}
             className="mobile-contact-directory-item"
+            style={{ width: "100%", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", font: "inherit" }}
           >
             <div className="mobile-contact-directory-left">
               <span className="mobile-contact-directory-idx">05</span>
               <span className="mobile-contact-directory-label">Resume</span>
-              <span className="mobile-contact-directory-desc">curriculum vitae (pdf)</span>
+              <span className="mobile-contact-directory-desc">curriculum vitae (options)</span>
             </div>
-            <span className="mobile-contact-directory-arrow">↓</span>
-          </a>
+            <span className="mobile-contact-directory-arrow">↗</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => openLLM()}
+            className="mobile-contact-directory-item"
+            style={{ width: "100%", background: "none", border: "none", padding: 0, textAlign: "left", cursor: "pointer", font: "inherit" }}
+          >
+            <div className="mobile-contact-directory-left">
+              <span className="mobile-contact-directory-idx">06</span>
+              <span className="mobile-contact-directory-label">llm.txt</span>
+              <span className="mobile-contact-directory-desc">plain text for AI models &amp; LLMs</span>
+            </div>
+            <span className="mobile-contact-directory-arrow">↗</span>
+          </button>
         </div>
       </div>
 
-      {/* Clean Footer Spacing (Bottom action buttons deleted as requested) */}
-      <footer className="mobile-home-footer" style={{ marginTop: 32 }} />
+      {/* Clean Footer Spacing */}
+      <footer className="mobile-home-footer" style={{ marginTop: 32, textAlign: "center", fontSize: "0.8rem", color: "var(--pencil)" }}>
+        <p className="mono" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10 }}>
+          <span>Aaron Nguyen &bull; Field Journal</span>
+          <span>&bull;</span>
+          <button
+            type="button"
+            onClick={() => openLLM()}
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
+              color: "var(--cardinal)",
+              font: "inherit",
+              cursor: "pointer",
+              textDecoration: "underline",
+              fontWeight: 600,
+            }}
+          >
+            llm.txt
+          </button>
+        </p>
+      </footer>
     </div>
   );
 }

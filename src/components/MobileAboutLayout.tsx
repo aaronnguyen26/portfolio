@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import TurnLink from "@/components/TurnLink";
+import { useResume } from "@/components/ResumeModal";
+import { useLLM } from "@/components/LLMModal";
 import { nav, timeline, toolkits, site } from "@/data/site";
 
 interface MobileAboutLayoutProps {
@@ -10,20 +12,46 @@ interface MobileAboutLayoutProps {
 
 export default function MobileAboutLayout({ hideHeader = false }: MobileAboutLayoutProps = {}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { openResume } = useResume();
+  const { openLLM } = useLLM();
 
   return (
     <div className="mobile-about-container">
-      {/* Clean Top Bar with Persistent Brand Mark */}
+      {/* Clean Top Bar with Persistent Brand Mark and Resume Button */}
       {!hideHeader && (
         <div className="mobile-about-header">
           <button
             type="button"
             className="mobile-minimal-brand"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            aria-label="Toggle navigation menu"
+            aria-label="Aaron Nguyen — Toggle navigation menu"
             aria-expanded={isMenuOpen}
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, minHeight: 44, padding: "8px 4px" }}
           >
-            {site.name}
+            <span>{site.name}</span>
+            <span style={{ fontSize: "0.75rem", opacity: 0.65 }}>▾</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => openResume("picker")}
+            className="mono"
+            aria-label="View or download Aaron Nguyen Resume"
+            style={{
+              fontSize: "0.72rem",
+              padding: "4px 10px",
+              borderRadius: 4,
+              border: "1px solid var(--cardinal)",
+              background: "transparent",
+              color: "var(--cardinal)",
+              fontWeight: 600,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              minHeight: 36,
+            }}
+          >
+            Resume ↗
           </button>
 
           {/* Floating popover menu */}
@@ -51,6 +79,58 @@ export default function MobileAboutLayout({ hideHeader = false }: MobileAboutLay
                       </li>
                     );
                   })}
+                  <li>
+                    <button
+                      type="button"
+                      className="mobile-home-nav-link"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        openResume("picker");
+                      }}
+                      style={{
+                        width: "100%",
+                        minHeight: 44,
+                        display: "flex",
+                        alignItems: "center",
+                        color: "var(--cardinal)",
+                        fontWeight: 600,
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <span className="mobile-home-nav-n">06</span>
+                      <span>Resume (Options) ↗</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      className="mobile-home-nav-link"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        openLLM();
+                      }}
+                      style={{
+                        width: "100%",
+                        minHeight: 44,
+                        display: "flex",
+                        alignItems: "center",
+                        color: "var(--ink)",
+                        fontWeight: 600,
+                        background: "none",
+                        border: "none",
+                        padding: 0,
+                        textAlign: "left",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <span className="mobile-home-nav-n">07</span>
+                      <span>llm.txt</span>
+                    </button>
+                  </li>
                 </ul>
               </nav>
             </>
@@ -190,21 +270,40 @@ export default function MobileAboutLayout({ hideHeader = false }: MobileAboutLay
         <TurnLink href="/projects" className="mobile-home-btn-solid">
           View projects &rarr;
         </TurnLink>
-        <a
-          href="/resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          onClick={() => openResume("picker")}
           className="mobile-home-btn-ghost"
+          style={{ cursor: "pointer" }}
         >
           Resume &darr;
-        </a>
+        </button>
         <TurnLink href="/contact" className="mobile-home-btn-ghost">
           Get in touch
         </TurnLink>
       </div>
 
       <footer className="mobile-home-footer" style={{ marginTop: 28, textAlign: "center", fontSize: "0.8rem", color: "var(--pencil)" }}>
-        <p className="mono">Aaron Nguyen &bull; USC &apos;28 &bull; Economics &amp; Data Science</p>
+        <p className="mono" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10 }}>
+          <span>Aaron Nguyen &bull; USC &apos;28</span>
+          <span>&bull;</span>
+          <button
+            type="button"
+            onClick={() => openLLM()}
+            style={{
+              background: "none",
+              border: "none",
+              padding: 0,
+              color: "var(--cardinal)",
+              font: "inherit",
+              cursor: "pointer",
+              textDecoration: "underline",
+              fontWeight: 600,
+            }}
+          >
+            llm.txt
+          </button>
+        </p>
       </footer>
     </div>
   );
