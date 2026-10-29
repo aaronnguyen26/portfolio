@@ -2573,8 +2573,15 @@
       "col": 52,
       "row": 3,
       "date": "2026-10-28",
+      "level": 1,
+      "tooltip": "3 contributions on 2026-10-28"
+    },
+    {
+      "col": 52,
+      "row": 4,
+      "date": "2026-10-29",
       "level": 0,
-      "tooltip": "0 contributions on 2026-10-28"
+      "tooltip": "0 contributions on 2026-10-29"
     }
   ],
   "months": [
@@ -2631,5 +2638,5 @@
       "col": 49
     }
   ],
-  "total": "725"
+  "total": "728"
 }

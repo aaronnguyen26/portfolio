@@ -2,7 +2,7 @@
   <!-- Top Header: ONLY 'Aaron Nguyen' and the number, with 75px gap to guarantee zero overlap -->
   <g transform="translate(36, 34)">
     <text x="0" y="0" font-size="22" font-weight="700" fill="#26211b">Aaron Nguyen</text>
-    <text x="210" y="-1" font-size="13.5" font-family="'JetBrains Mono', monospace, ui-monospace" fill="#5b5246">725 contributions in the last year</text>
+    <text x="210" y="-1" font-size="13.5" font-family="'JetBrains Mono', monospace, ui-monospace" fill="#5b5246">728 contributions in the last year</text>
   </g>
   <text x="36" y="62" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a4a2a">Oct</text>
   <text x="52.75" y="62" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a4a2a">Nov</text>
@@ -387,7 +387,8 @@
   <rect x="907" y="72" width="13" height="13" rx="2.5" fill="#97b788" stroke="#85a476" stroke-width="0.8"><title>1 contribution on 2026-10-25</title></rect>
   <rect x="907" y="88.75" width="13" height="13" rx="2.5" fill="#97b788" stroke="#85a476" stroke-width="0.8"><title>4 contributions on 2026-10-26</title></rect>
   <rect x="907" y="105.5" width="13" height="13" rx="2.5" fill="#97b788" stroke="#85a476" stroke-width="0.8"><title>2 contributions on 2026-10-27</title></rect>
-  <rect x="907" y="122.25" width="13" height="13" rx="2.5" fill="#ebdcc2" stroke="#dfcaa4" stroke-width="0.8"><title>0 contributions on 2026-10-28</title></rect>
+  <rect x="907" y="122.25" width="13" height="13" rx="2.5" fill="#97b788" stroke="#85a476" stroke-width="0.8"><title>3 contributions on 2026-10-28</title></rect>
+  <rect x="907" y="139" width="13" height="13" rx="2.5" fill="#ebdcc2" stroke="#dfcaa4" stroke-width="0.8"><title>0 contributions on 2026-10-29</title></rect>
 
   <!-- Bottom Legend: ONLY Less -> More (Right-aligned with edge of grid) -->
   <g transform="translate(780, 207.25)">
